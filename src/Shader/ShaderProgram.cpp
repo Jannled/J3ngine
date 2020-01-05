@@ -29,7 +29,7 @@ void ShaderProgram::link()
 
 void ShaderProgram::use()
 {
-	std::cout << "Using shaderprogram with id: " << programID << std::endl;
+	//std::cout << "Using shaderprogram with id: " << programID << std::endl;
 	glUseProgram(programID);
 }
 

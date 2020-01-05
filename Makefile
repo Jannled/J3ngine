@@ -1,9 +1,4 @@
 #Thanks to https://www.matansilver.com/2017/08/29/universal-makefile/
-#Flags
-CFLAGS = 
-
-#if shared library target
-#CFLAGS += -shared -undefined dynamic_lookup
 
 TARGET_EXEC ?= JEngine
 BUILD_DIR ?= bin
@@ -12,8 +7,11 @@ SRC_DIRS ?= src lib
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-CPPFLAGS = -I. -O0 -g3
+CFLAGS   = -I. -O0 -g3
 CXXFLAGS = -std=c++14
+
+#if shared library target
+#CFLAGS += -shared -undefined dynamic_lookup
 
 #Windows
 #LDFLAGS = -lgdi32 -lopengl32
@@ -28,12 +26,12 @@ $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
 # c source
 $(BUILD_DIR)/%.c.o: %.c
 	$(MKDIR_P) $(dir $@)
-	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 # c++ source
 $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
 
 
 .PHONY: clean
@@ -45,4 +43,4 @@ MKDIR_P ?= mkdir -p
 
 .PHONY: run
 run: $(BIN)
-	./build/project-name
+	./$(BUILD_DIR)/$(TARGET_EXEC)
