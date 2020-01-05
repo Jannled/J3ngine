@@ -21,10 +21,10 @@ void ShaderProgram::link()
 	glGetProgramiv(programID, GL_LINK_STATUS, &reval);
 	if(!reval)
 	{
-		std::cout << "Linking failed" << std::endl;
+		std::cout << "ShaderProgram(" << programID <<") Linking failed" << std::endl;
 	}
 	else
-		std::cout << "Linked sucessfully" << std::endl;
+		std::cout << "ShaderProgram(" << programID <<") Linked sucessfully" << std::endl;
 }
 
 void ShaderProgram::use()
@@ -35,5 +35,5 @@ void ShaderProgram::use()
 
 ShaderProgram::~ShaderProgram()
 {
-
+	glDeleteProgram(programID);
 }

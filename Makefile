@@ -41,8 +41,6 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 clean:
 	$(RM) -r $(BUILD_DIR)
 
--include $(DEPS)
-
 MKDIR_P ?= mkdir -p
 
 .PHONY: run

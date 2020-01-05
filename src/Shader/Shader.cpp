@@ -4,6 +4,9 @@
 #include <fstream>
 #include <sstream>
 
+#include <limits.h>
+#include <stdlib.h>
+
 Shader::Shader(const char *filePath, GLenum type)
 {
 	this->type = type;
@@ -21,13 +24,19 @@ Shader::Shader(const char *filePath, GLenum type)
 	{
 		std::stringstream sstr;
 		sstr << inputStream.rdbuf();
-		const char *code = sstr.str().c_str();
-		
+		std::string scode = sstr.str();
+		const char* code = scode.c_str();
+
 		shaderID = glCreateShader(type);
 		glShaderSource(shaderID, 1, &code, NULL);
 	}
 	else
-		std::cerr << "Failed to open file \"" << filePath << "\"." << std::endl;
+	{
+		char absolutePath[PATH_MAX];
+		realpath(filePath, absolutePath);
+		std::cerr << "Failed to open file \"" << absolutePath << "\"." << std::endl;
+	}
+		
 	
 }
 
@@ -67,5 +76,5 @@ int Shader::compile()
 
 Shader::~Shader()
 {
-
+	glDeleteShader(shaderID);
 }
