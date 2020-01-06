@@ -260,4 +260,9 @@ int GLWindow::getHeight()
 	return -1;
 }
 
+int main(int argc, char** argv)
+{
+	GLWindow::pre(argc, argv);
+}
+
 #endif // OS_Linux

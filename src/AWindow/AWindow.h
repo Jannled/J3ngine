@@ -17,10 +17,11 @@
 #endif
 
 #include <stdbool.h>
+#include "lib/Galogen46.h"
 
 namespace GLWindow
 {
-	void pre();
+	void pre(int argc, char **argv);
 	bool init();
 	bool update(float delta);
 	void quit();
@@ -32,6 +33,16 @@ namespace GLWindow
 
 	void setSize(int width, int height);
 	void setTitle(const char *title);
+
+	void MessageCallback(
+				GLenum source,
+                 GLenum type,
+                 GLuint id,
+                 GLenum severity,
+                 GLsizei length,
+                 const GLchar* message,
+                 const void* userParam
+	);
 }
 
 #endif //JGLWINDOW_H

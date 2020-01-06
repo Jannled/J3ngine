@@ -7,6 +7,8 @@
 #include <limits.h>
 #include <stdlib.h>
 
+#include "Utils.h"
+
 Shader::Shader(const char *filePath, GLenum type)
 {
 	this->type = type;
@@ -32,9 +34,9 @@ Shader::Shader(const char *filePath, GLenum type)
 	}
 	else
 	{
-		char absolutePath[PATH_MAX];
-		realpath(filePath, absolutePath);
-		std::cerr << "Failed to open file \"" << absolutePath << "\"." << std::endl;
+		char absPat[PATH_MAX];
+		absolutePath(filePath, absPat);
+		std::cerr << "Failed to open file \"" << absPat << "\"." << std::endl;
 	}
 		
 	

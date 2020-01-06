@@ -1,10 +1,15 @@
 #Thanks to https://www.matansilver.com/2017/08/29/universal-makefile/
 
+CC = gcc
+
 TARGET_EXEC ?= JEngine
 BUILD_DIR ?= bin
 SRC_DIRS ?= src lib
 
-SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
+#Thanks to https://stackoverflow.com/a/18258352
+rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
+
+SRCS := $(call rwildcard,$(SRC_DIRS),*.cpp *.c)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 CFLAGS   = -I./src -I. -I./lib -O0 -g3
@@ -14,10 +19,13 @@ CXXFLAGS = -std=c++14
 #CFLAGS += -shared -undefined dynamic_lookup
 
 #Windows
-#LDFLAGS = -lgdi32 -lopengl32
-
+#ifdef _WIN32
+LDFLAGS = -lgdi32 -lopengl32
+#endif
 #Linux
-LDFLAGS = -lX11 -lGL
+#ifdef __linux__
+#LDFLAGS = -lX11 -lGL
+#endif
 
 # main target (C++)
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
@@ -38,6 +46,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 
 clean:
 	$(RM) -r $(BUILD_DIR)
+
 
 MKDIR_P ?= mkdir -p
 

@@ -17,7 +17,7 @@ Model *model;
 //Geometry stuff
 unsigned int VAO;
 
-int main(int argc, char** argv)
+void GLWindow::pre(int argc, char** argv)
 {
 	std::cout << "Starting program with args: [";
 	for(int i=0; i<argc; i++)
@@ -25,11 +25,6 @@ int main(int argc, char** argv)
 	std::cout << "]" << std::endl;
 
 	GLWindow::show("Hallo Welt", 1280, 720);
-}
-
-void GLWindow::pre()
-{
-
 }
 
 bool GLWindow::init()

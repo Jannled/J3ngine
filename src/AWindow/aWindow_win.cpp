@@ -8,11 +8,16 @@
 
 #include "AWindow.h"
 
+#define OS_WINDOWS //REMOVE
+
 #ifdef OS_Windows
 
 // Sample code showing how to create a modern OpenGL window and rendering context on Win32.
 // Thanks to nickrolfe: https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c
 #include <windows.h>
+#include <stdio.h>
+#include <shellapi.h>
+
 #include "lib/Galogen46.h"
 
 typedef HGLRC WINAPI wglCreateContextAttribsARB_type(HDC hdc, HGLRC hShareContext, const int *attribList);
@@ -40,6 +45,11 @@ wglChoosePixelFormatARB_type *wglChoosePixelFormatARB;
 
 #define WGL_FULL_ACCELERATION_ARB 0x2027
 #define WGL_TYPE_RGBA_ARB 0x202B
+
+HINSTANCE *_inst;
+HINSTANCE *_prev; 
+LPSTR *_cmd_line; 
+int *_show;
 
 static void fatal_error(const char *msg)
 {
@@ -187,8 +197,7 @@ static HGLRC init_opengl(HDC real_dc)
 	return gl33_context;
 }
 
-static LRESULT CALLBACK
-window_callback(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
+static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 {
 	LRESULT result = 0;
 
@@ -206,8 +215,7 @@ window_callback(HWND window, UINT msg, WPARAM wparam, LPARAM lparam)
 	return result;
 }
 
-static HWND
-create_window(HINSTANCE inst)
+static HWND create_window(HINSTANCE inst, const char* title, int width, int height)
 {
 	WNDCLASSA window_class = {
 		.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC,
@@ -226,8 +234,8 @@ create_window(HINSTANCE inst)
 	// Specify a desired width and height, then adjust the rect so the window's client area will be
 	// that size.
 	RECT rect = {
-		.right = 1024,
-		.bottom = 576,
+		.right = width,
+		.bottom = height,
 	};
 	DWORD window_style = WS_OVERLAPPEDWINDOW;
 	AdjustWindowRect(&rect, window_style, false);
@@ -235,7 +243,7 @@ create_window(HINSTANCE inst)
 	HWND window = CreateWindowExA(
 		0,
 		window_class.lpszClassName,
-		"OpenGL",
+		title,
 		window_style,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
@@ -254,14 +262,20 @@ create_window(HINSTANCE inst)
 	return window;
 }
 
-int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
+bool GLWindow::show(const char *title, int width, int height)
 {
-	HWND window = create_window(inst);
+	HWND window = create_window(*_inst, title, width, height);
 	HDC gldc = GetDC(window);
 	HGLRC glrc = init_opengl(gldc);
 
-	ShowWindow(window, show);
+	ShowWindow(window, *_show);
 	UpdateWindow(window);
+
+	//Register error logger
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(MessageCallback, 0);
+
+	GLWindow::init();
 
 	bool running = true;
 	while (running)
@@ -280,13 +294,33 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int show)
 			}
 		}
 
-		glClearColor(1.0f, 0.5f, 0.5f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		// Do OpenGL rendering here
-
+		GLWindow::update(0.0f);
 		SwapBuffers(gldc);
 	}
+
+	return 0;
+}
+
+int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
+{
+	_inst = &inst;
+	_prev = &prev;
+	_cmd_line = &cmd_line;
+	_show = &pshow;
+
+	int argc;
+    LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &argc);
+    char **argv = new char*[argc];
+    for (int i=0; i<argc; i++) {
+        int lgth = wcslen(szArglist[i]);
+        argv[i] = new char[lgth+1];
+        for (int j=0; j<=lgth; j++)
+            argv[i][j] = char(szArglist[i][j]);
+    }
+    LocalFree(szArglist);
+
+	GLWindow::pre(argc, argv);
 
 	return 0;
 }

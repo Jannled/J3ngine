@@ -38,8 +38,8 @@ void Model::render(ShaderProgram &shaderProgram)
 	glBindVertexArray(VAO);
 
 	glm::mat4 trans = glm::mat4(1.0f);
-	trans = glm::translate(trans, position);
-	trans = glm::scale(trans, position);
+	//trans = glm::translate(trans, position);
+	//trans = glm::scale(trans, scale);
 
 	shaderProgram.setMat4f("translate", trans);
 
