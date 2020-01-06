@@ -7,7 +7,7 @@ SRC_DIRS ?= src lib
 SRCS := $(shell find $(SRC_DIRS) -name *.cpp -or -name *.c -or -name *.s)
 OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
-CFLAGS   = -I. -O0 -g3
+CFLAGS   = -I./src -I. -I./lib -O0 -g3
 CXXFLAGS = -std=c++14
 
 #if shared library target

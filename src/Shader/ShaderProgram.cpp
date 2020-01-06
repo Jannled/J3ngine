@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "glm/gtc/type_ptr.hpp"
+
 ShaderProgram::ShaderProgram()
 {
 
@@ -31,6 +33,31 @@ void ShaderProgram::use()
 {
 	//std::cout << "Using shaderprogram with id: " << programID << std::endl;
 	glUseProgram(programID);
+}
+
+void ShaderProgram::setBool(const char* name, bool value)
+{
+
+}
+
+void ShaderProgram::setInt(const char* name, int value)
+{
+
+}
+
+void ShaderProgram::setFloat(const char* name, float value)
+{
+
+}
+
+void ShaderProgram::setMat4f(const char* name, float *value, GLboolean transpose)
+{
+	glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, transpose, value);
+}
+
+void ShaderProgram::setMat4f(const char* name, glm::mat4 value)
+{
+	glUniformMatrix4fv(glGetUniformLocation(programID, name), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 ShaderProgram::~ShaderProgram()
