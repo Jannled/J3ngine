@@ -304,6 +304,26 @@ bool GLWindow::show(const char *title, int width, int height)
 	return 0;
 }
 
+GLWindow::Point GLWindow::getSize()
+{
+	Point p;
+	RECT rect;
+	GetWindowRect(_window, &rect);
+	p.x = rect.right - rect.left;
+	p.y = rect.bottom - rect.top;
+	return p;
+}
+
+GLWindow::Point GLWindow::getPosition()
+{
+	Point p;
+	LPRECT rect;
+	GetWindowRect(_window, rect);
+	p.x = rect->left;
+	p.y = rect->top;
+	return p;
+}
+
 GLWindow::Point GLWindow::getCursorPos()
 {
 	POINT p;

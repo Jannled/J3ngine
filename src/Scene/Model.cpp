@@ -59,12 +59,12 @@ void Model::setPosition(glm::vec3 pos)
 
 void Model::setEulerRotation(float x, float y, float z)
 {
-	glm::quat(glm::vec3(x, y, z));
+	rotation = glm::quat(glm::vec3(x, y, z));
 }
 
 void Model::setEulerRotation(glm::vec3 rot)
 {
-
+	rotation = glm::quat(rot);
 }
 
 Model::~Model()

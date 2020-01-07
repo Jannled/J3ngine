@@ -37,7 +37,7 @@ bool GLWindow::init()
 	vshader->compile();
 	fshader->compile();
 
-	GLWindow::showCursor(false);
+	GLWindow::showCursor(true);
 
 	program = new ShaderProgram(*vshader, *fshader);
 	program->link();
@@ -56,6 +56,9 @@ bool GLWindow::init()
     
     model = new Model(vertices, 12, indices, 6);
 
+	GLWindow::Point p = GLWindow::getSize();
+	printf("Window size: %dx%d", p.x, p.y);
+
 	return true;
 }
 
@@ -65,10 +68,6 @@ bool GLWindow::update(float delta)
 
 	program->use();
 	model->render(*program);
-
-	GLWindow::Point cursor = GLWindow::getCursorPos();
-	model->setPosition(0, 0, -1);
-	printf("Cursor loc: %dx%d\n", cursor.x, cursor.y);
 
 	return true;
 }

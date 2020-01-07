@@ -32,8 +32,8 @@ namespace GLWindow
 	void resize(int width, int height);
 
 	bool show(const char *title, int width, int height);
-	int getWidth();
-	int getHeight();
+	Point getSize();
+	Point getPosition();
 
 	void setSize(int width, int height);
 	void setTitle(const char *title);
