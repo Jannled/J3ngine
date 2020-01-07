@@ -143,6 +143,9 @@ bool GLWindow::show(const char *title, int width, int height)
 	Atom atomWmDeleteWindow = XInternAtom(display, "WM_DELETE_WINDOW", False);
 	XSetWMProtocols(display, window, &atomWmDeleteWindow, 1);
 
+	//Set Title
+	setTitle(title);
+
 	// Create GLX OpenGL context
 	glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
 	glXCreateContextAttribsARB = (glXCreateContextAttribsARBProc) glXGetProcAddressARB( (const GLubyte *) "glXCreateContextAttribsARB" );
@@ -173,6 +176,10 @@ bool GLWindow::show(const char *title, int width, int height)
 		std::cout << "Direct GLX rendering context obtained\n";
 	}
 	glXMakeCurrent(display, window, context);
+
+	//Register error logger
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(MessageCallback, 0);
 
 	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << "\n";
 	std::cout << "GL Version: " << glGetString(GL_VERSION) << "\n";
@@ -250,14 +257,28 @@ bool GLWindow::show(const char *title, int width, int height)
 	return 0;
 }
 
-int GLWindow::getWidth()
+Point GLWindow::getSize()
 {
-	return -1;
+	Point p;
+	Window rootWindow;
+	int x, y;
+	unsigned int width, height, borderWidth, depth;
+	XGetGeometry(display, window, &rootWindow, &x, &y, &width, &height, &borderWidth, &depth);
+	p.x = width;
+	p.y = height;
+	return p;
 }
 
-int GLWindow::getHeight()
+Point GLWindow::getPosition()
 {
-	return -1;
+	Point p;
+	Window rootWindow;
+	int x, y;
+	unsigned int width, height, borderWidth, depth;
+	XGetGeometry(display, window, &rootWindow, &x, &y, &width, &height, &borderWidth, &depth);
+	p.x = x;
+	p.y = y;
+	return p;
 }
 
 Point GLWindow::getCursorPos()
@@ -294,6 +315,11 @@ void GLWindow::showCursor(bool visible)
 		XFreePixmap(display, bitmapNoData);
 	}
 	
+}
+
+void GLWindow::setTitle(const char *title)
+{
+	XStoreName(display, window, title);
 }
 
 int main(int argc, char** argv)
