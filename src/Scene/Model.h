@@ -9,11 +9,20 @@
 #ifndef MODEL_H
 #define MODEL_H
 
+#ifndef UNIFORM_TRANSFORM
+#define UNIFORM_TRANSFORM "transform"
+#endif
+
 class Model
 {
     public:
         Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
         virtual ~Model();
+
+        void setPosition(float x, float y, float z);
+        void setPosition(glm::vec3 pos);
+        void setEulerRotation(float x, float y, float z);
+        void setEulerRotation(glm::vec3 rot);
 
         void render(ShaderProgram &shaderProgram);
 
@@ -26,7 +35,7 @@ class Model
         GLuint EBO;
 
         glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
-        glm::quat rotation = glm::quat(glm::vec3(0.0, 45.0, 45.0));
+        glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
         glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
 };
 

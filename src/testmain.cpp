@@ -4,7 +4,7 @@
 #include <iostream>
 #include "lib/Galogen46.h"
 
-#include "Model/Model.h"
+#include "Scene/Model.h"
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
@@ -64,6 +64,9 @@ bool GLWindow::update(float delta)
 	program->use();
 	model->render(*program);
 
+	GLWindow::Point cursor = GLWindow::getCursorPos();
+	model->setPosition(0, 0, -1);
+	printf("Cursor loc: %dx%d", cursor.x, cursor.y);
 	return true;
 }
 

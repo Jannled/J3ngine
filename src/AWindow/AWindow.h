@@ -21,6 +21,10 @@
 
 namespace GLWindow
 {
+	typedef struct {
+		int x, y;
+	} Point;
+
 	void pre(int argc, char **argv);
 	bool init();
 	bool update(float delta);
@@ -33,6 +37,9 @@ namespace GLWindow
 
 	void setSize(int width, int height);
 	void setTitle(const char *title);
+
+	Point getCursorPos();
+	void showCursor(bool visible);
 
 	void MessageCallback(
 				GLenum source,

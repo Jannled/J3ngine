@@ -40,12 +40,34 @@ void Model::render(ShaderProgram &shaderProgram)
 
 	glm::mat4 transform = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 
-	shaderProgram.setMat4f("transform", transform);
+	shaderProgram.setMat4f(UNIFORM_TRANSFORM, transform);
 
 	glDrawElements(GL_TRIANGLES, cIndices, GL_UNSIGNED_INT, 0);
 }
 
-Model::~Model()
+void Model::setPosition(float x, float y, float z)
+{
+	position.x = x;
+	position.y = y;
+	position.z = z;
+}
+
+void Model::setPosition(glm::vec3 pos)
+{
+	this->position = pos;
+}
+
+void Model::setEulerRotation(float x, float y, float z)
+{
+	glm::quat(glm::vec3(x, y, z));
+}
+
+void Model::setEulerRotation(glm::vec3 rot)
 {
 
+}
+
+Model::~Model()
+{
+	//glDeleteBuffers()
 }

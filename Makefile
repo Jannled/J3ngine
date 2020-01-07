@@ -18,14 +18,15 @@ CXXFLAGS = -std=c++14
 #if shared library target
 #CFLAGS += -shared -undefined dynamic_lookup
 
-#Windows
-#ifdef _WIN32
-LDFLAGS = -lgdi32 -lopengl32
-#endif
-#Linux
-#ifdef __linux__
-#LDFLAGS = -lX11 -lGL
-#endif
+ifeq ($(OS),Windows_NT)
+	#Windows
+	LDFLAGS = -lgdi32 -lopengl32
+else
+	#Linux
+	LDFLAGS = -lX11 -lGL
+endif
+
+all: $(BUILD_DIR)/$(TARGET_EXEC)
 
 # main target (C++)
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
@@ -42,7 +43,7 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(CXX) $(CFLAGS) $(CXXFLAGS) -c $< -o $@
 
 
-.PHONY: clean
+.PHONY: clean run all
 
 clean:
 	$(RM) -r $(BUILD_DIR)
@@ -50,6 +51,5 @@ clean:
 
 MKDIR_P ?= mkdir -p
 
-.PHONY: run
 run: $(BIN)
 	./$(BUILD_DIR)/$(TARGET_EXEC)

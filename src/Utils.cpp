@@ -19,7 +19,7 @@ char *absolutePath(const char *relativePath, char *absolutePath)
 char *absolutePath(const char *relativePath, char *absolutePath)
 {
 	if(absolutePath == NULL)
-		absolutePath = malloc(PATH_MAX);
+		absolutePath = (char*) malloc(PATH_MAX);
 
 	realpath(relativePath, absolutePath);
 }

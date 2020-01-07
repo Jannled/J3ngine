@@ -51,6 +51,8 @@ HINSTANCE *_prev;
 LPSTR *_cmd_line; 
 int *_show;
 
+HWND _window;
+
 static void fatal_error(const char *msg)
 {
 	MessageBoxA(NULL, msg, "Error", MB_OK | MB_ICONEXCLAMATION);
@@ -240,7 +242,7 @@ static HWND create_window(HINSTANCE inst, const char* title, int width, int heig
 	DWORD window_style = WS_OVERLAPPEDWINDOW;
 	AdjustWindowRect(&rect, window_style, false);
 
-	HWND window = CreateWindowExA(
+	_window = CreateWindowExA(
 		0,
 		window_class.lpszClassName,
 		title,
@@ -254,12 +256,12 @@ static HWND create_window(HINSTANCE inst, const char* title, int width, int heig
 		inst,
 		0);
 
-	if (!window)
+	if (!_window)
 	{
 		fatal_error("Failed to create window.");
 	}
 
-	return window;
+	return _window;
 }
 
 bool GLWindow::show(const char *title, int width, int height)
@@ -300,6 +302,29 @@ bool GLWindow::show(const char *title, int width, int height)
 	}
 
 	return 0;
+}
+
+GLWindow::Point GLWindow::getCursorPos()
+{
+	POINT p;
+	Point point;
+	if(GetCursorPos(&p))
+	{
+		if(ScreenToClient(_window, &p))
+		{
+			point.x = p.x;
+			point.y = p.y;
+			return point;
+		}
+		else
+			fprintf(stderr, "Could not convert screen coordinates to window coordinates!\n");
+	}
+	else
+		fprintf(stderr, "Failed to get cursor position!\n");
+	
+	point.x = -1;
+	point.y = -1;
+	return point;
 }
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
