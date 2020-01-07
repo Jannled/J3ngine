@@ -327,6 +327,11 @@ GLWindow::Point GLWindow::getCursorPos()
 	return point;
 }
 
+void GLWindow::showCursor(bool visible)
+{
+	ShowCursor(visible);
+}
+
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
 {
 	_inst = &inst;
