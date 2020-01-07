@@ -1,5 +1,8 @@
 #include "lib/Galogen46.h"
+
 #include "lib/glm/glm.hpp"
+#include "lib/glm/gtc/quaternion.hpp"
+#include "lib/glm/gtx/quaternion.hpp"
 
 #include "Shader/ShaderProgram.h"
 
@@ -22,9 +25,9 @@ class Model
         GLuint VBO;
         GLuint EBO;
 
-        glm::vec3 position = glm::vec3(2.0, 2.0, 2.0);
-        glm::vec3 rotation = glm::vec3(0, 0, 0);
-        glm::vec3 scale = glm::vec3(1.0,1.0, 1.0);
+        glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
+        glm::quat rotation = glm::quat(glm::vec3(0.0, 45.0, 45.0));
+        glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
 };
 
 #endif // MODEL_H

@@ -24,7 +24,7 @@ void GLWindow::pre(int argc, char** argv)
 		std::cout << "\"" << argv[i] << "\"" << ((i<argc-1) ? ", " : "");
 	std::cout << "]" << std::endl;
 
-	GLWindow::show("Hallo Welt", 1280, 720);
+	GLWindow::show("J3ngine", 1280, 720);
 }
 
 bool GLWindow::init()

@@ -1,6 +1,7 @@
 #include "Model.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <lib/glm/gtx/transform.hpp>
 
 Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices)
 {
@@ -37,11 +38,9 @@ void Model::render(ShaderProgram &shaderProgram)
 {
 	glBindVertexArray(VAO);
 
-	glm::mat4 trans = glm::mat4(1.0f);
-	//trans = glm::translate(trans, position);
-	//trans = glm::scale(trans, scale);
+	glm::mat4 transform = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 
-	shaderProgram.setMat4f("translate", trans);
+	shaderProgram.setMat4f("transform", transform);
 
 	glDrawElements(GL_TRIANGLES, cIndices, GL_UNSIGNED_INT, 0);
 }
