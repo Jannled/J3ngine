@@ -32,6 +32,12 @@ typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXC
 
 #define SKIP_TICKS      (1000 / FPS)
 
+Display* display;
+Window window;
+Screen* screen;
+int screenId;
+XEvent ev;
+
 static double GetMilliseconds() {
 	static timeval s_tTimeVal;
 	gettimeofday(&s_tTimeVal, NULL);
@@ -46,12 +52,6 @@ static bool isExtensionSupported(const char *extList, const char *extension) {
 
 bool GLWindow::show(const char *title, int width, int height) 
 {
-	Display* display;
-	Window window;
-	Screen* screen;
-	int screenId;
-	XEvent ev;
-
 	// Open the display
 	display = XOpenDisplay(NULL);
 	if (display == NULL) {
@@ -258,6 +258,42 @@ int GLWindow::getWidth()
 int GLWindow::getHeight()
 {
 	return -1;
+}
+
+Point GLWindow::getCursorPos()
+{
+	Point p;
+
+	Window rootWindow;
+	Window childWindow;
+	int absouluteCoordX, absoluteCoordY;
+	unsigned int mask_return;
+	XQueryPointer(display, window, &rootWindow, &childWindow, &absouluteCoordX, &absoluteCoordY, &p.x, &p.y, &mask_return);
+	return p;
+}
+
+void GLWindow::showCursor(bool visible)
+{
+	if(visible)
+	{
+		XUndefineCursor(display, window);
+	}
+	else
+	{
+		Cursor invisibleCursor;
+		Pixmap bitmapNoData;
+		XColor black;
+		static char noData[] = { 0,0,0,0,0,0,0,0 };
+		black.red = black.green = black.blue = 0;
+
+		bitmapNoData = XCreateBitmapFromData(display, window, noData, 8, 8);
+		invisibleCursor = XCreatePixmapCursor(display, bitmapNoData, bitmapNoData, 
+											&black, &black, 0, 0);
+		XDefineCursor(display,window, invisibleCursor);
+		XFreeCursor(display, invisibleCursor);
+		XFreePixmap(display, bitmapNoData);
+	}
+	
 }
 
 int main(int argc, char** argv)

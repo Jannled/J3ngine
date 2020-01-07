@@ -37,6 +37,8 @@ bool GLWindow::init()
 	vshader->compile();
 	fshader->compile();
 
+	GLWindow::showCursor(false);
+
 	program = new ShaderProgram(*vshader, *fshader);
 	program->link();
 
@@ -66,7 +68,8 @@ bool GLWindow::update(float delta)
 
 	GLWindow::Point cursor = GLWindow::getCursorPos();
 	model->setPosition(0, 0, -1);
-	printf("Cursor loc: %dx%d", cursor.x, cursor.y);
+	printf("Cursor loc: %dx%d\n", cursor.x, cursor.y);
+
 	return true;
 }
 
