@@ -313,7 +313,12 @@ bool GLWindow::show(const char *title, int width, int height)
 	glEnable(GL_DEBUG_OUTPUT);
 	glDebugMessageCallback(MessageCallback, 0);
 
-	GLWindow::init();
+	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << "\n";
+	std::cout << "GL Version: " << glGetString(GL_VERSION) << "\n";
+	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+
+	if(!init())
+		return 1;
 
 	bool running = true;
 	while (running)

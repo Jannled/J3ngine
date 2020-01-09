@@ -58,7 +58,7 @@ bool GLWindow::init()
     model = new Model(vertices, 12, indices, 6);
 
 	GLWindow::Point p = GLWindow::getSize();
-	printf("Window size: %dx%d", p.x, p.y);
+	printf("Window size: %dx%d\n", p.x, p.y);
 
 	camera = new Camera();
 
