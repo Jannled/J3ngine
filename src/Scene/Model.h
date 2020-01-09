@@ -4,6 +4,7 @@
 #include "lib/glm/gtc/quaternion.hpp"
 #include "lib/glm/gtx/quaternion.hpp"
 
+#include "Camera.h"
 #include "Shader/ShaderProgram.h"
 
 #ifndef MODEL_H
@@ -15,28 +16,28 @@
 
 class Model
 {
-    public:
-        Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
-        virtual ~Model();
+	public:
+		Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
+		virtual ~Model();
 
-        void setPosition(float x, float y, float z);
-        void setPosition(glm::vec3 pos);
-        void setEulerRotation(float x, float y, float z);
-        void setEulerRotation(glm::vec3 rot);
+		void setPosition(float x, float y, float z);
+		void setPosition(glm::vec3 pos);
+		void setEulerRotation(float x, float y, float z);
+		void setEulerRotation(glm::vec3 rot);
 
-        void render(ShaderProgram &shaderProgram);
+		void render(ShaderProgram &shaderProgram, Camera &cam);
 
-    private:
-        size_t cVertices;
-        size_t cIndices;
+	private:
+		size_t cVertices;
+		size_t cIndices;
 
-        GLuint VAO;
-        GLuint VBO;
-        GLuint EBO;
+		GLuint VAO;
+		GLuint VBO;
+		GLuint EBO;
 
-        glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
-        glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
-        glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
+		glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
+		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
+		glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
 };
 
 #endif // MODEL_H

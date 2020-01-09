@@ -13,6 +13,7 @@ Shader *fshader;
 ShaderProgram *program;
 
 Model *model;
+Camera *camera;
 
 //Geometry stuff
 unsigned int VAO;
@@ -59,6 +60,8 @@ bool GLWindow::init()
 	GLWindow::Point p = GLWindow::getSize();
 	printf("Window size: %dx%d", p.x, p.y);
 
+	camera = new Camera();
+
 	return true;
 }
 
@@ -67,8 +70,8 @@ bool GLWindow::update(float delta)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	program->use();
-	model->render(*program);
-
+	model->render(*program, *camera);
+	
 	return true;
 }
 
@@ -80,4 +83,9 @@ void GLWindow::quit()
 void GLWindow::resize(int width, int height)
 {
 	printf("Resize to %dx%d\n", width, height);
+}
+
+void GLWindow::cursorListener(int movex, int movey)
+{
+	printf("Cursor movement: %dx%d\n", movex, movey);
 }

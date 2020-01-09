@@ -37,6 +37,8 @@ namespace GLWindow
 
 	void setSize(int width, int height);
 	void setTitle(const char *title);
+	
+	void cursorListener(int movex, int movey);
 
 	Point getCursorPos();
 	void showCursor(bool visible);

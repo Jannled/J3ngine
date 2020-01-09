@@ -34,7 +34,7 @@ Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t 
 	glBindVertexArray(0); 
 }
 
-void Model::render(ShaderProgram &shaderProgram)
+void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
 	glBindVertexArray(VAO);
 

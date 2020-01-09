@@ -46,6 +46,15 @@ wglChoosePixelFormatARB_type *wglChoosePixelFormatARB;
 #define WGL_FULL_ACCELERATION_ARB 0x2027
 #define WGL_TYPE_RGBA_ARB 0x202B
 
+//Raw Mouse input
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC         ((USHORT) 0x01)
+#endif
+#ifndef HID_USAGE_GENERIC_MOUSE
+#define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
+#endif
+RAWINPUTDEVICE Rid[1];
+
 HINSTANCE *_inst;
 HINSTANCE *_prev; 
 LPSTR *_cmd_line; 
@@ -205,13 +214,32 @@ static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LP
 
 	switch (msg)
 	{
-	case WM_CLOSE:
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		result = DefWindowProcA(window, msg, wparam, lparam);
-		break;
+		case WM_INPUT:
+		{
+			UINT dwSize = 40;
+			static BYTE lpb[40];
+
+			GetRawInputData((HRAWINPUT)lparam, RID_INPUT, lpb, &dwSize, sizeof(RAWINPUTHEADER));
+
+			RAWINPUT* raw = (RAWINPUT*)lpb;
+
+			if (raw->header.dwType == RIM_TYPEMOUSE) 
+			{
+				int xPosRelative = raw->data.mouse.lLastX;
+				int yPosRelative = raw->data.mouse.lLastY;
+
+				GLWindow::cursorListener(xPosRelative, yPosRelative);
+			}
+			break;
+		}
+
+		case WM_CLOSE:
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+		default:
+			result = DefWindowProcA(window, msg, wparam, lparam);
+			break;
 	}
 
 	return result;
@@ -271,6 +299,14 @@ bool GLWindow::show(const char *title, int width, int height)
 	HGLRC glrc = init_opengl(gldc);
 
 	ShowWindow(window, *_show);
+
+	//Raw Cursor
+    Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC; 
+    Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE; 
+    Rid[0].dwFlags = RIDEV_INPUTSINK;   
+    Rid[0].hwndTarget = _window;
+    RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]));
+
 	UpdateWindow(window);
 
 	//Register error logger
@@ -317,10 +353,10 @@ GLWindow::Point GLWindow::getSize()
 GLWindow::Point GLWindow::getPosition()
 {
 	Point p;
-	LPRECT rect;
-	GetWindowRect(_window, rect);
-	p.x = rect->left;
-	p.y = rect->top;
+	RECT rect;
+	GetWindowRect(_window, &rect);
+	p.x = rect.left;
+	p.y = rect.top;
 	return p;
 }
 
