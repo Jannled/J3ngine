@@ -16,6 +16,7 @@
 // Thanks to nickrolfe: https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c
 #include <windows.h>
 #include <stdio.h>
+#include <iostream>
 #include <shellapi.h>
 
 #include "lib/Galogen46.h"
@@ -320,6 +321,10 @@ bool GLWindow::show(const char *title, int width, int height)
 	if(!init())
 		return 1;
 
+	double prevTime = getMilliseconds();
+	double currentTime = getMilliseconds();
+	double deltaTime = 0.0;
+
 	bool running = true;
 	while (running)
 	{
@@ -337,8 +342,11 @@ bool GLWindow::show(const char *title, int width, int height)
 			}
 		}
 
-		// Do OpenGL rendering here
-		GLWindow::update(0.0f);
+		currentTime = getMilliseconds();
+		deltaTime = double(currentTime - prevTime) * 0.001;
+		prevTime = currentTime;
+
+		GLWindow::update(deltaTime);
 		SwapBuffers(gldc);
 	}
 
@@ -391,6 +399,13 @@ GLWindow::Point GLWindow::getCursorPos()
 void GLWindow::showCursor(bool visible)
 {
 	ShowCursor(visible);
+}
+
+long GLWindow::getMilliseconds()
+{
+	SYSTEMTIME time;
+	GetSystemTime(&time);
+	return (time.wSecond * 1000) + time.wMilliseconds;
 }
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)

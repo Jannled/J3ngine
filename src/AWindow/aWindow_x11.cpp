@@ -38,14 +38,6 @@ Screen* screen;
 int screenId;
 XEvent ev;
 
-static double GetMilliseconds() {
-	static timeval s_tTimeVal;
-	gettimeofday(&s_tTimeVal, NULL);
-	double time = s_tTimeVal.tv_sec * 1000.0; // sec to ms
-	time += s_tTimeVal.tv_usec / 1000.0; // us to ms
-	return time;
-}
-
 static bool isExtensionSupported(const char *extList, const char *extension) {
 	return strstr(extList, extension) != 0;
 }
@@ -198,8 +190,8 @@ bool GLWindow::show(const char *title, int width, int height)
 	XClearWindow(display, window);
 	XMapRaised(display, window);
 
-	double prevTime = GetMilliseconds();
-	double currentTime = GetMilliseconds();
+	double prevTime = getMilliseconds();
+	double currentTime = getMilliseconds();
 	double deltaTime = 0.0;
 
 	timeval time;
@@ -226,7 +218,7 @@ bool GLWindow::show(const char *title, int width, int height)
 			}
 		}
 
-		currentTime = GetMilliseconds();
+		currentTime = getMilliseconds();
 		deltaTime = double(currentTime - prevTime) * 0.001;
 		prevTime = currentTime;
 
@@ -320,6 +312,15 @@ void GLWindow::showCursor(bool visible)
 void GLWindow::setTitle(const char *title)
 {
 	XStoreName(display, window, title);
+}
+
+long GLWindow::getMilliseconds()
+{
+	static timeval s_tTimeVal;
+	gettimeofday(&s_tTimeVal, NULL);
+	double time = s_tTimeVal.tv_sec * 1000.0; // sec to ms
+	time += s_tTimeVal.tv_usec / 1000.0; // us to ms
+	return time;
 }
 
 int main(int argc, char** argv)

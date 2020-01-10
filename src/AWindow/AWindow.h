@@ -40,6 +40,8 @@ namespace GLWindow
 	
 	void cursorListener(int movex, int movey);
 
+	long getMilliseconds();
+
 	Point getCursorPos();
 	void showCursor(bool visible);
 

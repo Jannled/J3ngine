@@ -57,10 +57,10 @@ bool GLWindow::init()
     
     model = new Model(vertices, 12, indices, 6);
 
-	GLWindow::Point p = GLWindow::getSize();
-	printf("Window size: %dx%d\n", p.x, p.y);
+	GLWindow::Point windowSize = GLWindow::getSize();
+	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
-	camera = new Camera();
+	camera = new Camera(windowSize);
 
 	return true;
 }
@@ -71,7 +71,7 @@ bool GLWindow::update(float delta)
 
 	program->use();
 	model->render(*program, *camera);
-	
+
 	return true;
 }
 
@@ -87,5 +87,5 @@ void GLWindow::resize(int width, int height)
 
 void GLWindow::cursorListener(int movex, int movey)
 {
-	printf("Cursor movement: %dx%d\n", movex, movey);
+	//printf("Cursor movement: %dx%d\n", movex, movey);
 }

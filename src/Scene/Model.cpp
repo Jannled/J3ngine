@@ -38,7 +38,7 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
 	glBindVertexArray(VAO);
 
-	glm::mat4 transform = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
+	glm::mat4 transform = cam.viewProjection() * glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 
 	shaderProgram.setMat4f(UNIFORM_TRANSFORM, transform);
 
