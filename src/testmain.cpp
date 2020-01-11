@@ -1,10 +1,12 @@
 #include "AWindow/AWindow.h"
 
 #include <stdio.h>
+#include <unistd.h>
 #include <iostream>
 #include "lib/Galogen46.h"
 
 #include "Scene/Model.h"
+#include "Scene/Scene.h"
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
@@ -56,6 +58,8 @@ bool GLWindow::init()
     };
     
     model = new Model(vertices, 12, indices, 6);
+
+	Scene::loadScene("models/scene.gltf");
 
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);

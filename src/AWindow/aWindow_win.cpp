@@ -350,6 +350,8 @@ bool GLWindow::show(const char *title, int width, int height)
 		SwapBuffers(gldc);
 	}
 
+	quit();
+
 	return 0;
 }
 

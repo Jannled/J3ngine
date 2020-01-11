@@ -20,7 +20,7 @@ Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(*indices)*cIndices, indices, GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(0);
 
 	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
@@ -32,6 +32,16 @@ Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t 
 	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
 	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
 	glBindVertexArray(0); 
+}
+
+Model::Model(GLuint VAO, GLuint VBO, GLuint cVertices, GLuint EBO, GLuint cIndices)
+{
+	this->VAO = VAO;
+	this->VBO = VBO;
+	this->EBO = EBO;
+
+	this->cVertices = cVertices;
+	this->cIndices = cIndices;
 }
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)

@@ -18,6 +18,7 @@ class Model
 {
 	public:
 		Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
+		Model(GLuint VAO, GLuint VBO, GLuint cVertices, GLuint EBO, GLuint cIndices);
 		virtual ~Model();
 
 		void setPosition(float x, float y, float z);
@@ -28,14 +29,14 @@ class Model
 		void render(ShaderProgram &shaderProgram, Camera &cam);
 
 	private:
-		size_t cVertices;
-		size_t cIndices;
+		GLuint cVertices;
+		GLuint cIndices;
 
 		GLuint VAO;
 		GLuint VBO;
 		GLuint EBO;
 
-		glm::vec3 position = glm::vec3(0.0, 0.0, -1.0);
+		glm::vec3 position = glm::vec3(0.0, 0.0, -9.0);
 		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
 		glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
 };
