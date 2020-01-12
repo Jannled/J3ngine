@@ -2,7 +2,8 @@
 #define JSCENE_H
 
 #include "lib/glm/glm.hpp"
-#include "Scene/Camera.h"
+#include "Camera.h"
+#include "Model.h"
 
 class Scene 
 {
@@ -12,7 +13,7 @@ class Scene
     
         Camera* getCamera();
 
-        static int loadScene(const char* path);
+        static Model* loadScene(const char* path);
 
     private:
         Camera* camera;

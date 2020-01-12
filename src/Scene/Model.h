@@ -36,7 +36,7 @@ class Model
 		GLuint VBO;
 		GLuint EBO;
 
-		glm::vec3 position = glm::vec3(0.0, 0.0, -9.0);
+		glm::vec3 position = glm::vec3(0.0, 0.0, -3.0);
 		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
 		glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
 };

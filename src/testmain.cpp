@@ -57,9 +57,9 @@ bool GLWindow::init()
         1, 2, 3   // second Triangle
     };
     
-    model = new Model(vertices, 12, indices, 6);
+    //model = new Model(vertices, 12, indices, 6);
 
-	Scene::loadScene("models/scene.gltf");
+	model = Scene::loadScene("models/Companion-Cube.obj");
 
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
