@@ -14,11 +14,27 @@
 #define UNIFORM_TRANSFORM "transform"
 #endif
 
+typedef struct
+{
+	GLuint VERTICES;
+	GLuint cVertices;
+
+	GLuint TEXCOORDS;
+	GLuint cTexcoords;
+
+	GLuint INDICES;
+	GLuint cIndices;
+
+	GLuint TEX0;
+
+	GLuint VAO;
+} GLData;
+
 class Model
 {
 	public:
 		Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
-		Model(GLuint VAO, GLuint VBO, GLuint cVertices, GLuint EBO, GLuint cIndices);
+		Model(GLData data);
 		virtual ~Model();
 
 		void setPosition(float x, float y, float z);
@@ -28,17 +44,14 @@ class Model
 
 		void render(ShaderProgram &shaderProgram, Camera &cam);
 
+		static GLuint loadTexture(char const * path);
+
 	private:
-		GLuint cVertices;
-		GLuint cIndices;
+		GLData glData;
 
-		GLuint VAO;
-		GLuint VBO;
-		GLuint EBO;
-
-		glm::vec3 position = glm::vec3(0.0, 0.0, -3.0);
+		glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
 		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
-		glm::vec3 scale = glm::vec3(0.5, 0.5, 0.5);
+		glm::vec3 scale = glm::vec3(1.0, 1.0, 1.0);
 };
 
 #endif // MODEL_H

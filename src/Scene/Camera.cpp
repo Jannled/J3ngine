@@ -18,7 +18,7 @@ Camera::Camera(GLWindow::Point res)
 
 glm::mat4 Camera::viewProjection()
 {
-    return glm::perspective(glm::pi<float>() * 0.25f, aspectRatio, 0.1f, 100.f);
+    return glm::perspective(glm::pi<float>() * 0.25f, aspectRatio, 0.1f, 100.f) * glm::lookAt(position, fokus, up);
 }
 
 void Camera::setResolution(int width, int height)
@@ -31,6 +31,18 @@ void Camera::setResolution(int width, int height)
 void Camera::setResolution(GLWindow::Point res)
 {
     setResolution(res.x, res.y);
+}
+
+void Camera::setPosition(glm::vec3 pos)
+{
+    this->position = pos;
+}
+
+void Camera::setPosition(float x, float y, float z)
+{
+    position.x = x;
+    position.y = y;
+    position.z = z;
 }
 
 Camera::~Camera()
