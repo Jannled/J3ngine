@@ -2,15 +2,14 @@
 
 #include "lib/JUtils.h"
 
-#include <stdio.h>
 #include <iostream>
 
 #include "lib/Galogen46.h"
 #include "lib/tiny_obj_loader.h"
 
-Scene::Scene()
+Scene::Scene(Camera& camera)
 {
-
+	this->camera = &camera;
 }
 
 Scene::~Scene()
@@ -23,8 +22,10 @@ Camera* Scene::getCamera()
 	return this->camera;
 }
 
-Model* Scene::loadScene(const char* path)
+Scene* Scene::loadScene(const char* path, Camera& camera)
 {
+	Scene* scene = new Scene(camera);
+
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
@@ -55,15 +56,25 @@ Model* Scene::loadScene(const char* path)
 				indices.push_back(indices.size());
 			}
 
-			return new Model(
+			scene->models.push_back(Model(
 				&vertices[0], vertices.size(), 
 				&indices[0], indices.size()
-			);
+			));
 		}
 	}
 	else
 	{
 		std::cerr << "Failed to open " << path << std::endl;
+		return NULL;
 	}
 	
+	return scene;
+}
+
+void Scene::render(ShaderProgram program)
+{
+	for(Model m : models)
+	{
+		m.render(program, *camera);
+	}
 }

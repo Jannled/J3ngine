@@ -10,12 +10,11 @@
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
-Shader *vshader;
-Shader *fshader;
-ShaderProgram *program;
+Shader* vshader;
+Shader* fshader;
+ShaderProgram* program;
 
-Model *model;
-Camera *camera;
+Scene* scene;
 
 //Geometry stuff
 unsigned int VAO;
@@ -59,12 +58,11 @@ bool GLWindow::init()
     
     //model = new Model(vertices, 12, indices, 6);
 
-	model = Scene::loadScene("models/Companion-Cube.obj");
-
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
-	camera = new Camera(windowSize);
+	Camera* camera = new Camera(windowSize);
+	scene = Scene::loadScene("models/Companion-Cube.obj", *camera);
 
 	return true;
 }
@@ -74,7 +72,7 @@ bool GLWindow::update(float delta)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	program->use();
-	model->render(*program, *camera);
+	scene->render(*program);
 
 	return true;
 }
@@ -86,7 +84,9 @@ void GLWindow::quit()
 
 void GLWindow::resize(int width, int height)
 {
-	printf("Resize to %dx%d\n", width, height);
+	printf("Changed resolution to %dx%d\n", width, height);
+	glViewport(0, 0, width, height);
+	scene->getCamera()->setResolution(width, height);
 }
 
 void GLWindow::cursorListener(int movex, int movey)

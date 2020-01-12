@@ -1,22 +1,29 @@
 #ifndef JSCENE_H
 #define JSCENE_H
 
-#include "lib/glm/glm.hpp"
 #include "Camera.h"
 #include "Model.h"
+#include "Shader/ShaderProgram.h"
+
+#include "lib/glm/glm.hpp"
+
+#include <vector>
 
 class Scene 
 {
     public:
-        Scene();
+        Scene(Camera& camera);
         ~Scene();
     
+        void render(ShaderProgram program);
+
         Camera* getCamera();
 
-        static Model* loadScene(const char* path);
+        static Scene* loadScene(const char* path, Camera& camera);
 
     private:
         Camera* camera;
+        std::vector<Model> models;
 };
 
 #endif

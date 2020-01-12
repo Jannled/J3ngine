@@ -4,6 +4,8 @@
 #include "lib/glm/gtc/matrix_transform.hpp"
 #include "lib/glm/gtx/transform.hpp"
 
+#include <stdio.h>
+
 Camera::Camera(int width, int height)
 {
     setResolution(width, height);
@@ -23,14 +25,12 @@ void Camera::setResolution(int width, int height)
 {
     this->width = width;
     this->height = height;
-    this->aspectRatio = width/height;
+    this->aspectRatio = (float) width/height;
 }
 
 void Camera::setResolution(GLWindow::Point res)
 {
-    this->width = res.x;
-    this->height = res.y;
-    this->aspectRatio = width/height;
+    setResolution(res.x, res.y);
 }
 
 Camera::~Camera()
