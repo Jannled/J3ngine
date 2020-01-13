@@ -49,10 +49,16 @@ Scene* Scene::loadScene(const char* path, Camera& camera)
 
 	if(ret)
 	{
-		char tpath[1024] = {"models/"};
-		strncat(tpath, materials[0].diffuse_texname.c_str(), 1024);
-		GLuint tex = Model::loadTexture(tpath);
+		GLuint textures[materials.size()];
 
+		for(int i=0; i<materials.size(); i++)
+		{
+			char tpath[1024] = {"models/"};
+			strncat(tpath, materials[i].diffuse_texname.c_str(), 1024);
+			textures[i] = Model::loadTexture(tpath);
+		}
+		
+		int i=0;
 		for(const auto& shape : shapes) 
 		{
 			for(const auto& index : shape.mesh.indices) 
@@ -71,7 +77,7 @@ Scene* Scene::loadScene(const char* path, Camera& camera)
 			glData.cVertices = vertices.size();
 			glData.cTexcoords = texCoords.size();
 			glData.cIndices = indices.size();
-			glData.TEX0 = tex;
+			glData.TEX0 = textures[i++];
 
 			glGenVertexArrays(1, &glData.VAO);
 			glGenBuffers(1, &glData.VERTICES);
