@@ -47,12 +47,17 @@ void ShaderProgram::setBool(const char* name, bool value)
 
 void ShaderProgram::setInt(const char* name, int value)
 {
-
+	
 }
 
 void ShaderProgram::setFloat(const char* name, float value)
 {
 
+}
+
+void ShaderProgram::setVec3f(const char* name, float* value)
+{
+	glUniform3fv(glGetUniformLocation(programID, name), 3, value);
 }
 
 void ShaderProgram::setMat4f(const char* name, float *value, GLboolean transpose)

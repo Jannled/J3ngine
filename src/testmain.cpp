@@ -40,8 +40,8 @@ bool GLWindow::init()
 	glClearColor(1.0, 1.0, 1.0, 0);
 	glEnable(GL_DEPTH_TEST);
 
-	vshader = new Shader("./src/Shader/simple_vertex.glsl", GL_VERTEX_SHADER);
-	fshader = new Shader("./src/Shader/simple_fragment.glsl", GL_FRAGMENT_SHADER);
+	vshader = new Shader("./src/Shader/pbr_vertex.glsl", GL_VERTEX_SHADER);
+	fshader = new Shader("./src/Shader/pbr_fragment.glsl", GL_FRAGMENT_SHADER);
 
 	vshader->compile();
 	fshader->compile();

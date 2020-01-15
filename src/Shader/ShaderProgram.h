@@ -20,6 +20,7 @@ public:
 	void setBool(const char* name, bool value);
 	void setInt(const char* name, int value);
 	void setFloat(const char* name, float value);
+	void setVec3f(const char* name, float* value);
 	void setMat3f(const char* name, glm::mat3 value);
 	void setMat4f(const char* name, float *value, GLboolean transpose);
 	void setMat4f(const char* name, glm::mat4 value);

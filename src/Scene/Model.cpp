@@ -56,7 +56,7 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	glm::mat3 modelNormal = glm::mat3(glm::transpose(glm::inverse(model)));
 
 	shaderProgram.setMat4f(UNIFORM_TRANSFORM, transform);
-	//shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
+	shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
 	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
 	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);

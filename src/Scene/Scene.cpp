@@ -119,6 +119,14 @@ bool Scene::loadToScene(const char* path)
 
 void Scene::render(ShaderProgram program)
 {
+	program.use();
+
+	float lightPos[] = {1.0f, 1.0f, 1.0f};
+	float lightCol[] = {150.0f, 150.0f, 150.0f};
+
+	program.setVec3f("lightPositions", lightPos);
+	program.setVec3f("lightColors", lightCol);
+
 	for(Model m : models)
 	{
 		m.render(program, *camera);
