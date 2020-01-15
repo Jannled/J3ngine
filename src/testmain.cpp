@@ -84,7 +84,7 @@ bool GLWindow::update(float delta)
 
 	static float time;
 	time += delta;
-	float radius = 1.5;
+	float radius = 5;
 
 	program->use();
 

@@ -14,6 +14,10 @@
 #define UNIFORM_TRANSFORM "transform"
 #endif
 
+#ifndef UNIFORM_MODELNORMAL
+#define UNIFORM_MODELNORMAL "modelNormal"
+#endif
+
 typedef struct
 {
 	GLuint VERTICES;

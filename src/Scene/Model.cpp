@@ -46,17 +46,17 @@ Model::Model(GLData data)
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
-	if(glData.TEX0)
-	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, glData.TEX0);
-	}
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, glData.TEX0);
 	
 	glBindVertexArray(glData.VAO);
 
-	glm::mat4 transform = cam.viewProjection() * glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
+	glm::mat4 model = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
+	glm::mat4 transform = cam.viewProjection() * model;
+	glm::mat3 modelNormal = glm::mat3(glm::transpose(glm::inverse(model)));
 
 	shaderProgram.setMat4f(UNIFORM_TRANSFORM, transform);
+	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
 	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
 }
@@ -85,13 +85,14 @@ void Model::setEulerRotation(glm::vec3 rot)
 
 GLuint Model::loadTexture(char const * path)
 {
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
+    unsigned int textureID = 0;
 
     int width, height, nrComponents;
     unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
     if (data)
     {
+		glGenTextures(1, &textureID);
+
         GLenum format;
         if (nrComponents == 1)
             format = GL_RED;

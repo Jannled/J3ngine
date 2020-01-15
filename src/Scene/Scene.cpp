@@ -50,7 +50,7 @@ Scene* Scene::loadScene(const char* path, Camera& camera)
 
 	if(ret)
 	{
-		GLuint textures[materials.size()];
+		GLuint textures[materials.size()] = {0};
 
 		for(int i=0; i<materials.size(); i++)
 		{
@@ -90,7 +90,7 @@ Scene* Scene::loadScene(const char* path, Camera& camera)
 			glData.cNormals = normals.size();
 			glData.cTexcoords = texCoords.size();
 			glData.cIndices = indices.size();
-			glData.TEX0 = materialID;
+			glData.TEX0 = textures[materialID];
 
 			glGenVertexArrays(1, &glData.VAO);
 			glGenBuffers(1, &glData.VERTICES);
