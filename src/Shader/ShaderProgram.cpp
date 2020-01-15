@@ -35,6 +35,11 @@ void ShaderProgram::use()
 	glUseProgram(programID);
 }
 
+GLint ShaderProgram::getUniformLocation(const char* name)
+{
+	return glGetUniformLocation(programID, name);
+}
+
 void ShaderProgram::setBool(const char* name, bool value)
 {
 

@@ -56,6 +56,7 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	glm::mat3 modelNormal = glm::mat3(glm::transpose(glm::inverse(model)));
 
 	shaderProgram.setMat4f(UNIFORM_TRANSFORM, transform);
+	//shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
 	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
 	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
@@ -81,6 +82,31 @@ void Model::setEulerRotation(float x, float y, float z)
 void Model::setEulerRotation(glm::vec3 rot)
 {
 	rotation = glm::quat(rot);
+}
+
+GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
+{
+	return loadArrayBuffer(data, count, usage, attribIndex, componentCount, 0, (void*) 0);
+}
+
+GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset)
+{
+	GLuint bufferID;
+	glGenBuffers(1, &bufferID);
+	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(data[0])*count, &data[0], GL_STATIC_DRAW);
+	glVertexAttribPointer(attribIndex, componentCount, GL_FLOAT, GL_FALSE, stride, offset);
+	glEnableVertexAttribArray(attribIndex);
+
+	return bufferID;
+}
+
+GLuint Model::loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage)
+{
+	GLuint bufferID;
+	glGenBuffers(1, &bufferID);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferID);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(data[0])*count, &data[0], GL_STATIC_DRAW);
 }
 
 GLuint Model::loadTexture(char const * path)

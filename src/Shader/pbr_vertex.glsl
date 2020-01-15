@@ -8,14 +8,14 @@ out vec3 WorldPos;
 out vec3 Normal;
 
 uniform mat4 transform;
-uniform mat4 camera;
+uniform mat4 modelSpace;
 uniform mat3 modelNormal;
 
 void main()
 {
     TexCoords = aTexCoords;
-    WorldPos = vec3(model * vec4(aPos, 1.0));
+    WorldPos = vec3(modelSpace * vec4(aPos, 1.0));
     Normal = modelNormal * aNormal;
 
-    gl_Position =  projection * view * vec4(WorldPos, 1.0);
+    gl_Position = transform * vec4(aPos, 1.0);
 }

@@ -15,6 +15,8 @@ public:
 	void link();
 	void use();
 
+	GLint getUniformLocation(const char* name);
+
 	void setBool(const char* name, bool value);
 	void setInt(const char* name, int value);
 	void setFloat(const char* name, float value);

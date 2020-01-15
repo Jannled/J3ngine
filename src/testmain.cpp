@@ -69,11 +69,12 @@ bool GLWindow::init()
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
 	Camera* camera = new Camera(windowSize);
+	scene = new Scene(*camera);
 
 	if(_argc > 1)
-		scene = Scene::loadScene(_argv[1], *camera);
+		scene->loadToScene(_argv[1]);
 	else
-		scene = Scene::loadScene("models/Benchmark.obj", *camera);
+		scene->loadToScene("models/Benchmark.obj");
 
 	return true;
 }

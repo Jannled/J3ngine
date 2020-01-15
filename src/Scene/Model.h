@@ -18,8 +18,14 @@
 #define UNIFORM_MODELNORMAL "modelNormal"
 #endif
 
+#ifndef UNIFORM_MODELSPACE
+#define UNIFORM_MODELSPACE "modelSpace"
+#endif
+
 typedef struct
 {
+	GLuint VAO;
+
 	GLuint VERTICES;
 	GLuint cVertices;
 
@@ -33,8 +39,6 @@ typedef struct
 	GLuint cIndices;
 
 	GLuint TEX0;
-
-	GLuint VAO;
 } GLData;
 
 class Model
@@ -52,6 +56,9 @@ class Model
 		void render(ShaderProgram &shaderProgram, Camera &cam);
 
 		static GLuint loadTexture(char const * path);
+		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount);
+		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset);
+		static GLuint loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage);
 
 	private:
 		GLData glData;

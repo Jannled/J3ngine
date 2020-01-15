@@ -19,7 +19,7 @@ class Scene
 
         Camera* getCamera();
 
-        static Scene* loadScene(const char* path, Camera& camera);
+        bool loadToScene(const char* path);
 
     private:
         Camera* camera;
