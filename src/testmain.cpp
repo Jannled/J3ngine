@@ -84,14 +84,14 @@ bool GLWindow::update(float delta)
 
 	static float time;
 	time += delta;
-	float radius = 6;
+	float radius = 1.5;
 
 	program->use();
 
 	if(scene)
 	{
 		scene->render(*program);
-		scene->getCamera()->setPosition(glm::sin(time) * radius, 1, glm::cos(time) * radius);
+		scene->getCamera()->setPosition(glm::sin(time) * radius, 1.5, glm::cos(time) * radius);
 	}
 
 	return true;

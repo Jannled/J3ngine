@@ -234,6 +234,10 @@ static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LP
 			break;
 		}
 
+		case WM_SIZE:
+			GLWindow::resize(LOWORD(lparam), HIWORD(lparam));
+			break;
+
 		case WM_CLOSE:
 		case WM_DESTROY:
 			PostQuitMessage(0);
@@ -407,7 +411,7 @@ long GLWindow::getMilliseconds()
 {
 	SYSTEMTIME time;
 	GetSystemTime(&time);
-	return (time.wSecond * 1000) + time.wMilliseconds;
+	return (((time.wHour * 60 + time.wMinute) * 60 + time.wSecond) * 1000) + time.wMilliseconds;
 }
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)

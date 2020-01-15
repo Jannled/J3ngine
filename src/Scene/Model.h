@@ -19,6 +19,9 @@ typedef struct
 	GLuint VERTICES;
 	GLuint cVertices;
 
+	GLuint NORMALS;
+	GLuint cNormals;
+
 	GLuint TEXCOORDS;
 	GLuint cTexcoords;
 

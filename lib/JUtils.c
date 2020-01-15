@@ -13,7 +13,7 @@ char *getWorkingDirectory(char *buf, unsigned int size)
 #elif _WIN32
 #include <direct.h> // _getcwd
 
-char *getWorkingDirectory(char *buf, size_t size)
+char *getWorkingDirectory(char *buf, unsigned int size)
 {
     return _getcwd(buf, size);
 }
