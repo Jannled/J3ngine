@@ -88,7 +88,7 @@ void main()
 	float metallic  = texture(metallicMap, TexCoords).r;
 	float roughness = texture(roughnessMap, TexCoords).r;
 	float ao        = texture(aoMap, TexCoords).r;
-norm
+
 	vec3 N = getNormalFromMap();
 	vec3 V = normalize(camPos - WorldPos);
 

@@ -57,7 +57,7 @@ void ShaderProgram::setFloat(const char* name, float value)
 
 void ShaderProgram::setVec3f(const char* name, float* value)
 {
-	glUniform3fv(glGetUniformLocation(programID, name), 3, value);
+	glUniform3fv(glGetUniformLocation(programID, name), 1, value);
 }
 
 void ShaderProgram::setMat4f(const char* name, float *value, GLboolean transpose)

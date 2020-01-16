@@ -60,17 +60,17 @@ bool Scene::loadToScene(const char* path)
 			textures[i].DIFFUSE = Model::loadTexture(dpath);
 
 			char npath[1024] = {0};
-			strncat(dpath, baseDir, 1024);
+			strncat(npath, baseDir, 1024);
 			strncat(npath, materials[i].normal_texname.c_str(), 1024);
 			textures[i].NORMAL = Model::loadTexture(npath);
 
 			char mpath[1024] = {0};
-			strncat(dpath, baseDir, 1024);
+			strncat(mpath, baseDir, 1024);
 			strncat(mpath, materials[i].metallic_texname.c_str(), 1024);
 			textures[i].METALLIC = Model::loadTexture(mpath);
 
 			char rpath[1024] = {0};
-			strncat(dpath, baseDir, 1024);
+			strncat(rpath, baseDir, 1024);
 			strncat(rpath, materials[i].roughness_texname.c_str(), 1024);
 			textures[i].ROUGHNESS = Model::loadTexture(rpath);
 		}

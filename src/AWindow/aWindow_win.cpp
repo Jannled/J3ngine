@@ -421,6 +421,8 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
 	_cmd_line = &cmd_line;
 	_show = &pshow;
 
+
+	//Convert to int argc, char** argv
 	int argc;
     LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &argc);
     char **argv = new char*[argc];

@@ -114,6 +114,8 @@ GLuint Model::loadElementBuffer(unsigned int* data, unsigned int count, GLenum u
 	glGenBuffers(1, &bufferID);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(data[0])*count, &data[0], GL_STATIC_DRAW);
+
+	return bufferID;
 }
 
 GLuint Model::loadTexture(char const * path)
