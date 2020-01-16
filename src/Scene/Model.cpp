@@ -39,15 +39,22 @@ Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t 
 	glBindVertexArray(0); 
 }
 
-Model::Model(GLData data)
+Model::Model(GLData data, pbrTextures textures)
 {
 	this->glData = data;
+	this->textures = textures;
 }
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, glData.TEX0);
+	glBindTexture(GL_TEXTURE_2D, textures.DIFFUSE);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, textures.NORMAL);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, textures.METALLIC);
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, textures.ROUGHNESS);
 	
 	glBindVertexArray(glData.VAO);
 

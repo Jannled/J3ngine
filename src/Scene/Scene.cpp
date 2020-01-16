@@ -38,7 +38,9 @@ bool Scene::loadToScene(const char* path)
 	std::string warn;
 	std::string err;
 
-	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path, "models/", true, false);
+	const char baseDir[] = "models/";
+
+	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path, baseDir, true, false);
 
 	if (!warn.empty())
 		std::cout << warn << std::endl;
@@ -48,13 +50,29 @@ bool Scene::loadToScene(const char* path)
 
 	if(ret)
 	{
-		GLuint textures[materials.size()] = {0};
+		pbrTextures textures[materials.size()] = {0};
 
 		for(int i=0; i<materials.size(); i++)
 		{
-			char tpath[1024] = {"models/"};
-			strncat(tpath, materials[i].diffuse_texname.c_str(), 1024);
-			textures[i] = Model::loadTexture(tpath);
+			char dpath[1024] = {0};
+			strncat(dpath, baseDir, 1024);
+			strncat(dpath, materials[i].diffuse_texname.c_str(), 1024);
+			textures[i].DIFFUSE = Model::loadTexture(dpath);
+
+			char npath[1024] = {0};
+			strncat(dpath, baseDir, 1024);
+			strncat(npath, materials[i].normal_texname.c_str(), 1024);
+			textures[i].NORMAL = Model::loadTexture(npath);
+
+			char mpath[1024] = {0};
+			strncat(dpath, baseDir, 1024);
+			strncat(mpath, materials[i].metallic_texname.c_str(), 1024);
+			textures[i].METALLIC = Model::loadTexture(mpath);
+
+			char rpath[1024] = {0};
+			strncat(dpath, baseDir, 1024);
+			strncat(rpath, materials[i].roughness_texname.c_str(), 1024);
+			textures[i].ROUGHNESS = Model::loadTexture(rpath);
 		}
 		
 		int i=0;
@@ -100,12 +118,10 @@ bool Scene::loadToScene(const char* path)
 			glData.INDICES = Model::loadElementBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
 			glData.cIndices = indices.size();
 
-			glData.TEX0 = textures[materialID];
-
 			glBindBuffer(GL_ARRAY_BUFFER, 0); 
 			glBindVertexArray(0); 
 
-			models.push_back(Model(glData));
+			models.push_back(Model(glData, textures[materialID]));
 		}
 	}
 	else
@@ -121,7 +137,7 @@ void Scene::render(ShaderProgram program)
 {
 	program.use();
 
-	float lightPos[] = {1.0f, 1.0f, 1.0f};
+	float lightPos[] = {5.0f, 5.0f, 1.0f};
 	float lightCol[] = {150.0f, 150.0f, 150.0f};
 
 	program.setVec3f("lightPositions", lightPos);

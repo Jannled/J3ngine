@@ -38,14 +38,21 @@ typedef struct
 	GLuint INDICES;
 	GLuint cIndices;
 
-	GLuint TEX0;
 } GLData;
+
+typedef struct
+{
+	GLuint DIFFUSE;
+	GLuint NORMAL;
+	GLuint METALLIC;
+	GLuint ROUGHNESS;
+} pbrTextures;
 
 class Model
 {
 	public:
 		Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
-		Model(GLData data);
+		Model(GLData data, pbrTextures textures);
 		virtual ~Model();
 
 		void setPosition(float x, float y, float z);
@@ -62,6 +69,7 @@ class Model
 
 	private:
 		GLData glData;
+		pbrTextures textures;
 
 		glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
 		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
