@@ -42,22 +42,27 @@ GLint ShaderProgram::getUniformLocation(const char* name)
 
 void ShaderProgram::setBool(const char* name, bool value)
 {
-
+	
 }
 
 void ShaderProgram::setInt(const char* name, int value)
 {
-	
+	glUniform1i(glGetUniformLocation(programID, name), value); 
 }
 
 void ShaderProgram::setFloat(const char* name, float value)
 {
-
+	glUniform1f(glGetUniformLocation(programID, name), value); 
 }
 
 void ShaderProgram::setVec3f(const char* name, float* value)
 {
 	glUniform3fv(glGetUniformLocation(programID, name), 1, value);
+}
+
+void ShaderProgram::setVec3f(const char* name, glm::vec3 value)
+{
+	glUniform3fv(glGetUniformLocation(programID, name), 1, glm::value_ptr(value));
 }
 
 void ShaderProgram::setMat4f(const char* name, float *value, GLboolean transpose)

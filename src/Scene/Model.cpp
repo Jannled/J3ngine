@@ -47,6 +47,12 @@ Model::Model(GLData data, pbrTextures textures)
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
+	shaderProgram.setInt(TEX_ALBEDO, 0);
+	shaderProgram.setInt(TEX_NORMAL, 1);
+	shaderProgram.setInt(TEX_METALLIC, 2);
+	shaderProgram.setInt(TEX_ROUGNESS, 3);
+	shaderProgram.setInt(TEX_AO, 4);
+
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures.DIFFUSE);
 	glActiveTexture(GL_TEXTURE1);

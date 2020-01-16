@@ -22,6 +22,26 @@
 #define UNIFORM_MODELSPACE "modelSpace"
 #endif
 
+#ifndef TEX_ALBEDO
+#define TEX_ALBEDO "albedoMap"
+#endif
+
+#ifndef TEX_NORMAL
+#define TEX_NORMAL "normalMap"
+#endif
+
+#ifndef TEX_METALLIC
+#define TEX_METALLIC "metallicMap"
+#endif
+
+#ifndef TEX_ROUGNESS
+#define TEX_ROUGNESS "roughnessMap"
+#endif
+
+#ifndef TEX_AO
+#define TEX_AO "aoMap"
+#endif
+
 typedef struct
 {
 	GLuint VAO;

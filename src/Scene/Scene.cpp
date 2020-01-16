@@ -143,6 +143,8 @@ void Scene::render(ShaderProgram program)
 	program.setVec3f("lightPositions", lightPos);
 	program.setVec3f("lightColors", lightCol);
 
+	program.setVec3f("camPos", camera->position);
+
 	for(Model m : models)
 	{
 		m.render(program, *camera);
