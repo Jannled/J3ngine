@@ -7,7 +7,8 @@
 
 #include <iostream>
 
-Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices)
+Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices) 
+	: Node(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
 {
 	glData.cVertices = cVertices;
 	glData.cIndices = cIndices;
@@ -40,6 +41,7 @@ Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t 
 }
 
 Model::Model(GLData data, pbrTextures textures)
+	: Node(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
 {
 	this->glData = data;
 	this->textures = textures;
@@ -75,28 +77,6 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
 }
 
-void Model::setPosition(float x, float y, float z)
-{
-	position.x = x;
-	position.y = y;
-	position.z = z;
-}
-
-void Model::setPosition(glm::vec3 pos)
-{
-	this->position = pos;
-}
-
-void Model::setEulerRotation(float x, float y, float z)
-{
-	rotation = glm::quat(glm::vec3(x, y, z));
-}
-
-void Model::setEulerRotation(glm::vec3 rot)
-{
-	rotation = glm::quat(rot);
-}
-
 GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
 {
 	return loadArrayBuffer(data, count, usage, attribIndex, componentCount, 0, (void*) 0);
@@ -126,8 +106,14 @@ GLuint Model::loadElementBuffer(unsigned int* data, unsigned int count, GLenum u
 
 GLuint Model::loadTexture(char const * path)
 {
-    unsigned int textureID = 0;
+	return loadTexture(path, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR);
+}
 
+GLuint Model::loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter)
+{
+	stbi_set_flip_vertically_on_load(true);
+
+    unsigned int textureID = 0;
     int width, height, nrComponents;
     unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
     if (data)

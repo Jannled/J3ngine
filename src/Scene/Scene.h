@@ -20,6 +20,7 @@ class Scene
         Camera* getCamera();
 
         bool loadToScene(const char* path);
+        bool loadToScene(const char* path, const char* baseDir);
 
     private:
         Camera* camera;

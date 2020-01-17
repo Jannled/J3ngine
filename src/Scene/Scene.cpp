@@ -26,6 +26,11 @@ Camera* Scene::getCamera()
 
 bool Scene::loadToScene(const char* path)
 {
+	loadToScene(path, "models/");
+}
+
+bool Scene::loadToScene(const char* path, const char* baseDir)
+{
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
@@ -37,8 +42,6 @@ bool Scene::loadToScene(const char* path)
 
 	std::string warn;
 	std::string err;
-
-	const char baseDir[] = "models/";
 
 	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path, baseDir, true, false);
 
@@ -54,25 +57,37 @@ bool Scene::loadToScene(const char* path)
 
 		for(int i=0; i<materials.size(); i++)
 		{
-			char dpath[1024] = {0};
-			strncat(dpath, baseDir, 1024);
-			strncat(dpath, materials[i].diffuse_texname.c_str(), 1024);
-			textures[i].DIFFUSE = Model::loadTexture(dpath);
+			if(materials[i].diffuse_texname.size() > 0)
+			{
+				char dpath[1024] = {0};
+				strncat(dpath, baseDir, 1024);
+				strncat(dpath, materials[i].diffuse_texname.c_str(), 1024);
+				textures[i].DIFFUSE = Model::loadTexture(dpath);
+			}
+			
+			if(materials[i].normal_texname.size() > 0)
+			{
+				char npath[1024] = {0};
+				strncat(npath, baseDir, 1024);
+				strncat(npath, materials[i].normal_texname.c_str(), 1024);
+				textures[i].NORMAL = Model::loadTexture(npath);
+			}
 
-			char npath[1024] = {0};
-			strncat(npath, baseDir, 1024);
-			strncat(npath, materials[i].normal_texname.c_str(), 1024);
-			textures[i].NORMAL = Model::loadTexture(npath);
+			if(materials[i].metallic_texname.size() > 0)
+			{
+				char mpath[1024] = {0};
+				strncat(mpath, baseDir, 1024);
+				strncat(mpath, materials[i].metallic_texname.c_str(), 1024);
+				textures[i].METALLIC = Model::loadTexture(mpath);
+			}
 
-			char mpath[1024] = {0};
-			strncat(mpath, baseDir, 1024);
-			strncat(mpath, materials[i].metallic_texname.c_str(), 1024);
-			textures[i].METALLIC = Model::loadTexture(mpath);
-
-			char rpath[1024] = {0};
-			strncat(rpath, baseDir, 1024);
-			strncat(rpath, materials[i].roughness_texname.c_str(), 1024);
-			textures[i].ROUGHNESS = Model::loadTexture(rpath);
+			if(materials[i].roughness_texname.size() > 0)
+			{
+				char rpath[1024] = {0};
+				strncat(rpath, baseDir, 1024);
+				strncat(rpath, materials[i].roughness_texname.c_str(), 1024);
+				textures[i].ROUGHNESS = Model::loadTexture(rpath);
+			}
 		}
 		
 		int i=0;
@@ -84,7 +99,7 @@ bool Scene::loadToScene(const char* path)
 			for(const auto& index : shape.mesh.indices) 
 			{
 				if(j < shape.mesh.material_ids.size())
-					if(!shape.mesh.material_ids[j++] == materialID)
+					if(shape.mesh.material_ids[j++] != materialID)
 						std::cerr << "Different materials for a single model is not supported right now." << std::endl;
 
 				vertices.push_back(attrib.vertices[3 * index.vertex_index + 0]);
@@ -143,7 +158,7 @@ void Scene::render(ShaderProgram program)
 	program.setVec3f("lightPositions", lightPos);
 	program.setVec3f("lightColors", lightCol);
 
-	program.setVec3f("camPos", camera->position);
+	program.setVec3f("camPos", *camera->getPosition());
 
 	for(Model m : models)
 	{

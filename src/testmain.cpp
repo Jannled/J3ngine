@@ -39,6 +39,7 @@ bool GLWindow::init()
 {
 	glClearColor(1.0, 1.0, 1.0, 0);
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
 
 	vshader = new Shader("./src/Shader/pbr_vertex.glsl", GL_VERTEX_SHADER);
 	fshader = new Shader("./src/Shader/pbr_fragment.glsl", GL_FRAGMENT_SHADER);

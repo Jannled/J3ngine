@@ -7,11 +7,13 @@
 #include <stdio.h>
 
 Camera::Camera(int width, int height)
+    : Node(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
 {
     setResolution(width, height);
 }
 
 Camera::Camera(GLWindow::Point res)
+    : Node(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
 {
     setResolution(res);
 }
@@ -31,18 +33,6 @@ void Camera::setResolution(int width, int height)
 void Camera::setResolution(GLWindow::Point res)
 {
     setResolution(res.x, res.y);
-}
-
-void Camera::setPosition(glm::vec3 pos)
-{
-    this->position = pos;
-}
-
-void Camera::setPosition(float x, float y, float z)
-{
-    position.x = x;
-    position.y = y;
-    position.z = z;
 }
 
 Camera::~Camera()
