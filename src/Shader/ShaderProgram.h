@@ -10,11 +10,13 @@ class ShaderProgram
 public:
 	ShaderProgram();
 	ShaderProgram(Shader &vertexShader, Shader &fragmentShader);
+	ShaderProgram(const char* vertexShader, const char* fragmentShader);
 	virtual ~ShaderProgram();
 
 	void link();
 	void use();
 
+	GLint getID();
 	GLint getUniformLocation(const char* name);
 
 	void setBool(const char* name, bool value);
@@ -31,6 +33,7 @@ public:
 
 	private:
 		int programID;
+		void init(Shader &vertexShader, Shader &fragmentShader);
 };
 
 #endif //SHADERPROGRAM_H

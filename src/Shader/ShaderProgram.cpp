@@ -4,12 +4,22 @@
 
 #include "glm/gtc/type_ptr.hpp"
 
-ShaderProgram::ShaderProgram()
+ShaderProgram::ShaderProgram(Shader &vertexShader, Shader &fragmentShader)
 {
-
+	init(vertexShader, fragmentShader);
 }
 
-ShaderProgram::ShaderProgram(Shader &vertexShader, Shader &fragmentShader)
+ShaderProgram::ShaderProgram(const char* vertexShader, const char* fragmentShader)
+{
+	Shader *svert = new Shader(vertexShader, GL_VERTEX_SHADER);
+	svert->compile();
+	Shader *sfrag = new Shader(fragmentShader, GL_FRAGMENT_SHADER);
+	sfrag->compile();
+	init(*svert, *sfrag);
+	link();
+}
+
+void ShaderProgram::init(Shader &vertexShader, Shader &fragmentShader)
 {
 	programID = glCreateProgram();
 	glAttachShader(programID, vertexShader.shaderID);
@@ -33,6 +43,11 @@ void ShaderProgram::use()
 {
 	//std::cout << "Using shaderprogram with id: " << programID << std::endl;
 	glUseProgram(programID);
+}
+
+GLint ShaderProgram::getID()
+{
+	return programID;
 }
 
 GLint ShaderProgram::getUniformLocation(const char* name)

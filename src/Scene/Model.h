@@ -75,7 +75,7 @@ class Model : public Node
 		void render(ShaderProgram &shaderProgram, Camera &cam);
 
 		static GLuint loadTexture(char const * path);
-		static GLuint loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter);
+		static GLuint loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps);
 		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount);
 		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset);
 		static GLuint loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage);

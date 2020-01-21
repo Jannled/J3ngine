@@ -7,6 +7,7 @@
 
 #include "Scene/Model.h"
 #include "Scene/Scene.h"
+#include "Scene/CubeMap.h"
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
@@ -15,6 +16,7 @@ Shader* fshader;
 ShaderProgram* program;
 
 Scene* scene;
+CubeMap *cb;
 
 //Geometry stuff
 unsigned int VAO;
@@ -77,6 +79,8 @@ bool GLWindow::init()
 	else
 		scene->loadToScene("models/Benchmark.obj");
 
+	cb = new CubeMap("models/Newport_Loft_Ref.hdr");
+
 	return true;
 }
 
@@ -89,6 +93,9 @@ bool GLWindow::update(float delta)
 	float radius = 5;
 
 	program->use();
+
+	if(cb)
+		cb->render();
 
 	if(scene)
 	{

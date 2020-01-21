@@ -3,6 +3,8 @@
 
 #include "lib/Galogen46.h"
 
+#include "Shader/ShaderProgram.h"
+
 const float vertices[] = {
     // back face
     -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
@@ -53,11 +55,19 @@ class CubeMap
     public:
         CubeMap(const char* path);
         virtual ~CubeMap();
+        void renderCube();
         void render();
 
     private:
         GLuint VAO;
         GLuint VBO;
+        GLuint hdrTexture;
+        GLuint irradianceMap;
+        GLuint envCubemap;
+
+        ShaderProgram* equirectangularToCubemapShader;
+        ShaderProgram* irradianceShader;
+        ShaderProgram* backgroundShader;
 };
 
 #endif //CUBEMAP_H
