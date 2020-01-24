@@ -49,13 +49,14 @@ wglChoosePixelFormatARB_type *wglChoosePixelFormatARB;
 
 //Raw Mouse input
 #ifndef HID_USAGE_PAGE_GENERIC
-#define HID_USAGE_PAGE_GENERIC         ((USHORT) 0x01)
+#define HID_USAGE_PAGE_GENERIC  ((USHORT) 0x01)
 #endif
 #ifndef HID_USAGE_GENERIC_MOUSE
-#define HID_USAGE_GENERIC_MOUSE        ((USHORT) 0x02)
+#define HID_USAGE_GENERIC_MOUSE ((USHORT) 0x02)
 #endif
 RAWINPUTDEVICE Rid[1];
 
+//Window handles
 HINSTANCE *_inst;
 HINSTANCE *_prev; 
 LPSTR *_cmd_line; 
@@ -231,6 +232,7 @@ static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LP
 
 				GLWindow::cursorListener(xPosRelative, yPosRelative);
 			}
+
 			break;
 		}
 
