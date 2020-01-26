@@ -16,6 +16,14 @@
 #define OS_Linux
 #endif
 
+#ifndef JGL_MAJOR
+#define JGL_MAJOR 3
+#endif
+
+#ifndef JGL_MINOR
+#define JGL_MINOR 3
+#endif
+
 #include <stdbool.h>
 #include "lib/Galogen46.h"
 

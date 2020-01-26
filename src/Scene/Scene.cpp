@@ -9,9 +9,10 @@
 #include "lib/Galogen46.h"
 #include "lib/tiny_obj_loader.h"
 
-Scene::Scene(Camera& camera)
+Scene::Scene(Camera& camera, CubeMap& skybox)
 {
 	this->camera = &camera;
+	this->cubemap = &skybox;
 }
 
 Scene::~Scene()
@@ -164,4 +165,6 @@ void Scene::render(ShaderProgram program)
 	{
 		m.render(program, *camera);
 	}
+
+	cubemap->renderSkybox(*camera);
 }

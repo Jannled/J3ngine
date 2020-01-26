@@ -8,8 +8,6 @@
 
 #include "AWindow.h"
 
-#define OS_WINDOWS //REMOVE
-
 #ifdef OS_Windows
 
 // Sample code showing how to create a modern OpenGL window and rendering context on Win32.
@@ -188,9 +186,9 @@ static HGLRC init_opengl(HDC real_dc)
 	// Specify that we want to create an OpenGL 3.3 core profile context
 	int gl33_attribs[] = {
 		WGL_CONTEXT_MAJOR_VERSION_ARB,
-		3,
+		JGL_MAJOR,
 		WGL_CONTEXT_MINOR_VERSION_ARB,
-		3,
+		JGL_MINOR,
 		WGL_CONTEXT_PROFILE_MASK_ARB,
 		WGL_CONTEXT_CORE_PROFILE_BIT_ARB,
 		0,

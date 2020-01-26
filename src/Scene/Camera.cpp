@@ -23,6 +23,16 @@ glm::mat4 Camera::viewProjection()
     return glm::perspective(glm::pi<float>() * 0.25f, aspectRatio, 0.1f, 100.f) * glm::lookAt(position, fokus, up);
 }
 
+glm::mat4 Camera::view()
+{
+    return glm::lookAt(position, fokus, up);
+}
+
+glm::mat4 Camera::projection()
+{
+    return glm::perspective(glm::pi<float>() * 0.25f, aspectRatio, 0.1f, 100.f);
+}
+
 void Camera::setResolution(int width, int height)
 {
     this->width = width;

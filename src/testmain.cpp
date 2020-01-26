@@ -16,7 +16,6 @@ Shader* fshader;
 ShaderProgram* program;
 
 Scene* scene;
-CubeMap *cb;
 
 //Geometry stuff
 unsigned int VAO;
@@ -72,14 +71,14 @@ bool GLWindow::init()
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
 	Camera* camera = new Camera(windowSize);
-	scene = new Scene(*camera);
+	CubeMap* skybox = new CubeMap("models/lakeside_2k.hdr");
+	scene = new Scene(*camera, *skybox);
 
 	if(_argc > 1)
 		scene->loadToScene(_argv[1]);
 	else
-		scene->loadToScene("models/Benchmark.obj");
+		scene->loadToScene("models/RustedSphere.obj");
 
-	cb = new CubeMap("models/Newport_Loft_Ref.hdr");
 
 	return true;
 }
@@ -93,9 +92,6 @@ bool GLWindow::update(float delta)
 	float radius = 5;
 
 	program->use();
-
-	if(cb)
-		cb->render();
 
 	if(scene)
 	{
@@ -123,9 +119,3 @@ void GLWindow::cursorListener(int movex, int movey)
 {
 	//printf("Cursor movement: %dx%d\n", movex, movey);
 }
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,  // first Triangle
-        1, 2, 3   // second Triangle
-    };
-    
-    //model = new Model(vertices, 12, indices, 6);

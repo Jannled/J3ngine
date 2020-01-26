@@ -14,16 +14,17 @@ OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 CFLAGS   = -I./src -I. -I./lib -O0 -g3
 CXXFLAGS = -std=c++14
+LDFLAGS = 
 
 #if shared library target
 #CFLAGS += -shared -undefined dynamic_lookup
 
 ifeq ($(OS),Windows_NT)
 	#Windows
-	LDFLAGS = -lgdi32 -lopengl32
+	LDFLAGS += -lgdi32 -lopengl32
 else
 	#Linux
-	LDFLAGS = -lX11 -lGL
+	LDFLAGS += -lX11 -lGL
 endif
 
 all: $(BUILD_DIR)/$(TARGET_EXEC)

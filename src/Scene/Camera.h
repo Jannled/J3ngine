@@ -14,6 +14,8 @@ class Camera : public Node
 		virtual ~Camera();
 
 		glm::mat4 viewProjection();
+		glm::mat4 view();
+		glm::mat4 projection();
 		void setResolution(GLWindow::Point res);
 		void setResolution(int width, int height);
 

@@ -97,5 +97,5 @@ void ShaderProgram::setMat4f(const char* name, glm::mat4 value)
 
 ShaderProgram::~ShaderProgram()
 {
-	glDeleteProgram(programID);
+	//glDeleteProgram(programID);
 }
