@@ -163,6 +163,10 @@ void Scene::render(ShaderProgram program)
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->getIrradianceMap());
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->getPrefilterMap());
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, cubemap->getBRDFLUT());
 
 	for(Model m : models)
 	{

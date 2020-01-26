@@ -54,7 +54,13 @@ bool GLWindow::init()
 	program->link();
 	program->use();
 	program->setInt("irradianceMap", 0);
-	program->setFloat("ambientFactor", 0.1f);
+	program->setInt("prefilterMap", 1);
+	program->setInt("brdfLUT", 2);
+	program->setInt(TEX_ALBEDO, 3);
+	program->setInt(TEX_NORMAL, 4);
+	program->setInt(TEX_METALLIC, 5);
+	program->setInt(TEX_ROUGNESS, 6);
+	program->setInt(TEX_AO, 7);
     
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
