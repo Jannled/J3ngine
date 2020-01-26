@@ -231,3 +231,8 @@ void CubeMap::renderSkybox(Camera& camera)
 	//glBindTexture(GL_TEXTURE_CUBE_MAP, irradianceMap); // display irradiance map
 	renderCube();
 }
+
+GLuint CubeMap::getIrradianceMap()
+{
+	return irradianceMap;
+}

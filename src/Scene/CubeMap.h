@@ -63,6 +63,8 @@ class CubeMap
 		static ShaderProgram* irradianceShader;
 		static ShaderProgram* backgroundShader;
 
+		GLuint getIrradianceMap();
+
 	private:
 		GLuint VAO;
 		GLuint VBO;

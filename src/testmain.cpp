@@ -52,21 +52,10 @@ bool GLWindow::init()
 
 	program = new ShaderProgram(*vshader, *fshader);
 	program->link();
-
-	//Test Geometry
-	float vertices[] = {
-         0.5f,  0.5f, 0.0f,  // top right
-         0.5f, -0.5f, 0.0f,  // bottom right
-        -0.5f, -0.5f, 0.0f,  // bottom left
-        -0.5f,  0.5f, 0.0f   // top left 
-    };
-    unsigned int indices[] = {  // note that we start from 0!
-        0, 1, 3,  // first Triangle
-        1, 2, 3   // second Triangle
-    };
+	program->use();
+	program->setInt("irradianceMap", 0);
+	program->setFloat("ambientFactor", 0.1f);
     
-    //model = new Model(vertices, 12, indices, 6);
-
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 

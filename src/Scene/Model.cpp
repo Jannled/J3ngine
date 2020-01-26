@@ -49,19 +49,19 @@ Model::Model(GLData data, pbrTextures textures)
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
-	shaderProgram.setInt(TEX_ALBEDO, 0);
-	shaderProgram.setInt(TEX_NORMAL, 1);
-	shaderProgram.setInt(TEX_METALLIC, 2);
-	shaderProgram.setInt(TEX_ROUGNESS, 3);
-	shaderProgram.setInt(TEX_AO, 4);
+	shaderProgram.setInt(TEX_ALBEDO, 1);
+	shaderProgram.setInt(TEX_NORMAL, 2);
+	shaderProgram.setInt(TEX_METALLIC, 3);
+	shaderProgram.setInt(TEX_ROUGNESS, 4);
+	shaderProgram.setInt(TEX_AO, 5);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, textures.DIFFUSE);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, textures.NORMAL);
+	glBindTexture(GL_TEXTURE_2D, textures.DIFFUSE);
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, textures.METALLIC);
+	glBindTexture(GL_TEXTURE_2D, textures.NORMAL);
 	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, textures.METALLIC);
+	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, textures.ROUGHNESS);
 	
 	glBindVertexArray(glData.VAO);

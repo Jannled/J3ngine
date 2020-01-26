@@ -161,6 +161,9 @@ void Scene::render(ShaderProgram program)
 
 	program.setVec3f("camPos", *camera->getPosition());
 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap->getIrradianceMap());
+
 	for(Model m : models)
 	{
 		m.render(program, *camera);
