@@ -41,6 +41,7 @@ bool GLWindow::init()
 	glClearColor(1.0, 1.0, 1.0, 0);
 	glEnable(GL_DEPTH_TEST);
 	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 
 	vshader = new Shader("./src/Shader/pbr_vertex.glsl", GL_VERTEX_SHADER);
 	fshader = new Shader("./src/Shader/pbr_fragment.glsl", GL_FRAGMENT_SHADER);
@@ -66,14 +67,13 @@ bool GLWindow::init()
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
 	Camera* camera = new Camera(windowSize);
-	CubeMap* skybox = new CubeMap("models/lakeside_2k.hdr");
+	CubeMap* skybox = new CubeMap("models/Newport_Loft_Ref.hdr");
 	scene = new Scene(*camera, *skybox);
 
 	if(_argc > 1)
 		scene->loadToScene(_argv[1]);
 	else
 		scene->loadToScene("models/RustedSphere.obj");
-
 
 	return true;
 }
@@ -93,6 +93,8 @@ bool GLWindow::update(float delta)
 		scene->render(*program);
 		scene->getCamera()->setPosition(glm::sin(time) * radius, 1.5, glm::cos(time) * radius);
 	}
+
+	glFlush();
 
 	return true;
 }

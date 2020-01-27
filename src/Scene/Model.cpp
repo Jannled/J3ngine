@@ -57,7 +57,9 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	glBindTexture(GL_TEXTURE_2D, textures.METALLIC);
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, textures.ROUGHNESS);
-	
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glBindVertexArray(glData.VAO);
 
 	glm::mat4 model = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
@@ -68,7 +70,8 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
 	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
-	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
+	printf("Texture: %d\n", textures.DIFFUSE);
+	if(textures.DIFFUSE == 6) glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
 }
 
 GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
@@ -126,13 +129,14 @@ GLuint Model::loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint min
         glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
         if(generateMipMaps) glGenerateMipmap(GL_TEXTURE_2D);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapS);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, minFilter);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, magFilter);
 
 		std::cout << "Texture(" << textureID << ") loaded from path \"" << path << "\"." << std::endl;
 
+		glBindTexture(GL_TEXTURE_2D, 0);
         stbi_image_free(data);
     }
     else

@@ -76,7 +76,7 @@ CubeMap::CubeMap(const char* path)
 	if(!equirectangularToCubemapShader)
 		equirectangularToCubemapShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/equiToCube_fragment.glsl");
 	if(!irradianceShader)
-		irradianceShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/irradiance_concolution_fragment.glsl");
+		irradianceShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/irradiance_convolution_fragment.glsl");
 	if(!backgroundShader)
 		backgroundShader = new ShaderProgram("src/Shader/background_vertex.glsl", "src/Shader/background_fragment.glsl");
 	if(!prefilterShader)
@@ -107,7 +107,7 @@ CubeMap::CubeMap(const char* path)
 	// ---------------------------------
 	stbi_set_flip_vertically_on_load(true);
     int width, height, nrComponents;
-	float *data = stbi_loadf("models/Newport_Loft_Ref.hdr", &width, &height, &nrComponents, 0);
+	float *data = stbi_loadf(path, &width, &height, &nrComponents, 0);
 	if(data)
 	{
 		glGenTextures(1, &hdrTexture);
