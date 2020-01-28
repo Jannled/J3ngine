@@ -91,30 +91,49 @@ bool Scene::loadToScene(const char* path, const char* baseDir)
 			}
 		}
 		
-		int i=0;
-		for(const auto& shape : shapes) 
+		// Loop over shapes
+		for (size_t s = 0; s < shapes.size(); s++) 
 		{
-			unsigned int materialID = (shape.mesh.material_ids.size() > 0) ? shape.mesh.material_ids[0] : 0;
+			GLint materialID = -1;
 
-			int j=0;
-			for(const auto& index : shape.mesh.indices) 
+			vertices.clear();
+			normals.clear();
+			indices.clear();
+			texCoords.clear();
+
+			// Loop over faces(polygon)
+			size_t index_offset = 0;
+			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++) 
 			{
-				if(j < shape.mesh.material_ids.size())
-					if(shape.mesh.material_ids[j++] != materialID)
-						std::cerr << "Different materials for a single model is not supported right now." << std::endl;
+				int fv = shapes[s].mesh.num_face_vertices[f];
 
-				vertices.push_back(attrib.vertices[3 * index.vertex_index + 0]);
-				vertices.push_back(attrib.vertices[3 * index.vertex_index + 1]);
-				vertices.push_back(attrib.vertices[3 * index.vertex_index + 2]);
+				// Loop over vertices in the face.
+				for (size_t v = 0; v < fv; v++) 
+				{
+					// access to vertex
+					tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+					vertices.push_back(attrib.vertices[3*idx.vertex_index+0]);
+					vertices.push_back(attrib.vertices[3*idx.vertex_index+1]);
+					vertices.push_back(attrib.vertices[3*idx.vertex_index+2]);
+					normals.push_back(attrib.normals[3*idx.normal_index+0]);
+					normals.push_back(attrib.normals[3*idx.normal_index+1]);
+					normals.push_back(attrib.normals[3*idx.normal_index+2]);
+					texCoords.push_back(attrib.texcoords[2*idx.texcoord_index+0]);
+					texCoords.push_back(attrib.texcoords[2*idx.texcoord_index+1]);
+					// Optional: vertex colors
+					// tinyobj::real_t red = attrib.colors[3*idx.vertex_index+0];
+					// tinyobj::real_t green = attrib.colors[3*idx.vertex_index+1];
+					// tinyobj::real_t blue = attrib.colors[3*idx.vertex_index+2];
 
-				normals.push_back(attrib.normals[3 * index.normal_index + 0]);
-				normals.push_back(attrib.normals[3 * index.normal_index + 1]);
-				normals.push_back(attrib.normals[3 * index.normal_index + 2]);
+					indices.push_back(indices.size());
+				}
+				index_offset += fv;
 
-				texCoords.push_back(attrib.texcoords[2 * index.texcoord_index + 0]);
-				texCoords.push_back(attrib.texcoords[2 * index.texcoord_index + 1]);
-
-				indices.push_back(indices.size());
+				// per-face material
+				if(materialID < 0)
+					materialID = shapes[s].mesh.material_ids[f];
+				else if(shapes[s].mesh.material_ids[f] != materialID)
+					std::cerr << "Different materials for a single model is not supported right now." << std::endl;
 			}
 
 			GLData glData;
@@ -136,7 +155,7 @@ bool Scene::loadToScene(const char* path, const char* baseDir)
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0); 
 			glBindVertexArray(0); 
-
+			printf("Loaded Model %s with %d vertices and %d faces.\n", shapes[s].name.c_str(), (int) vertices.size(), (int) indices.size());
 			models.push_back(Model(glData, textures[materialID]));
 		}
 	}

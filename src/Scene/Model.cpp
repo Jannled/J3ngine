@@ -70,8 +70,8 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
 	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
-	printf("Texture: %d\n", textures.DIFFUSE);
-	if(textures.DIFFUSE == 6) glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
+	//printf("Texture: %d\n", textures.DIFFUSE);
+	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
 }
 
 GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
