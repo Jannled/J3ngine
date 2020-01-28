@@ -238,6 +238,13 @@ static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LP
 			GLWindow::resize(LOWORD(lparam), HIWORD(lparam));
 			break;
 
+		case WM_KEYDOWN:
+			GLWindow::keyboardListener(wparam);
+			break;
+
+		case WM_KEYUP:
+			break;
+
 		case WM_CLOSE:
 		case WM_DESTROY:
 			PostQuitMessage(0);

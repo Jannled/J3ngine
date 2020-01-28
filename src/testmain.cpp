@@ -116,3 +116,17 @@ void GLWindow::cursorListener(int movex, int movey)
 {
 	//printf("Cursor movement: %dx%d\n", movex, movey);
 }
+
+bool GLWindow::keyboardListener(KCode_t key)
+{	
+	switch (key)
+	{
+	case K_ESC:
+		return false;
+	
+	default:
+		printf("Key pressed: 0x%04X\n", key);
+		break;
+	}
+	return true;
+}

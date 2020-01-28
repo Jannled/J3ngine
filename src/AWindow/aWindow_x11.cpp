@@ -200,7 +200,7 @@ bool GLWindow::show(const char *title, int width, int height)
 	long nextGameTick = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 
 	// select kind of events we are interested in
-	XSelectInput(display, window, KeyPressMask | KeyReleaseMask | ExposureMask);
+	XSelectInput(display, window, KeyPressMask | KeyReleaseMask | ButtonPressMask | ExposureMask);
 
 	//REMVOE FOR KEYS ONLY
 	unsigned int keyPos = 0;
@@ -228,15 +228,7 @@ bool GLWindow::show(const char *title, int width, int height)
 					break;
 
 				case KeyPress:
-					if(keyPos < JKEY_NUM-1)
-					{
-						setKeymap(ev.xkey.keycode, keyPos++);
-						printf("Please press %10s\n", keyNames[keyPos]);
-					} else
-					{
-						printKeymap();
-					}
-					
+					running = GLWindow::keyboardListener((int) XKeycodeToKeysym(display, ev.xkey.keycode, 0));
 					break;
 
 				case KeyRelease:

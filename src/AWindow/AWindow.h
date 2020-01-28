@@ -24,8 +24,7 @@
 #define JGL_MINOR 3
 #endif
 
-#define JKEY_NUM 102
-#define JKEY_NAME 10
+#include "JKeyCodes.h"
 
 #include <stdbool.h>
 #include "lib/Galogen46.h"
@@ -50,6 +49,7 @@ namespace GLWindow
 	void setTitle(const char *title);
 	
 	void cursorListener(int movex, int movey);
+	bool keyboardListener(KCode_t key);
 
 	long getMilliseconds();
 
