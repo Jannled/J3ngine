@@ -24,6 +24,9 @@
 #define JGL_MINOR 3
 #endif
 
+#define JKEY_NUM 102
+#define JKEY_NAME 10
+
 #include <stdbool.h>
 #include "lib/Galogen46.h"
 
@@ -62,6 +65,22 @@ namespace GLWindow
                  const GLchar* message,
                  const void* userParam
 	);
+
+	void setKeymap(unsigned int key, unsigned int pos);
+	void printKeymap();
+
+	const char keyNames[JKEY_NUM][JKEY_NAME] = {
+		"ESC", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12",
+		"CIRC", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "?", "'", "BACKSPACE",
+		"TAB", "Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P", "Ü", "+", "ENTER",
+		"CAPSLOCK", "A", "S", "D", "F", "G", "H", "J", "K", "L", "Ö", "Ä", "#",
+		"L SHIFT", "<", "Y", "X", "C", "V", "B", "N", "M", ",", ".", "-", "R SHIFT",
+		"L CTRL", "L ALT", "SPACEBAR", "ALT CTRL", "Context", "R CTRL",
+		"SCROLL", "PAUSE", "PASTE", "POS1", "DEL", "END", "BILD UP", "BILD DOWN",
+		"LEFT", "RIGHT", "UP", "DOWN",
+		"NUMLOCK", "NUM *", "NUM /", "NUM +", "NUM -", "NUM ENTER", "NUM ,", 
+		"NUM 1", "NUM 2", "NUM 3", "NUM 4", "NUM 5", "NUM 6", "NUM 7", "NUM 8", "NUM 9", "NUM 0"
+	};
 }
 
 #endif //JGLWINDOW_H

@@ -199,22 +199,52 @@ bool GLWindow::show(const char *title, int width, int height)
 	gettimeofday(&time, NULL);
 	long nextGameTick = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 
+	// select kind of events we are interested in
+	XSelectInput(display, window, KeyPressMask | KeyReleaseMask | ExposureMask);
+
+	//REMVOE FOR KEYS ONLY
+	unsigned int keyPos = 0;
+
 	// Enter message loop
-	while (true) {
+	bool running = true;
+	while (running) {
 		if (XPending(display) > 0) {
 			XNextEvent(display, &ev);
-			if (ev.type == Expose) {
-				XWindowAttributes attribs;
-				XGetWindowAttributes(display, window, &attribs);
-				resize(attribs.width, attribs.height);
-			}
-			if (ev.type == ClientMessage) {
-				if (ev.xclient.data.l[0] == atomWmDeleteWindow) {
+			switch (ev.type)
+			{
+				case Expose:
+					XWindowAttributes attribs;
+					XGetWindowAttributes(display, window, &attribs);
+					resize(attribs.width, attribs.height);
 					break;
-				}
-			}
-			else if (ev.type == DestroyNotify) { 
-				break;
+
+				case ClientMessage:
+					if (ev.xclient.data.l[0] == atomWmDeleteWindow)
+						running = false;
+					break;
+				
+				case DestroyNotify:
+					running = false;
+					break;
+
+				case KeyPress:
+					if(keyPos < JKEY_NUM-1)
+					{
+						setKeymap(ev.xkey.keycode, keyPos++);
+						printf("Please press %10s\n", keyNames[keyPos]);
+					} else
+					{
+						printKeymap();
+					}
+					
+					break;
+
+				case KeyRelease:
+					//printf("Key released: %x\n", ev.xkey.keycode);
+					break;
+
+				default:
+					break;
 			}
 		}
 
