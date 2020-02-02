@@ -200,7 +200,7 @@ bool GLWindow::show(const char *title, int width, int height)
 	long nextGameTick = (time.tv_sec * 1000) + (time.tv_usec / 1000);
 
 	// select kind of events we are interested in
-	XSelectInput(display, window, KeyPressMask | KeyReleaseMask | ButtonPressMask | ExposureMask);
+	XSelectInput(display, window, KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask | PointerMotionMask | ExposureMask);
 
 	//REMVOE FOR KEYS ONLY
 	unsigned int keyPos = 0;
@@ -232,7 +232,18 @@ bool GLWindow::show(const char *title, int width, int height)
 					break;
 
 				case KeyRelease:
-					//printf("Key released: %x\n", ev.xkey.keycode);
+					running = GLWindow::keyboardListener((int) XKeycodeToKeysym(display, ev.xkey.keycode, 0));
+					break;
+
+				case ButtonPress:
+					printf("Button press: %d\n", ev.xbutton.button);
+					break;
+				
+				case ButtonRelease:
+					break;
+
+				case MotionNotify:
+					GLWindow::cursorListener(ev.xmotion.x, ev.xmotion.y);
 					break;
 
 				default:

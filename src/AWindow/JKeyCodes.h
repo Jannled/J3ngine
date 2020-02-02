@@ -17,6 +17,17 @@
 typedef unsigned int KCode_t;
 
 #ifdef OS_Windows
+#define B_LMB          
+#define B_RMB          
+#define B_WHEEL_UP     
+#define B_WHEEL_DOWN   
+#define B_WHEEL_CLICK  
+#define B_WHEEL_LEFT   
+#define B_WHEEL_RIGHT  
+#define B_BACK         
+#define B_FORWARD      
+#define B_SPECIAL      
+
 #define K_ESC        
 #define K_F1         VK_F1
 #define K_F2         VK_F2
@@ -126,6 +137,17 @@ typedef unsigned int KCode_t;
 #define XK_LATIN1
 #include <X11/keysymdef.h>
 
+#define B_LMB          1
+#define B_RMB          3
+#define B_WHEEL_UP     4
+#define B_WHEEL_DOWN   5
+#define B_WHEEL_CLICK  2
+#define B_WHEEL_LEFT   6
+#define B_WHEEL_RIGHT  7
+#define B_BACK         8
+#define B_FORWARD      9
+#define B_SPECIAL      10
+
 #define K_ESC        XK_Escape            
 #define K_F1         XK_F1
 #define K_F2         XK_F2
@@ -151,44 +173,44 @@ typedef unsigned int KCode_t;
 #define K_9          XK_9
 #define K_0          XK_0
 #define K_SZ         XK_ssharp
-#define K_HC         XK_dead_acute
+#define K_ACUTE      XK_dead_acute
 #define K_BACKSPACE  XK_BackSpace
 #define K_TAB        XK_Tab
-#define K_Q          XK_Q
-#define K_W          XK_W
-#define K_E          XK_E
-#define K_R          XK_R
-#define K_T          XK_T
-#define K_Z          XK_Z
-#define K_U          XK_U
-#define K_I          XK_I
-#define K_O          XK_O
-#define K_P          XK_P
+#define K_Q          XK_q
+#define K_W          XK_w
+#define K_E          XK_r
+#define K_R          XK_t
+#define K_T          XK_z
+#define K_Z          XK_u
+#define K_U          XK_u
+#define K_I          XK_i
+#define K_O          XK_o
+#define K_P          XK_p
 #define K_UE         XK_udiaeresis
 #define K_PLUS       XK_plus
 #define K_ENTER      XK_Return
 #define K_CAPSLOCK   XK_Caps_Lock
-#define K_A          XK_A
-#define K_S          XK_S
-#define K_D          XK_D
-#define K_F          XK_F
-#define K_G          XK_G
-#define K_H          XK_H
-#define K_J          XK_J
-#define K_K          XK_K
-#define K_L          XK_L
+#define K_A          XK_a
+#define K_S          XK_s
+#define K_D          XK_d
+#define K_F          XK_f
+#define K_G          XK_g
+#define K_H          XK_h
+#define K_J          XK_j
+#define K_K          XK_k
+#define K_L          XK_l
 #define K_OE         XK_odiaeresis
 #define K_AE         XK_adiaeresis
 #define K_HASHTAG    XK_numbersign
 #define K_LSHIFT     XK_Shift_L
 #define K_LESS       XK_less
-#define K_Y          XK_Y
-#define K_X          XK_X
-#define K_C          XK_C
-#define K_V          XK_V
-#define K_B          XK_B
-#define K_N          XK_N
-#define K_M          XK_M
+#define K_Y          XK_y
+#define K_X          XK_x
+#define K_C          XK_c
+#define K_V          XK_v
+#define K_B          XK_b
+#define K_N          XK_n
+#define K_M          XK_m
 #define K_COMMA      XK_comma
 #define K_DOT        XK_period
 #define K_MINUS      XK_minus

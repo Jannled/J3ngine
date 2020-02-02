@@ -41,6 +41,11 @@ void Node::setEulerRotation(glm::vec3 rot)
 	rotation = glm::quat(rot);
 }
 
+void Node::update()
+{
+    position += deltaPos;
+}
+
 Node::~Node()
 {
     

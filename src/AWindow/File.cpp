@@ -1,0 +1,133 @@
+#include "File.h"
+
+#include <stdio.h>
+#include <string.h>
+
+#ifdef OS_WINDOWS
+#include <io.h>
+#include <direct.h> // _getcwd
+#define PATH_MAX MAX_PATH
+#elif defined OS_LINUX
+#include <unistd.h>
+#include <stdlib.h>
+#include <limits.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <libgen.h>
+#endif
+
+File::File()
+{
+	init(".");
+}
+
+File::File(const char* path)
+{
+	init(path);
+}
+
+void File::init(const char* path)
+{
+	this->path = path;
+	this->canonicalPath = toCanonicalPath(path, NULL);
+}
+
+const char* File::getName()
+{
+	#ifdef OS_WINDOWS
+
+	#elif defined OS_LINUX
+	char* fileName = strdup(canonicalPath);
+	return basename(fileName);
+	#endif
+}
+
+const char* File::getPath()
+{
+	return path;
+}
+
+const char* File::getCanonicalPath()
+{
+	return canonicalPath;
+}
+
+const char* File::getParent()
+{
+	if(!canonicalPath)
+		return NULL;
+		
+	#ifdef OS_WINDOWS
+
+	#elif defined OS_LINUX
+	char* fileName = strdup(canonicalPath);
+	return dirname(fileName);
+	#endif
+}
+
+File& File::getParentFile()
+{
+	return *(new File(getParent()));
+}
+
+bool File::exists()
+{
+	#ifdef OS_WINDOWS
+
+	#elif defined OS_LINUX
+	return (access(path, F_OK) != -1);
+	#endif
+}
+
+bool File::isDirectory()
+{
+	#ifdef OS_WINDOWS
+
+	#elif defined OS_LINUX
+	struct stat path_stat;
+	if(stat(path, &path_stat))
+		return false;
+	return S_ISDIR(path_stat.st_mode);
+	#endif
+}
+
+bool File::isFile()
+{
+	#ifdef OS_WINDOWS
+
+	#elif defined OS_LINUX
+	struct stat path_stat;
+	if(!stat(path, &path_stat))
+		return false;
+	return S_ISREG(path_stat.st_mode);
+	#endif
+}
+
+const char* File::toCanonicalPath(const char* path, char* buff)
+{
+	if(!buff)
+		buff = new char[PATH_MAX];
+
+	#ifdef OS_WINDOWS
+	PathCanonicalizeA(buff, path); //Maybe GetFullPathName() come in handy sometime
+	return path;
+
+	#elif defined OS_LINUX
+	return realpath(path, buff);
+	#endif
+}
+
+const char* File::getWorkingDirectory(char *buf, unsigned int size)
+{
+	#ifdef OS_WINDOWS
+	return _getcwd(buf, size);
+	#elif defined OS_LINUX
+	return getcwd(buf, size);
+	#endif
+}
+
+File::~File()
+{
+	//delete[] path;
+	//delete[] canonicalPath;
+}

@@ -11,6 +11,8 @@
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
+#include "AWindow/File.h"
+
 Shader* vshader;
 Shader* fshader;
 ShaderProgram* program;
@@ -70,10 +72,14 @@ bool GLWindow::init()
 	CubeMap* skybox = new CubeMap("models/Newport_Loft_Ref.hdr");
 	scene = new Scene(*camera, *skybox);
 
+	File f;
+
 	if(_argc > 1)
-		scene->loadToScene(_argv[1]);
+		f = File(_argv[1]);
 	else
-		scene->loadToScene("models/RustedSphere.obj");
+		f = File("models/Dark_Astronaut.obj");
+
+	scene->loadToScene(f);
 
 	return true;
 }
@@ -84,14 +90,14 @@ bool GLWindow::update(float delta)
 
 	static float time;
 	time += delta;
-	float radius = 5;
+	
 
 	program->use();
 
 	if(scene)
 	{
 		scene->render(*program);
-		scene->getCamera()->setPosition(glm::sin(time) * radius, 1.5, glm::cos(time) * radius);
+		//
 	}
 
 	glFlush();
@@ -117,16 +123,39 @@ void GLWindow::cursorListener(int movex, int movey)
 	//printf("Cursor movement: %dx%d\n", movex, movey);
 }
 
+static float zRot = 0;
+static float position = 1.5;	
+
 bool GLWindow::keyboardListener(KCode_t key)
 {	
+	float radius = 5;
+
 	switch (key)
 	{
 	case K_ESC:
 		return false;
+
+	case K_A:
+		zRot -= 0.05;
+		break;
+
+	case K_D:
+		zRot += 0.05;
+		break;
+
+	case K_W:
+		position += 0.5;
+		break;
+
+	case K_S:
+		position -= 0.5;
+		break;
 	
 	default:
 		printf("Key pressed: 0x%04X\n", key);
 		break;
 	}
+	scene->getCamera()->setPosition(glm::sin(zRot) * radius, position, glm::cos(zRot) * radius);
+
 	return true;
 }

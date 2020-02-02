@@ -6,6 +6,8 @@
 #include "CubeMap.h"
 #include "Shader/ShaderProgram.h"
 
+#include "AWindow/File.h"
+
 #include "lib/glm/glm.hpp"
 
 #include <vector>
@@ -16,12 +18,12 @@ class Scene
         Scene(Camera& camera, CubeMap& cubemap);
         ~Scene();
     
+        void update();
         void render(ShaderProgram program);
 
         Camera* getCamera();
 
-        bool loadToScene(const char* path);
-        bool loadToScene(const char* path, const char* baseDir);
+        bool loadToScene(File& path);
 
     private:
         Camera* camera;

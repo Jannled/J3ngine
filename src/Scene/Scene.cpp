@@ -1,7 +1,5 @@
 #include "Scene.h"
 
-#include "lib/JUtils.h"
-
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
@@ -25,12 +23,7 @@ Camera* Scene::getCamera()
 	return this->camera;
 }
 
-bool Scene::loadToScene(const char* path)
-{
-	loadToScene(path, "models/");
-}
-
-bool Scene::loadToScene(const char* path, const char* baseDir)
+bool Scene::loadToScene(File& file)
 {
 	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
@@ -44,7 +37,8 @@ bool Scene::loadToScene(const char* path, const char* baseDir)
 	std::string warn;
 	std::string err;
 
-	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, path, baseDir, true, false);
+	const char* baseDir = file.getParent();
+	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, file.getCanonicalPath(), baseDir, true, false);
 
 	if (!warn.empty())
 		std::cout << warn << std::endl;
@@ -61,32 +55,28 @@ bool Scene::loadToScene(const char* path, const char* baseDir)
 			if(materials[i].diffuse_texname.size() > 0)
 			{
 				char dpath[1024] = {0};
-				strncat(dpath, baseDir, 1024);
-				strncat(dpath, materials[i].diffuse_texname.c_str(), 1024);
+				snprintf(dpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].diffuse_texname.c_str());
 				textures[i].DIFFUSE = Model::loadTexture(dpath);
 			}
 			
 			if(materials[i].normal_texname.size() > 0)
 			{
 				char npath[1024] = {0};
-				strncat(npath, baseDir, 1024);
-				strncat(npath, materials[i].normal_texname.c_str(), 1024);
+				snprintf(npath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].normal_texname.c_str());
 				textures[i].NORMAL = Model::loadTexture(npath);
 			}
 
 			if(materials[i].metallic_texname.size() > 0)
 			{
 				char mpath[1024] = {0};
-				strncat(mpath, baseDir, 1024);
-				strncat(mpath, materials[i].metallic_texname.c_str(), 1024);
+				snprintf(mpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].metallic_texname.c_str());
 				textures[i].METALLIC = Model::loadTexture(mpath);
 			}
 
 			if(materials[i].roughness_texname.size() > 0)
 			{
 				char rpath[1024] = {0};
-				strncat(rpath, baseDir, 1024);
-				strncat(rpath, materials[i].roughness_texname.c_str(), 1024);
+				snprintf(rpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].roughness_texname.c_str());
 				textures[i].ROUGHNESS = Model::loadTexture(rpath);
 			}
 		}
@@ -161,11 +151,17 @@ bool Scene::loadToScene(const char* path, const char* baseDir)
 	}
 	else
 	{
-		std::cerr << "Failed to open " << path << std::endl;
+		std::cerr << "Failed to open " << file.getPath() << std::endl;
 		return false;
 	}
 	
 	return true;
+}
+
+void Scene::update()
+{
+	for(Node& n : models)
+		n.update();
 }
 
 void Scene::render(ShaderProgram program)

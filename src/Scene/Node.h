@@ -19,10 +19,12 @@ class Node
 		void setEulerRotation(float x, float y, float z);
 		void setEulerRotation(glm::vec3 rot);
 
-    protected:
+        void update();
+
         glm::vec3 position = glm::vec3(0.0, 0.0, 0.0);
 		glm::quat rotation = glm::quat(glm::vec3(0.0, 0.0, 0.0));
 		glm::vec3 scale = glm::vec3(1.0, 1.0, 1.0);
+        glm::vec3 deltaPos = glm::vec3(0.0, 0.0, 0.0);
 };
 
 #endif
