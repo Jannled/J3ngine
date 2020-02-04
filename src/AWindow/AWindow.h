@@ -12,7 +12,7 @@
 #define OS_Windows
 
 // Linux
-#elif __linux__
+#elif defined __linux__
 #define OS_Linux
 #endif
 

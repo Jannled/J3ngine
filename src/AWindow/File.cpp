@@ -6,7 +6,13 @@
 #ifdef OS_WINDOWS
 #include <io.h>
 #include <direct.h> // _getcwd
+#include <conio.h>
+#include <stdlib.h>
+#include <direct.h>
+#include <fileapi.h>
+#ifndef PATH_MAX
 #define PATH_MAX MAX_PATH
+#endif
 #elif defined OS_LINUX
 #include <unistd.h>
 #include <stdlib.h>
@@ -30,16 +36,37 @@ void File::init(const char* path)
 {
 	this->path = path;
 	this->canonicalPath = toCanonicalPath(path, NULL);
+
+	char* parentString = new char[PATH_MAX];
+	char* nameString = new char[PATH_MAX];
+
+	#ifdef OS_WINDOWS
+	this->name = new char[PATH_MAX];
+	char sDrive[_MAX_DRIVE];
+	char sDir[_MAX_DIR];
+	char sFName[_MAX_FNAME];
+	char sExt[_MAX_EXT];
+
+	_splitpath(canonicalPath, sDrive, sDir, sFName, sExt);
+	snprintf(nameString, 4096, "%s%s", sFName, sExt);
+	snprintf(parentString, 4096, "%s%s", sDrive, sDir);
+
+	this->name = nameString;
+	this->parent = parentString;
+
+	#elif defined OS_LINUX
+	char* fileName = strdup(canonicalPath);
+	char* DirName = strdup(canonicalPath);
+	this->name = basename(fileName);
+
+	snprintf(parentString, 4096, "%s%c", dirname(DirName), isDirectory() ? FILESEP : '\0');
+	this->parent = parentString;
+	#endif
 }
 
 const char* File::getName()
 {
-	#ifdef OS_WINDOWS
-
-	#elif defined OS_LINUX
-	char* fileName = strdup(canonicalPath);
-	return basename(fileName);
-	#endif
+	return name;
 }
 
 const char* File::getPath()
@@ -57,12 +84,7 @@ const char* File::getParent()
 	if(!canonicalPath)
 		return NULL;
 		
-	#ifdef OS_WINDOWS
-
-	#elif defined OS_LINUX
-	char* fileName = strdup(canonicalPath);
-	return dirname(fileName);
-	#endif
+	return parent;
 }
 
 File& File::getParentFile()
@@ -73,6 +95,10 @@ File& File::getParentFile()
 bool File::exists()
 {
 	#ifdef OS_WINDOWS
+	DWORD dwAttrib = GetFileAttributes(path);
+    if (dwAttrib == 0xFFFFFFFF)
+        return false;
+    return true;
 
 	#elif defined OS_LINUX
 	return (access(path, F_OK) != -1);
@@ -82,6 +108,9 @@ bool File::exists()
 bool File::isDirectory()
 {
 	#ifdef OS_WINDOWS
+	DWORD dwAttrib = GetFileAttributes(path);
+	return 	(dwAttrib != INVALID_FILE_ATTRIBUTES && 
+			(dwAttrib & FILE_ATTRIBUTE_DIRECTORY));
 
 	#elif defined OS_LINUX
 	struct stat path_stat;
@@ -94,7 +123,9 @@ bool File::isDirectory()
 bool File::isFile()
 {
 	#ifdef OS_WINDOWS
-
+	DWORD dwAttrib = GetFileAttributes(path);
+	return 	(dwAttrib != INVALID_FILE_ATTRIBUTES && 
+			(dwAttrib & FILE_ATTRIBUTE_NORMAL));
 	#elif defined OS_LINUX
 	struct stat path_stat;
 	if(!stat(path, &path_stat))
@@ -109,8 +140,8 @@ const char* File::toCanonicalPath(const char* path, char* buff)
 		buff = new char[PATH_MAX];
 
 	#ifdef OS_WINDOWS
-	PathCanonicalizeA(buff, path); //Maybe GetFullPathName() come in handy sometime
-	return path;
+	_fullpath(buff, path, PATH_MAX); //Maybe GetFullPathName() come in handy sometime
+	return buff;
 
 	#elif defined OS_LINUX
 	return realpath(path, buff);

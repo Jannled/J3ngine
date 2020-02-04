@@ -17,9 +17,11 @@
 typedef unsigned int KCode_t;
 
 #ifdef OS_Windows
-#define B_LMB          
-#define B_RMB          
-#define B_WHEEL_UP     
+#include <windows.h>
+
+#define B_LMB          VK_LBUTTON
+#define B_RMB          VK_RBUTTON
+#define B_WHEEL_UP     VK_MBUTTON
 #define B_WHEEL_DOWN   
 #define B_WHEEL_CLICK  
 #define B_WHEEL_LEFT   
@@ -28,7 +30,7 @@ typedef unsigned int KCode_t;
 #define B_FORWARD      
 #define B_SPECIAL      
 
-#define K_ESC        
+#define K_ESC        VK_ESCAPE
 #define K_F1         VK_F1
 #define K_F2         VK_F2
 #define K_F3         VK_F3
@@ -42,55 +44,55 @@ typedef unsigned int KCode_t;
 #define K_F11        VK_F11
 #define K_F12        VK_F12
 #define K_CIRC       
-#define K_1          
-#define K_2          
-#define K_3          
-#define K_4          
-#define K_5          
-#define K_6          
-#define K_7          
-#define K_8          
-#define K_9          
-#define K_0          
+#define K_1          '1'
+#define K_2          '2'
+#define K_3          '3'
+#define K_4          '4'
+#define K_5          '5'
+#define K_6          '6'
+#define K_7          '7'
+#define K_8          '8'
+#define K_9          '9'
+#define K_0          '0'
 #define K_SZ         
 #define K_HC         
 #define K_BACKSPACE  
 #define K_TAB        
-#define K_Q          
-#define K_W          
-#define K_E          
-#define K_R          
-#define K_T          
-#define K_Z          
-#define K_U          
-#define K_I          
-#define K_O          
-#define K_P          
+#define K_Q          'Q'
+#define K_W          'W'
+#define K_E          'E'
+#define K_R          'R'
+#define K_T          'T'
+#define K_Z          'Z'
+#define K_U          'U'
+#define K_I          'I'
+#define K_O          'O'
+#define K_P          'P'
 #define K_UE         
 #define K_PLUS       
 #define K_ENTER      
 #define K_CAPSLOCK   
-#define K_A          
-#define K_S          
-#define K_D          
-#define K_F          
-#define K_G          
-#define K_H          
-#define K_J          
-#define K_K          
-#define K_L          
+#define K_A          'A'
+#define K_S          'S'
+#define K_D          'D'
+#define K_F          'F'
+#define K_G          'G'
+#define K_H          'H'
+#define K_J          'J'
+#define K_K          'K'
+#define K_L          'L'
 #define K_OE         
 #define K_AE         
 #define K_HASHTAG    
 #define K_LSHIFT     
 #define K_LESS       
-#define K_Y          
-#define K_X          
-#define K_C          
-#define K_V          
-#define K_B          
-#define K_N          
-#define K_M          
+#define K_Y          'Y'
+#define K_X          'X'
+#define K_C          'C'
+#define K_V          'V'
+#define K_B          'B'
+#define K_N          'N'
+#define K_M          'M'
 #define K_COMMA      
 #define K_DOT        
 #define K_MINUS      
@@ -120,16 +122,16 @@ typedef unsigned int KCode_t;
 #define K_NUM_SUB    
 #define K_NUM_ENT    
 #define K_NUM_COMMA  
-#define K_NUM_1      
-#define K_NUM_2      
-#define K_NUM_3      
-#define K_NUM_4      
-#define K_NUM_5      
-#define K_NUM_6      
-#define K_NUM_7      
-#define K_NUM_8      
-#define K_NUM_9      
-#define K_NUM_0      
+#define K_NUM_1      VK_NUMPAD_1
+#define K_NUM_2      VK_NUMPAD_2
+#define K_NUM_3      VK_NUMPAD_3
+#define K_NUM_4      VK_NUMPAD_4
+#define K_NUM_5      VK_NUMPAD_5
+#define K_NUM_6      VK_NUMPAD_6
+#define K_NUM_7      VK_NUMPAD_7
+#define K_NUM_8      VK_NUMPAD_8
+#define K_NUM_9      VK_NUMPAD_9
+#define K_NUM_0      VK_NUMPAD_0
 #endif
 
 #ifdef OS_Linux

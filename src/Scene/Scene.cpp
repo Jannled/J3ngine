@@ -55,28 +55,28 @@ bool Scene::loadToScene(File& file)
 			if(materials[i].diffuse_texname.size() > 0)
 			{
 				char dpath[1024] = {0};
-				snprintf(dpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].diffuse_texname.c_str());
+				snprintf(dpath, 1024, "%s%s", baseDir, materials[i].diffuse_texname.c_str());
 				textures[i].DIFFUSE = Model::loadTexture(dpath);
 			}
 			
 			if(materials[i].normal_texname.size() > 0)
 			{
 				char npath[1024] = {0};
-				snprintf(npath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].normal_texname.c_str());
+				snprintf(npath, 1024, "%s%s", baseDir, materials[i].normal_texname.c_str());
 				textures[i].NORMAL = Model::loadTexture(npath);
 			}
 
 			if(materials[i].metallic_texname.size() > 0)
 			{
 				char mpath[1024] = {0};
-				snprintf(mpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].metallic_texname.c_str());
+				snprintf(mpath, 1024, "%s%s", baseDir, materials[i].metallic_texname.c_str());
 				textures[i].METALLIC = Model::loadTexture(mpath);
 			}
 
 			if(materials[i].roughness_texname.size() > 0)
 			{
 				char rpath[1024] = {0};
-				snprintf(rpath, 1024, "%s%c%s", baseDir, FILESEP, materials[i].roughness_texname.c_str());
+				snprintf(rpath, 1024, "%s%s", baseDir, materials[i].roughness_texname.c_str());
 				textures[i].ROUGHNESS = Model::loadTexture(rpath);
 			}
 		}

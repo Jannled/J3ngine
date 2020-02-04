@@ -31,6 +31,8 @@ class File
 		private:
 			void init(const char* path);
 			const char* path;
+			const char* parent;
+			const char* name;
 			const char* canonicalPath;
 };
 
