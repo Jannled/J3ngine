@@ -145,7 +145,7 @@ bool Scene::loadToScene(File& file)
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0); 
 			glBindVertexArray(0); 
-			printf("Loaded Model %s with %d vertices and %d faces.\n", shapes[s].name.c_str(), (int) vertices.size(), (int) indices.size());
+			printf("Loaded Model \"%s\" with %d vertices and %d faces.\n", shapes[s].name.c_str(), (int) vertices.size(), (int) indices.size());
 			models.push_back(Model(glData, textures[materialID]));
 		}
 	}

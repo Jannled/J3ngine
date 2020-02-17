@@ -59,7 +59,9 @@ void File::init(const char* path)
 	char* DirName = strdup(canonicalPath);
 	this->name = basename(fileName);
 
-	snprintf(parentString, 4096, "%s%c", dirname(DirName), isDirectory() ? FILESEP : '\0');
+	bool dirLol = isDirectory();
+
+	snprintf(parentString, 4096, "%s%c", dirname(DirName), FILESEP);
 	this->parent = parentString;
 	#endif
 }
