@@ -39,23 +39,16 @@
 #define TEX_AO "aoMap"
 #endif
 
-typedef struct
-{
-	GLuint VAO;
-
-	GLuint VERTICES;
-	GLuint cVertices;
-
-	GLuint NORMALS;
-	GLuint cNormals;
-
-	GLuint TEXCOORDS;
-	GLuint cTexcoords;
-
-	GLuint INDICES;
-	GLuint cIndices;
-
-} GLData;
+typedef struct {
+	GLvoid* data; /**< Pointer to an element array */
+	size_t dataLength; /**< Number of elements in the array */
+	GLenum type; /**< Type of elements in the array, see https://www.khronos.org/registry/OpenGL-Refpages/gl4/html/glVertexAttribPointer.xhtml */
+	GLuint attribIndex; /**< Index of the vertex attribute in the ShaderProgram */
+	GLint vecDim = 3; /**< Amount of elements per vector */
+	GLsizei stride = 0; /**< Space between vectors */
+	GLvoid* offset = 0; /**< Offset in the vertex buffer */
+	GLuint ID = 0; /**< OpenGL buffer handle */
+} VertexBuffer;
 
 typedef struct
 {
@@ -63,28 +56,38 @@ typedef struct
 	GLuint NORMAL;
 	GLuint METALLIC;
 	GLuint ROUGHNESS;
-} pbrTextures;
+} PBRMaterial;
+
+typedef struct
+{
+	GLuint VAO;
+
+	VertexBuffer vertices;
+	VertexBuffer normals;
+	VertexBuffer texCoords;
+
+	GLuint INDICES;
+	GLuint cIndices;
+} Mesh;
 
 class Model : public Node
 {
 	public:
-		Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices);
-		Model(GLData data, pbrTextures textures);
+		Model(Mesh mesh, PBRMaterial textures);
 		virtual ~Model();
 
 		void render(ShaderProgram &shaderProgram, Camera &cam);
 
 		static GLuint loadTexture(char const * path);
 		static GLuint loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps);
+		static GLint loadArrayBuffer(VertexBuffer &buffer);
 		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount);
 		static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset);
 		static GLuint loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage);
 
 	private:
-		GLData glData;
-		pbrTextures textures;
-
-		
+		Mesh mesh;
+		PBRMaterial material;
 };
 
 #endif // MODEL_H

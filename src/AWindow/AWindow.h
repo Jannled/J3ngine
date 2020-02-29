@@ -1,5 +1,5 @@
 /**
- * \file GLWindow.h
+ * \file AWindow.h
  * \author Jannled
  * \brief Header for a minimal application-window that creates an OpenGL context for Windows and Linux.
  */
@@ -7,12 +7,13 @@
 #ifndef JGLWINDOW_H
 #define JGLWINDOW_H
 
-//Windows
+//Windows __MINGW32__
 #ifdef _WIN32
 #define OS_Windows
+#endif
 
 // Linux
-#elif defined __linux__
+#ifdef __linux__
 #define OS_Linux
 #endif
 
@@ -26,7 +27,6 @@
 
 #include "JKeyCodes.h"
 
-#include <stdbool.h>
 #include "lib/Galogen46.h"
 
 namespace GLWindow
@@ -58,12 +58,12 @@ namespace GLWindow
 
 	void MessageCallback(
 				GLenum source,
-                 GLenum type,
-                 GLuint id,
-                 GLenum severity,
-                 GLsizei length,
-                 const GLchar* message,
-                 const void* userParam
+				GLenum type,
+				GLuint id,
+				GLenum severity,
+				GLsizei length,
+				const GLchar* message,
+				const void* userParam
 	);
 
 	void setKeymap(unsigned int key, unsigned int pos);

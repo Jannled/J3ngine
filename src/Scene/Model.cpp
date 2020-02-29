@@ -7,60 +7,27 @@
 
 #include <iostream>
 
-Model::Model(float vertices[], size_t cVertices, unsigned int indices[], size_t cIndices) 
+Model::Model(Mesh data, PBRMaterial textures)
 	: Node(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
 {
-	glData.cVertices = cVertices;
-	glData.cIndices = cIndices;
-
-	glGenVertexArrays(1, &glData.VAO);
-	glGenBuffers(1, &glData.VERTICES);
-	glGenBuffers(1, &glData.TEXCOORDS);
-	glGenBuffers(1, &glData.INDICES);
-	// bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
-	glBindVertexArray(glData.VAO);
-
-	glBindBuffer(GL_ARRAY_BUFFER, glData.VERTICES);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(*vertices)*cVertices, vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, glData.INDICES);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(*indices)*cIndices, indices, GL_STATIC_DRAW);
-
-	glEnableVertexAttribArray(0);
-
-	// note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
-	glBindBuffer(GL_ARRAY_BUFFER, 0); 
-
-	// remember: do NOT unbind the EBO while a VAO is active as the bound element buffer object IS stored in the VAO; keep the EBO bound.
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	// You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
-	// VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
-	glBindVertexArray(0); 
-}
-
-Model::Model(GLData data, pbrTextures textures)
-	: Node(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f))
-{
-	this->glData = data;
-	this->textures = textures;
+	this->mesh = data;
+	this->material = textures;
 }
 
 void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 {
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, textures.DIFFUSE);
+	glBindTexture(GL_TEXTURE_2D, material.DIFFUSE);
 	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_2D, textures.NORMAL);
+	glBindTexture(GL_TEXTURE_2D, material.NORMAL);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, textures.METALLIC);
+	glBindTexture(GL_TEXTURE_2D, material.METALLIC);
 	glActiveTexture(GL_TEXTURE6);
-	glBindTexture(GL_TEXTURE_2D, textures.ROUGHNESS);
+	glBindTexture(GL_TEXTURE_2D, material.ROUGHNESS);
 	glActiveTexture(GL_TEXTURE7);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glBindVertexArray(glData.VAO);
+	glBindVertexArray(mesh.VAO);
 
 	glm::mat4 model = glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 	glm::mat4 transform = cam.viewProjection() * model;
@@ -70,13 +37,31 @@ void Model::render(ShaderProgram &shaderProgram, Camera &cam)
 	shaderProgram.setMat4f(UNIFORM_MODELSPACE, model);
 	shaderProgram.setMat3f(UNIFORM_MODELNORMAL, modelNormal);
 
-	//printf("Texture: %d\n", textures.DIFFUSE);
-	glDrawElements(GL_TRIANGLES, glData.cIndices, GL_UNSIGNED_INT, 0);
+	//printf("Texture: %d\n", material.DIFFUSE);
+	glDrawElements(GL_TRIANGLES, mesh.cIndices, GL_UNSIGNED_INT, 0);
 }
 
 GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
 {
 	return loadArrayBuffer(data, count, usage, attribIndex, componentCount, 0, (void*) 0);
+}
+
+GLint Model::loadArrayBuffer(VertexBuffer &buffer)
+{
+	size_t elementSize = 
+		(buffer.type==GL_UNSIGNED_SHORT) ? sizeof(GLushort) : 
+		(buffer.type==GL_INT) ? sizeof(GLint) : 
+		(buffer.type==GL_UNSIGNED_INT) ? sizeof(GLuint) :
+		(buffer.type==GL_FLOAT) ? sizeof(GLfloat) : 
+		0;
+
+	glGenBuffers(1, &buffer.ID);
+	glBindBuffer(GL_ARRAY_BUFFER, buffer.ID);
+	glBufferData(GL_ARRAY_BUFFER, elementSize*buffer.dataLength, buffer.data, GL_STATIC_DRAW);
+	glVertexAttribPointer(buffer.attribIndex, buffer.vecDim, buffer.type, GL_FALSE, buffer.stride, buffer.offset);
+	glEnableVertexAttribArray(buffer.attribIndex);
+
+	return buffer.ID;
 }
 
 GLuint Model::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset)
