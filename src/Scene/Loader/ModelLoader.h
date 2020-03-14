@@ -6,11 +6,13 @@
 #include "lib/Galogen46.h"
 
 #include "Scene/Model.h"
+#include "AWindow/File.h"
 
 class Loader
 {
-    static GLuint uploadMesh(Mesh& mesh);
-    static bool loadOBJ(std::vector<Model> models);
-}
+    public:
+        static bool uploadMesh(Mesh& mesh);
+        static bool loadOBJ(File& file, std::vector<Model>& models);
+};
 
 #endif // MODEL_LOADER_H

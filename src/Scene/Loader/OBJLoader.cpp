@@ -4,10 +4,10 @@
 
 #include "lib/tiny_obj_loader.h"
 
-bool Loader::loadOBJ(const char* file, std::vector<Model> models)
+bool Loader::loadOBJ(File& file, std::vector<Model>& models)
 {
-	if(!models)
-		models = new std::vector<Model>();
+	if(&models == NULL)
+		fprintf(stderr, "Can't load models for file \"%s\" to a Nullpointer array", file.getPath());
 
     tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
@@ -33,7 +33,7 @@ bool Loader::loadOBJ(const char* file, std::vector<Model> models)
 	if(ret)
 	{
 		//First load Materials and Textures
-		PBRMaterial textures = new PBRMaterial[materials.size()];
+		PBRMaterial* textures = new PBRMaterial[materials.size()];
 
 		for(int i=0; i<materials.size(); i++)
 		{
@@ -111,24 +111,29 @@ bool Loader::loadOBJ(const char* file, std::vector<Model> models)
 					std::cerr << "Different materials for a single model is not supported right now." << std::endl;
 			}
 
-			Mesh mesh = new Mesh();
+			Mesh *mesh = new Mesh();
 
-			glGenVertexArrays(1, &mesh.VAO);
-			glBindVertexArray(mesh.VAO);
+			glGenVertexArrays(1, &mesh->VAO);
+			glBindVertexArray(mesh->VAO);
 
-			mesh.vertices = new {&vertices[0], vertices.size(), GL_FLOAT, 0, 3};
-			if(!Model::loadArrayBuffer(mesh.vertices))
-				printf("Error while uploading %d vertex elements to the GPU for file %s!", );
-			mesh.normals = new {&vertices[0], vertices.size(), GL_FLOAT, 1, 3};
-			mesh.texCoords = new {&vertices[0], vertices.size(), GL_FLOAT, 2, 2};
+			//printf("Vertices: %d, Normals: %d, UVs: %d\n", vertices.size()/3, normals.size()/3, texCoords.size()/2);
 
-			mesh.INDICES = Model::loadElementBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
-			mesh.cIndices = indices.size();
+			float *test = {0};
+			sizeof(test[0]);
+			
+			mesh->vertices = VertexBuffer{&vertices[0], vertices.size(), GL_FLOAT, 0, 3};
+			mesh->normals = VertexBuffer{&normals[0], normals.size(), GL_FLOAT, 1, 3};
+			mesh->texCoords = VertexBuffer{&texCoords[0], texCoords.size(), GL_FLOAT, 2, 2};
+
+			Loader::uploadMesh(*mesh);
+
+			mesh->INDICES = Model::loadElementBuffer(&indices[0], indices.size(), GL_STATIC_DRAW);
+			mesh->cIndices = indices.size();
 
 			glBindBuffer(GL_ARRAY_BUFFER, 0); 
 			glBindVertexArray(0); 
 			printf("Loaded Model %s with %d vertices and %d faces.\n", shapes[s].name.c_str(), (int) vertices.size(), (int) indices.size());
-			models.push_back(Model(mesh, textures[materialID]));
+			models.push_back(Model(*mesh, textures[materialID]));
 		}
 	}
 	else

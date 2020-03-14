@@ -6,6 +6,7 @@
 
 #include "lib/Galogen46.h"
 #include "lib/tiny_obj_loader.h"
+#include "Scene/Loader/ModelLoader.h"
 
 Scene::Scene(Camera& camera, CubeMap& skybox)
 {
@@ -25,7 +26,7 @@ Camera* Scene::getCamera()
 
 bool Scene::loadToScene(File& file)
 {
-	
+	return Loader::loadOBJ(file, models);
 }
 
 void Scene::update()

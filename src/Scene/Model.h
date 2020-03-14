@@ -46,7 +46,7 @@ typedef struct {
 	GLuint attribIndex; /**< Index of the vertex attribute in the ShaderProgram */
 	GLint vecDim = 3; /**< Amount of elements per vector */
 	GLsizei stride = 0; /**< Space between vectors */
-	GLvoid* offset = 0; /**< Offset in the vertex buffer */
+	GLvoid* offset = (void*) 0; /**< Offset in the vertex buffer */
 	GLuint ID = 0; /**< OpenGL buffer handle */
 } VertexBuffer;
 
