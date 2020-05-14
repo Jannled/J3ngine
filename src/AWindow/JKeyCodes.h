@@ -12,8 +12,11 @@
 
 /** Number of known Keycodes */
 #define JKEY_NUM 102
+
+/** Maximum length of char array with the keycode name */
 #define JKEY_NAME 10
 
+/** Type for keycodes */
 typedef unsigned int KCode_t;
 
 #ifdef OS_Windows

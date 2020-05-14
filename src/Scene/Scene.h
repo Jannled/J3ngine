@@ -2,7 +2,7 @@
 #define JSCENE_H
 
 #include "Model.h"
-#include "Camera.h"
+#include "Scene/Camera/Camera.h"
 #include "CubeMap.h"
 #include "Shader/ShaderProgram.h"
 

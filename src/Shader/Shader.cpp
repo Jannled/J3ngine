@@ -7,13 +7,16 @@
 #include <limits.h>
 #include <stdlib.h>
 
-#include "Utils.h"
+#include "AWindow/File.h"
 
 Shader::Shader(const char *filePath, GLenum type)
 {
 	this->type = type;
 
-	switch (type) {
+	File file(filePath);
+
+	switch (type) 
+	{
 		case GL_VERTEX_SHADER: break;
 
 		case GL_FRAGMENT_SHADER: break;
@@ -21,7 +24,7 @@ Shader::Shader(const char *filePath, GLenum type)
 		default: std::cerr << "Invalid shadertype enum! " << type << std::endl; break;
 	}
 
-	std::ifstream inputStream(filePath, std::ios::in);
+	std::ifstream inputStream(file.getCanonicalPath(), std::ios::in);
 	if(inputStream.is_open())
 	{
 		std::stringstream sstr;
@@ -34,12 +37,8 @@ Shader::Shader(const char *filePath, GLenum type)
 	}
 	else
 	{
-		char absPat[PATH_MAX];
-		absolutePath(filePath, absPat);
-		std::cerr << "Failed to open file \"" << absPat << "\"." << std::endl;
+		std::cerr << "Failed to open file \"" << file.getCanonicalPath() << "\"." << std::endl;
 	}
-		
-	
 }
 
 int Shader::compile()

@@ -8,6 +8,7 @@
 #include "Scene/Model.h"
 #include "Scene/Scene.h"
 #include "Scene/CubeMap.h"
+#include "Scene/Camera/LookCamera.h"
 #include "Shader/Shader.h"
 #include "Shader/ShaderProgram.h"
 
@@ -68,7 +69,7 @@ bool GLWindow::init()
 	GLWindow::Point windowSize = GLWindow::getSize();
 	printf("Window size: %dx%d\n", windowSize.x, windowSize.y);
 
-	Camera* camera = new Camera(windowSize);
+	Camera* camera = new LookCamera(windowSize);
 	CubeMap* skybox = new CubeMap("models/Newport_Loft_Ref.hdr");
 	scene = new Scene(*camera, *skybox);
 
@@ -91,7 +92,6 @@ bool GLWindow::update(float delta)
 	static float time;
 	time += delta;
 	
-
 	program->use();
 
 	if(scene)

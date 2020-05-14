@@ -8,7 +8,7 @@
 #define JGLWINDOW_H
 
 //Windows __MINGW32__
-#ifdef _WIN32
+#if defined _WIN32 || defined __MINGW32__
 #define OS_Windows
 #endif
 

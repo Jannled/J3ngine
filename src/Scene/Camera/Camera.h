@@ -1,9 +1,12 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "Node.h"
+#include "Scene/Node.h"
 
 #include "lib/glm/glm.hpp"
+#include "lib/glm/gtc/matrix_transform.hpp"
+#include "lib/glm/gtx/transform.hpp"
+
 #include "AWindow/AWindow.h"
 
 class Camera : public Node
@@ -13,11 +16,11 @@ class Camera : public Node
 		Camera(GLWindow::Point res);
 		virtual ~Camera();
 
-		glm::mat4 viewProjection();
-		glm::mat4 view();
-		glm::mat4 projection();
-		void setResolution(GLWindow::Point res);
-		void setResolution(int width, int height);
+		virtual glm::mat4 viewProjection();
+		virtual glm::mat4 view();
+		virtual glm::mat4 projection();
+		virtual void setResolution(GLWindow::Point res);
+		virtual void setResolution(int width, int height);
 
 	private:
 		int width, height;

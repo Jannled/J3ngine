@@ -1,6 +1,6 @@
 #include "lib/Galogen46.h"
 
-#include "Camera.h"
+#include "Scene/Camera/Camera.h"
 #include "Node.h"
 #include "Shader/ShaderProgram.h"
 

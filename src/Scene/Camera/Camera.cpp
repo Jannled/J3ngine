@@ -1,9 +1,5 @@
 #include "Camera.h"
 
-#include "lib/glm/glm.hpp"
-#include "lib/glm/gtc/matrix_transform.hpp"
-#include "lib/glm/gtx/transform.hpp"
-
 #include <stdio.h>
 
 Camera::Camera(int width, int height)
@@ -20,12 +16,13 @@ Camera::Camera(GLWindow::Point res)
 
 glm::mat4 Camera::viewProjection()
 {
-    return glm::perspective(glm::pi<float>() * 0.25f, aspectRatio, 0.1f, 100.f) * glm::lookAt(position, fokus, up);
+    printf("I shouldN#t be here...\n");
+    return projection() * view();
 }
 
 glm::mat4 Camera::view()
 {
-    return glm::lookAt(position, fokus, up);
+    return glm::translate(position) * glm::toMat4(rotation) * glm::scale(scale);
 }
 
 glm::mat4 Camera::projection()
