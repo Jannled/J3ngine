@@ -4,6 +4,7 @@
 
 #Binary files
 /bin
+/build
 *.o
 *.exe
 *.out
