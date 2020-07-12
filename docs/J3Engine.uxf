@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>6</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>462</x>
+      <y>660</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>SceneObject
+--
+- position
+- rotation
+- scale
+--
++ translate()
++ rotate()
++ scale()
++ lookAt()
++ update()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1074</x>
+      <y>1038</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Shader
+--
+
+--
++ compile()
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1074</x>
+      <y>852</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>ShaderProgram
+--
+- handle : GLuint
+- type
+--
++ link()
++ use()
+
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>660</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Scene
+--
+
+--
++ render()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>714</y>
+      <w>90</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..n</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>462</x>
+      <y>846</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>StaticObject
+--
+
+--
++ render()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>858</x>
+      <y>846</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Material
+--
+
+--
++ prepare()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>846</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Mesh
+--
+
+--
++ render()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>900</y>
+      <w>90</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..n
+m2=0..n</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>462</x>
+      <y>1032</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>DynamicObject
+--
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>522</x>
+      <y>768</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>522</x>
+      <y>954</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>474</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>CubeMap
+--
+
+--
++ render()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>324</x>
+      <y>582</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+m2=0..n</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>456</x>
+      <y>474</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Camera
+--
+
+--
++ render()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>780</x>
+      <y>900</y>
+      <w>90</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=0..n</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>516</x>
+      <y>582</y>
+      <w>18</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>660</x>
+      <y>660</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Light
+--
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>582</x>
+      <y>714</y>
+      <w>90</w>
+      <h>18</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;130.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>978</x>
+      <y>906</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1
+m2=0..n</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1128</x>
+      <y>960</y>
+      <w>30</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=2..n
+m2=0..n</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>1050</x>
+      <y>810</y>
+      <w>228</w>
+      <h>366</h>
+    </coordinates>
+    <panel_attributes>Shader
+--
+bg=orange
+group=1</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>228</x>
+      <y>438</y>
+      <w>792</w>
+      <h>738</h>
+    </coordinates>
+    <panel_attributes>Scene
+--
+bg=orange</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>756</x>
+      <y>168</y>
+      <w>258</w>
+      <h>204</h>
+    </coordinates>
+    <panel_attributes>File
+--
+- path : const char*
+- parent : const char*
+- name : const char*
+- canonicalPath : const char*
+--
+File()
+File(path : const char*)
+~File()
+
++ getName() : const char*
++ getPath() : const char* 
++ getCanonicalPath() : const char*
++ getParent() : const char*
++ getParentFile() : File&amp;
++ exists() : bool
++ isDirectory() : bool
++ isFile() : bool
+
+_+ getWorkingDirectory(char *buf, unsigned int size) : const char*_
+_+ toCanonicalPath(const char* path, char* buff) : const char*_
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>264</x>
+      <y>258</y>
+      <w>126</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>WindowManager
+--
+--
+_+ getWindowCount() : size_t_</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>480</x>
+      <y>258</y>
+      <w>204</w>
+      <h>114</h>
+    </coordinates>
+    <panel_attributes>Window
+--
+- title : char*
+- width : unsigned int
+- height : unsigned int
+--
++ setTitle(title : const char*)
++ setSize(width : unsigned int, height : unsigned int)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>384</x>
+      <y>318</y>
+      <w>108</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=0..n
+m2=1</panel_attributes>
+    <additional_attributes>160.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLPackage</id>
+    <coordinates>
+      <x>228</x>
+      <y>36</y>
+      <w>822</w>
+      <h>360</h>
+    </coordinates>
+    <panel_attributes>Window
+--
+bg=orange
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
