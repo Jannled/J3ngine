@@ -3,8 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef _WIN32	// TODO Let CMake detect the OS
-
+// TODO Let CMake detect the OS
+#ifdef _WIN32	
+#define OS_WINDOWS
 #include <windows.h> //Wont compile without it when using MSVC, worked fine on MingW
 #include <io.h>
 #include <direct.h> // _getcwd
@@ -17,7 +18,7 @@
 #endif
 
 #elif defined __unix__
-
+#define OS_LINUX
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>

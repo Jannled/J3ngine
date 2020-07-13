@@ -2,7 +2,14 @@
 
 #include <stdio.h>
 
-size_t J3::WindowManager::getWindowCount()
+using namespace J3;
+
+size_t WindowManager::getWindowCount()
 {
 	return 1;
+}
+
+Window* WindowManager::getWindow(size_t id)
+{
+	return NULL;
 }

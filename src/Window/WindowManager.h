@@ -11,7 +11,7 @@ namespace J3
 	{
 		public:
 			static size_t getWindowCount();
-			static Window getWindow(size_t id);
+			static Window* getWindow(size_t id);
 	};
 }
 

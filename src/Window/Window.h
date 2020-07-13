@@ -3,16 +3,20 @@
 
 namespace J3
 {
-    
-    class Window
-    {
-        public:
-            Window();
-            ~Window();
+	typedef struct {
+		unsigned int x, y;
+	} Vec2D;
 
-            void setTitle(const char* title);
-            void setSize(unsigned int width, unsigned int height);
-    };    
+	class Window
+	{
+		public:
+			Window();
+			~Window();
+
+			void setTitle(const char* title);
+			void setSize(unsigned int width, unsigned int height);
+			void setSize(Vec2D dimension);
+	};    
 }
 
 #endif // J3_WINDOW_H
