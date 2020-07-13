@@ -2,7 +2,11 @@
 
 #include "Info.h"
 
+#include "Window/WindowManager.h"
+
 void main(int argc, char** argv)
 {
-    printf("J3Engine Version %d.%d.%d launched with %d params!", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, argc);
+    printf("J3Engine Version %d.%d.%d launched with %d params!\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, argc);
+
+    printf("Fenster: %zd\n", J3::WindowManager::getWindowCount());
 }

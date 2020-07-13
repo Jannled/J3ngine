@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#ifdef OS_WINDOWS
+#ifdef _WIN32	// TODO Let CMake detect the OS
+
+#include <windows.h> //Wont compile without it when using MSVC, worked fine on MingW
 #include <io.h>
 #include <direct.h> // _getcwd
 #include <conio.h>
@@ -13,13 +15,18 @@
 #ifndef PATH_MAX
 #define PATH_MAX MAX_PATH
 #endif
-#elif defined OS_LINUX
+
+#elif defined __unix__
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <libgen.h>
+
+#else
+#error "J3File: Unknown OS!"
 #endif
 
 File::File()
@@ -47,7 +54,7 @@ void File::init(const char* path)
 	char sFName[_MAX_FNAME];
 	char sExt[_MAX_EXT];
 
-	_splitpath(canonicalPath, sDrive, sDir, sFName, sExt);
+	_splitpath_s(canonicalPath, sDrive, sDir, sFName, sExt);
 	snprintf(nameString, 4096, "%s%s", sFName, sExt);
 	snprintf(parentString, 4096, "%s%s", sDrive, sDir);
 
