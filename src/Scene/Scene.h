@@ -4,6 +4,8 @@
 #include "Camera.h"
 #include "CubeMap.h"
 
+#include <vector>
+
 namespace J3
 {
 	class Scene
@@ -12,9 +14,11 @@ namespace J3
 			Scene();
 			~Scene();
 
+			void update();
 			void render();
 
 		private:
+			std::vector<Node> nodes;
 			Camera* camera;
 			CubeMap* cubeMap;
 	};

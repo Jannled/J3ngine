@@ -1,11 +1,11 @@
 #ifndef J3_STATICOBJECT_H
 #define J3_STATICOBJECT_H
 
-#include "Node.h"
+#include "SceneObject.h"
 
 namespace J3
 {
-	class StaticObject : public Node
+	class StaticObject : public SceneObject
 	{
 		public:
 			StaticObject();

@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 # set the project name
 project(J3Engine VERSION 0.0.1)
 
+# Get the current git hash
 execute_process(
     COMMAND
         git rev-parse --short HEAD
@@ -16,7 +17,6 @@ execute_process(
 )
 
 message("Git Hash is: ${SHORT_HASH}")
-
 configure_file(src/Info.h.in Info.h)
 
 file(GLOB_RECURSE J3Engine_SRC "src/*.h" "src/*.cpp")

@@ -1,6 +1,8 @@
 #ifndef J3_NODE_H
 #define J3_NODE_H
 
+#include <vector>
+
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
@@ -11,20 +13,16 @@ namespace J3
 	{
 		public:
 			Node();
+			Node(char* name);
 			~Node();
 
-			void translate(glm::vec3 translation);
-			void rotate(glm::vec3 rotation);
-			void scale(glm::vec3 scale);
+			void parent(Node& node);
+			void appendChild(Node& node);
 
-			void lookAt(glm::vec3 pos, glm::vec3 up = glm::vec3(0.0, 1.0, 0.0));
-
-			void update();
-
-		private:
-			glm::vec3 position;
-			glm::quat rotation;
-			glm::vec3 scaling;
+		protected:
+			Node* parentNode;
+			std::vector<Node> children;
+			char* name;
 	};
 }
 
