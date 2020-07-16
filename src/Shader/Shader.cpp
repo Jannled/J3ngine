@@ -84,5 +84,6 @@ GLint Shader::isCompiled()
 
 Shader::~Shader()
 {
+	// TODO Free up Shader
 	glDeleteShader(handle);
 }

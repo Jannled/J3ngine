@@ -2,6 +2,7 @@
 #define J3_STATICOBJECT_H
 
 #include "SceneObject.h"
+#include "Mesh.h"
 
 namespace J3
 {
@@ -12,6 +13,9 @@ namespace J3
 			~StaticObject();
 
 			void render();
+
+		protected:
+			Mesh* meshes;
 	};
 }
 

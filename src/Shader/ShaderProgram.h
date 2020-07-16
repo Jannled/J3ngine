@@ -12,7 +12,10 @@ namespace J3
 	{
 		public:
 			ShaderProgram(Shader &vertexShader, Shader &fragmentShader);
+			ShaderProgram(const char* vertexShader, const char* fragmentShader);
 			~ShaderProgram();
+
+			void init(Shader &vertexShader, Shader &fragmentShader);
 
 			void link();
 			void use();
@@ -34,7 +37,7 @@ namespace J3
 			const GLuint programID;
 
 		private:
-
+			Shader* shaders;
 			size_t shaderCount = 2;
 	};
 }

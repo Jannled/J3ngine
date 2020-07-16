@@ -19,10 +19,11 @@ namespace J3
 			void parent(Node& node);
 			void appendChild(Node& node);
 
+			char* name;
+
 		protected:
 			Node* parentNode;
 			std::vector<Node> children;
-			char* name;
 	};
 }
 

@@ -8,10 +8,24 @@ using namespace J3;
 
 ShaderProgram::ShaderProgram(Shader &vertexShader, Shader &fragmentShader) : programID(glCreateProgram())
 {
+	init(vertexShader, fragmentShader);
+}
+
+ShaderProgram::ShaderProgram(const char* vertexShader, const char* fragmentShader) : programID(glCreateProgram())
+{
+	Shader *svert = new Shader(vertexShader, GL_VERTEX_SHADER);
+	svert->compile();
+	Shader *sfrag = new Shader(fragmentShader, GL_FRAGMENT_SHADER);
+	sfrag->compile();
+	init(*svert, *sfrag);
+}
+
+void ShaderProgram::init(Shader &vertexShader, Shader &fragmentShader)
+{
+	shaders = new Shader[2]{vertexShader, fragmentShader};
 	glAttachShader(programID, vertexShader.handle);
 	glAttachShader(programID, fragmentShader.handle);
 }
-
 
 void ShaderProgram::link()
 {
@@ -39,7 +53,7 @@ GLint ShaderProgram::getUniformLocation(const char* name)
 
 void ShaderProgram::setBool(const char* name, bool value)
 {
-	
+	// TODO Implement setBool
 }
 
 void ShaderProgram::setInt(const char* name, int value)
@@ -79,5 +93,5 @@ void ShaderProgram::setMat4f(const char* name, glm::mat4 value)
 
 ShaderProgram::~ShaderProgram()
 {
-	
+	// TODO Free up ShaderProgram
 }

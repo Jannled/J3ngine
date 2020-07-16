@@ -9,7 +9,6 @@ Camera::Camera(unsigned int width, unsigned int height)
 
 glm::mat4 Camera::viewProjection()
 {
-	printf("I shouldN#t be here...\n");
 	return projection() * view();
 }
 
