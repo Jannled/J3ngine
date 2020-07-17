@@ -1,4 +1,6 @@
-#include "Node.h"
+class Camera;
+
+#include "Node.hpp"
 
 using namespace J3;
 
@@ -10,6 +12,16 @@ Node::Node()
 Node::Node(char* name)
 {
 	this->name = name;
+}
+
+void Node::update()
+{
+
+}
+
+void Node::render()
+{
+	
 }
 
 void Node::parent(Node& node)

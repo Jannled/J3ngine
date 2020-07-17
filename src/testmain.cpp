@@ -2,9 +2,9 @@
 
 #include "Info.h"
 
-#include "Window/WindowManager.h"
+#include "Window/WindowManager.hpp"
 
-#include "Scene/Camera.h"
+#include "Scene/Camera.hpp"
 
 void main(int argc, char** argv)
 {

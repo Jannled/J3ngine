@@ -1,8 +1,8 @@
 #ifndef J3_SCENE_H
 #define J3_SCENE_H
 
-#include "Camera.h"
-#include "CubeMap.h"
+#include "Camera.hpp"
+#include "CubeMap.hpp"
 
 #include <vector>
 
@@ -11,7 +11,7 @@ namespace J3
 	class Scene
 	{
 		public:
-			Scene();
+			Scene(Camera& camera);
 			~Scene();
 
 			void update();
@@ -19,10 +19,9 @@ namespace J3
 
 		private:
 			std::vector<Node> nodes;
-			Camera* camera;
+			Camera& camera;
 			CubeMap* cubeMap;
 	};
 }
-
 
 #endif // J3_SCENE_H

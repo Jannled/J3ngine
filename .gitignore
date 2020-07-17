@@ -8,3 +8,6 @@
 *.o
 *.exe
 *.out
+
+# NaturalDocs
+/docs/Working Data

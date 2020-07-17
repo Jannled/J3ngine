@@ -4,7 +4,7 @@
 #include "Galogen46.h"
 #include "glm/glm.hpp"
 
-#include "Shader.h"
+#include "Shader.hpp"
 
 namespace J3
 {

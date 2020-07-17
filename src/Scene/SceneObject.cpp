@@ -1,4 +1,4 @@
-#include "SceneObject.h"
+#include "SceneObject.hpp"
 
 using namespace J3;
 

@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "Node.hpp"
+
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
 #include "glm/gtx/quaternion.hpp"
@@ -14,8 +16,10 @@ namespace J3
 		public:
 			Node();
 			Node(char* name);
-			~Node();
+			virtual ~Node();
 
+			virtual void update();
+			virtual void render(Node& camera);
 			void parent(Node& node);
 			void appendChild(Node& node);
 

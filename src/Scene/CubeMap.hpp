@@ -3,8 +3,8 @@
 
 #include "Galogen46.h"
 
-#include "Camera.h"
-#include "Shader/ShaderProgram.h"
+#include "Camera.hpp"
+#include "Shader/ShaderProgram.hpp"
 
 namespace J3
 {

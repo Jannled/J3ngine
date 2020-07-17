@@ -19,7 +19,7 @@ execute_process(
 message("Git Hash is: ${SHORT_HASH}")
 configure_file(src/Info.h.in Info.h)
 
-file(GLOB_RECURSE J3Engine_SRC "src/*.h" "src/*.cpp")
+file(GLOB_RECURSE J3Engine_SRC "src/*.h" "src/*.hpp" "src/*.cpp")
 file(GLOB_RECURSE J3Engine_LIB "lib/*.hpp" "lib/*.h" "lib/*.cpp" "lib/*.c")
 
 # add the executable

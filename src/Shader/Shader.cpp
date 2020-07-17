@@ -1,4 +1,4 @@
-#include "Shader.h"
+#include "Shader.hpp"
 
 using namespace J3;
 
@@ -9,7 +9,7 @@ using namespace J3;
 #include <limits.h>
 #include <stdlib.h>
 
-#include "Window/File.h"
+#include "Window/File.hpp"
 
 Shader::Shader(const char* filePath, GLenum type) : type(type), handle(glCreateShader(type))
 {

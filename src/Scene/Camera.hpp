@@ -1,7 +1,7 @@
 #ifndef J3_CAMERA_H
 #define J3_CAMERA_H
 
-#include "SceneObject.h"
+#include "SceneObject.hpp"
 
 #include "Galogen46.h"
 

@@ -1,7 +1,7 @@
 #ifndef J3_SCENEOBJECT_H
 #define J3_SCENEOBJECT_H
 
-#include "Node.h"
+#include "Node.hpp"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/quaternion.hpp"
@@ -9,7 +9,7 @@
 
 namespace J3
 {
-	class SceneObject : protected Node
+	class SceneObject : public Node
 	{
 		public:
 			SceneObject();

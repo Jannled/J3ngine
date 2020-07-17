@@ -1,8 +1,8 @@
-#include "CubeMap.h"
+#include "CubeMap.hpp"
 
 using namespace J3;
 
-#include "StaticObject.h"
+#include "StaticMesh.hpp"
 
 #include "stb/stb_image.h"
 
@@ -251,8 +251,8 @@ CubeMap::CubeMap(const char* path)
     for (unsigned int mip = 0; mip < maxMipLevels; ++mip)
     {
         // reisze framebuffer according to mip-level size.
-        unsigned int mipWidth = 128 * std::pow(0.5, mip);
-        unsigned int mipHeight = 128 * std::pow(0.5, mip);
+        unsigned int mipWidth = (unsigned int) (128 * std::pow(0.5, mip));
+        unsigned int mipHeight = (unsigned int) (128 * std::pow(0.5, mip));
         glBindRenderbuffer(GL_RENDERBUFFER, captureRBO);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, mipWidth, mipHeight);
         glViewport(0, 0, mipWidth, mipHeight);

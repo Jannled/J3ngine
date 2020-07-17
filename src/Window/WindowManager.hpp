@@ -3,7 +3,7 @@
 
 #include <stdio.h>
 
-#include "Window.h"
+#include "Window.hpp"
 
 namespace J3 
 {
