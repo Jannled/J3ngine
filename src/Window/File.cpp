@@ -3,9 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 
-// TODO Let CMake detect the OS
-#ifdef _WIN32	
-#define OS_WINDOWS
+#if defined(OS_WINDOWS)
 #include <windows.h> //Wont compile without it when using MSVC, worked fine on MingW
 #include <io.h>
 #include <direct.h> // _getcwd
@@ -17,7 +15,7 @@
 #define PATH_MAX MAX_PATH
 #endif
 
-#elif defined __unix__
+#elif defined(__unix__)
 #define OS_LINUX
 #include <unistd.h>
 #include <stdlib.h>

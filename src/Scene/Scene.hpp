@@ -3,6 +3,7 @@
 
 #include "Camera.hpp"
 #include "CubeMap.hpp"
+#include "StaticMesh.hpp"
 
 #include <vector>
 
@@ -18,7 +19,8 @@ namespace J3
 			void render();
 
 		private:
-			std::vector<Node> nodes;
+			std::vector<StaticMesh> renderTargets;
+			Node* rootNode;
 			Camera& camera;
 			CubeMap* cubeMap;
 	};

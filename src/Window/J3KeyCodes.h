@@ -17,7 +17,7 @@
 /** Type for keycodes */
 typedef unsigned int KCode_t;
 
-#ifdef OS_Windows
+#if defined(OS_WINDOWS)
 #include <windows.h>
 
 #define B_LMB          VK_LBUTTON
@@ -135,7 +135,7 @@ typedef unsigned int KCode_t;
 #define K_NUM_0      VK_NUMPAD_0
 #endif
 
-#ifdef OS_Linux
+#if defined(OS_LINUX)
 #define XK_MISCELLANY
 #define XK_LATIN1
 #include <X11/keysymdef.h>

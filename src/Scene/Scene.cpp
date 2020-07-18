@@ -1,7 +1,5 @@
 #include "Scene.hpp"
 
-#include "StaticMesh.hpp"
-
 #include "Galogen46.h"
 
 using namespace J3;
@@ -16,9 +14,10 @@ Scene::Scene(Camera& camera) : camera(camera)
 
 void Scene::update()
 {
-	for(Node& n : nodes)
+	// TODO implement recursion
+	for(Node& node : rootNode->children)
 	{
-		n.update();
+		node.update();
 	}
 }
 
@@ -27,10 +26,8 @@ void Scene::render()
 	if(cubeMap)
 		cubeMap->renderSkybox(camera);
 
-	for(Node& n : nodes)
+	for(StaticMesh& n : renderTargets)
 	{
-		
-
 		n.render();
 	}
 }

@@ -19,11 +19,6 @@ void Node::update()
 
 }
 
-void Node::render()
-{
-	
-}
-
 void Node::parent(Node& node)
 {
 	node.children.push_back(node);

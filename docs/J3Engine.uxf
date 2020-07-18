@@ -5,7 +5,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>576</x>
-      <y>704</y>
+      <y>848</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -26,7 +26,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1392</x>
-      <y>1208</y>
+      <y>1352</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -43,7 +43,7 @@
     <id>UMLClass</id>
     <coordinates>
       <x>1392</x>
-      <y>960</y>
+      <y>1104</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -59,13 +59,13 @@
     <id>UMLClass</id>
     <coordinates>
       <x>48</x>
-      <y>704</y>
+      <y>848</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
     <panel_attributes>Scene
 --
-
+- 
 --
 + Scene(camera : Camera&amp;)
 + update()
@@ -76,12 +76,12 @@
     <id>Relation</id>
     <coordinates>
       <x>208</x>
-      <y>776</y>
+      <y>920</y>
       <w>120</w>
       <h>32</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
-m1=0..n
+m1=1
 m2=0..n</panel_attributes>
     <additional_attributes>130.0;10.0;10.0;10.0</additional_attributes>
   </element>
@@ -89,7 +89,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>576</x>
-      <y>952</y>
+      <y>1096</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -105,7 +105,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1104</x>
-      <y>952</y>
+      <y>1096</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -123,7 +123,7 @@ PBRMaterial
     <id>UMLClass</id>
     <coordinates>
       <x>840</x>
-      <y>952</y>
+      <y>1096</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -141,7 +141,7 @@ Mesh
     <id>Relation</id>
     <coordinates>
       <x>736</x>
-      <y>1024</y>
+      <y>1168</y>
       <w>120</w>
       <h>32</h>
     </coordinates>
@@ -154,7 +154,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>576</x>
-      <y>1200</y>
+      <y>1344</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -169,7 +169,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>656</x>
-      <y>848</y>
+      <y>992</y>
       <w>24</w>
       <h>120</h>
     </coordinates>
@@ -180,7 +180,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>656</x>
-      <y>1096</y>
+      <y>1240</y>
       <w>24</w>
       <h>120</h>
     </coordinates>
@@ -191,7 +191,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>48</x>
-      <y>952</y>
+      <y>1096</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -206,7 +206,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>128</x>
-      <y>848</y>
+      <y>992</y>
       <w>40</w>
       <h>120</h>
     </coordinates>
@@ -219,7 +219,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>568</x>
-      <y>456</y>
+      <y>600</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -239,7 +239,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1000</x>
-      <y>1024</y>
+      <y>1168</y>
       <w>120</w>
       <h>32</h>
     </coordinates>
@@ -252,7 +252,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>648</x>
-      <y>600</y>
+      <y>744</y>
       <w>24</w>
       <h>120</h>
     </coordinates>
@@ -263,7 +263,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>840</x>
-      <y>704</y>
+      <y>848</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -278,7 +278,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>736</x>
-      <y>776</y>
+      <y>920</y>
       <w>120</w>
       <h>24</h>
     </coordinates>
@@ -289,7 +289,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1264</x>
-      <y>1024</y>
+      <y>1168</y>
       <w>144</w>
       <h>32</h>
     </coordinates>
@@ -302,7 +302,7 @@ m2=0..n</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1464</x>
-      <y>1104</y>
+      <y>1248</y>
       <w>40</w>
       <h>120</h>
     </coordinates>
@@ -315,7 +315,7 @@ m2=0..n</panel_attributes>
     <id>UMLPackage</id>
     <coordinates>
       <x>1360</x>
-      <y>904</y>
+      <y>1048</y>
       <w>304</w>
       <h>488</h>
     </coordinates>
@@ -329,7 +329,7 @@ bg=orange
     <id>UMLClass</id>
     <coordinates>
       <x>704</x>
-      <y>48</y>
+      <y>192</y>
       <w>344</w>
       <h>272</h>
     </coordinates>
@@ -362,7 +362,7 @@ _+ toCanonicalPath(const char* path, char* buff) : const char*_
     <id>UMLClass</id>
     <coordinates>
       <x>48</x>
-      <y>168</y>
+      <y>312</y>
       <w>184</w>
       <h>152</h>
     </coordinates>
@@ -377,7 +377,7 @@ _+ getWindow(id : size_t) : &amp;Window_</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>336</x>
-      <y>168</y>
+      <y>312</y>
       <w>272</w>
       <h>152</h>
     </coordinates>
@@ -388,16 +388,17 @@ _+ getWindow(id : size_t) : &amp;Window_</panel_attributes>
 - height : unsigned int
 --
 + setTitle(title : const char*)
-+ setSize(width : unsigned int, height : unsigned int)
++ resize(width : unsigned int, height : unsigned int)
 + showCursor(show : bool)
-+ fullscreen(fullscreen : bool)</panel_attributes>
++ fullscreen(fullscreen : bool)
++ getMilliseconds() : long</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>224</x>
-      <y>248</y>
+      <y>392</y>
       <w>128</w>
       <h>32</h>
     </coordinates>
@@ -410,7 +411,7 @@ m2=1</panel_attributes>
     <id>UMLPackage</id>
     <coordinates>
       <x>0</x>
-      <y>0</y>
+      <y>144</y>
       <w>1096</w>
       <h>352</h>
     </coordinates>
@@ -424,7 +425,7 @@ bg=orange
     <id>UMLClass</id>
     <coordinates>
       <x>312</x>
-      <y>704</y>
+      <y>848</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -433,7 +434,6 @@ bg=orange
 + name : char*
 --
 + update()
-+ render()
 + parent(node : Node&amp;)
 + appendChild(node : Node&amp;)</panel_attributes>
     <additional_attributes/>
@@ -442,7 +442,7 @@ bg=orange
     <id>Relation</id>
     <coordinates>
       <x>472</x>
-      <y>768</y>
+      <y>912</y>
       <w>120</w>
       <h>24</h>
     </coordinates>
@@ -453,7 +453,7 @@ bg=orange
     <id>Relation</id>
     <coordinates>
       <x>336</x>
-      <y>632</y>
+      <y>776</y>
       <w>136</w>
       <h>88</h>
     </coordinates>
@@ -466,7 +466,7 @@ m2=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>840</x>
-      <y>1200</y>
+      <y>1344</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -488,7 +488,7 @@ VertexBuffer
     <id>Relation</id>
     <coordinates>
       <x>912</x>
-      <y>1096</y>
+      <y>1240</y>
       <w>40</w>
       <h>120</h>
     </coordinates>
@@ -501,7 +501,7 @@ m2=0..n</panel_attributes>
     <id>UMLNote</id>
     <coordinates>
       <x>952</x>
-      <y>1128</y>
+      <y>1272</y>
       <w>112</w>
       <h>56</h>
     </coordinates>
@@ -515,7 +515,7 @@ bg=blue</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>120</x>
-      <y>1064</y>
+      <y>1208</y>
       <w>1288</w>
       <h>384</h>
     </coordinates>
@@ -528,7 +528,7 @@ m2=0..n</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1104</x>
-      <y>1200</y>
+      <y>1344</y>
       <w>168</w>
       <h>152</h>
     </coordinates>
@@ -541,7 +541,7 @@ Material
     <id>UMLPackage</id>
     <coordinates>
       <x>0</x>
-      <y>408</y>
+      <y>552</y>
       <w>1320</w>
       <h>984</h>
     </coordinates>
@@ -554,7 +554,7 @@ bg=orange</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>128</x>
-      <y>512</y>
+      <y>656</y>
       <w>456</w>
       <h>208</h>
     </coordinates>

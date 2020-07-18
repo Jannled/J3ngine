@@ -19,15 +19,17 @@ namespace J3
 			virtual ~Node();
 
 			virtual void update();
-			virtual void render(Node& camera);
 			void parent(Node& node);
 			void appendChild(Node& node);
 
-			char* name;
+			Node* getParent();
 
+			// CLUDGE
+			char* name;
+			std::vector<Node> children;
 		protected:
 			Node* parentNode;
-			std::vector<Node> children;
+			
 	};
 }
 

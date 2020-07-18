@@ -1,0 +1,22 @@
+#define VERSION_MAJOR @J3Engine_VERSION_MAJOR@
+#define VERSION_MINOR @J3Engine_VERSION_MINOR@
+#define VERSION_PATCH @J3Engine_VERSION_PATCH@
+
+#define GIT_SHORT_HASH "@SHORT_HASH@"
+
+#define OS_FULLNAME "@CMAKE_SYSTEM@"
+
+// TODO Maybe use CMake to determine what platform where on
+#if defined(_WIN32)
+#ifndef OS_WINDOWS
+#define OS_WINDOWS
+#endif
+
+#elif defined(__linux__)
+#ifndef OS_LINUX
+#define OS_LINUX
+#endif
+
+#else
+#error "J3Engine: I have no clue what platform I'm compiling on"
+#endif
