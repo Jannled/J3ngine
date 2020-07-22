@@ -13,7 +13,7 @@ namespace J3
 			StaticMesh(Mesh& mesh);
 			~StaticMesh();
 
-			void render();
+			void render(glm::mat4 viewProjection);
 			void prepare(PBRMaterial& material);
 
 		protected:

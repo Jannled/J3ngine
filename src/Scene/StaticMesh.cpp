@@ -12,7 +12,7 @@ StaticMesh::~StaticMesh()
 
 }
 
-void StaticMesh::render()
+void StaticMesh::render(glm::mat4 viewProjection)
 {
     
 }

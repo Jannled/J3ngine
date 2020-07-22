@@ -9,7 +9,7 @@ size_t WindowManager::getWindowCount()
 	return 1;
 }
 
-Window* WindowManager::getWindow(size_t id)
+/* Window* WindowManager::getWindow(size_t id)
 {
 	return NULL;
-}
+}*/

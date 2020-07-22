@@ -2,9 +2,7 @@
 
 #include <stdio.h>
 
-using namespace J3;
-
-void Window::MessageCallback(
+void J3Window::MessageCallback(
 				GLenum source,
 				 GLenum type,
 				 GLuint id,
@@ -75,11 +73,3 @@ void Window::MessageCallback(
 
 	fprintf(stderr, "[OpenGL]%s %s by %s: %s\n", mseverity, mtype, msource, message);
 }
-
-#ifdef OS_WINDOWS
-#include "Window_win.incl"
-#endif
-
-#ifdef OS_LINUX
-#include "Window_x11.incl"
-#endif

@@ -5,7 +5,7 @@
 
 namespace J3
 {
-	typedef struct
+	typedef struct VertexBuffer
     {
         GLvoid* data; /**< Pointer to an element array */
         size_t dataLength; /**< Number of elements in the array */

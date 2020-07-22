@@ -26,10 +26,17 @@ void Scene::render()
 	if(cubeMap)
 		cubeMap->renderSkybox(camera);
 
+	glm::mat4 viewProj = camera.viewProjection();
+
 	for(StaticMesh& n : renderTargets)
 	{
-		n.render();
+		n.render(viewProj);
 	}
+}
+
+void Scene::setResolution(GLuint width, GLuint height)
+{
+	camera.setResolution(width, height);
 }
 
 Scene::~Scene()

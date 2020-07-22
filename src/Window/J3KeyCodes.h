@@ -14,11 +14,11 @@
 /** Maximum length of char array with the keycode name */
 #define JKEY_NAME_LEN 10
 
-/** Type for keycodes */
-typedef unsigned int KCode_t;
-
 #if defined(OS_WINDOWS)
 #include <windows.h>
+
+/** Type for keycodes */
+typedef WPARAM KCode_t;
 
 #define B_LMB          VK_LBUTTON
 #define B_RMB          VK_RBUTTON
@@ -139,6 +139,9 @@ typedef unsigned int KCode_t;
 #define XK_MISCELLANY
 #define XK_LATIN1
 #include <X11/keysymdef.h>
+
+/** Type for keycodes */
+typedef unsigned int KCode_t;
 
 #define B_LMB          1
 #define B_RMB          3

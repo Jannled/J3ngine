@@ -8,15 +8,14 @@ namespace J3
 {
 	typedef struct
 	{
-		
+		Shader& shader;
+
+		GLuint DIFFUSE;
 	} Material;
 	
 
-	typedef struct
+	typedef struct PBRMaterial : Material
 	{
-		Material material;
-		
-		GLuint DIFFUSE;
 		GLuint NORMAL;
 		GLuint METALLIC;
 		GLuint ROUGHNESS;

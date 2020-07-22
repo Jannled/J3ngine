@@ -1,5 +1,5 @@
 /**
- * \file Window_win.cpp
+ * \file GLWindow_win.cpp
  * \author Jannled
  * \brief Windows implementation for a simple OpenGL window
  * 
@@ -8,13 +8,17 @@
 
 #include "Window.hpp"
 
+#ifdef OS_WINDOWS
+
+// Sample code showing how to create a modern OpenGL window and rendering context on Win32.
+// Thanks to nickrolfe: https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c
 #include <windows.h>
 #include <stdio.h>
 #include <iostream>
 #include <shellapi.h>
 
-// Sample code showing how to create a modern OpenGL window and rendering context on Win32.
-// Thanks to nickrolfe: https://gist.github.com/nickrolfe/1127313ed1dbf80254b614a721b3ee9c
+#include "Galogen46.h"
+
 typedef HGLRC WINAPI wglCreateContextAttribsARB_type(HDC hdc, HGLRC hShareContext, const int *attribList);
 wglCreateContextAttribsARB_type *wglCreateContextAttribsARB;
 
@@ -41,110 +45,27 @@ wglChoosePixelFormatARB_type *wglChoosePixelFormatARB;
 #define WGL_FULL_ACCELERATION_ARB 0x2027
 #define WGL_TYPE_RGBA_ARB 0x202B
 
+//Raw Mouse input
+#ifndef HID_USAGE_PAGE_GENERIC
+#define HID_USAGE_PAGE_GENERIC  ((USHORT) 0x01)
+#endif
+#ifndef HID_USAGE_GENERIC_MOUSE
+#define HID_USAGE_GENERIC_MOUSE ((USHORT) 0x02)
+#endif
+RAWINPUTDEVICE Rid[1];
+
 //Window handles
-static HINSTANCE* _inst;
-static HINSTANCE* _prev; 
-static LPSTR* _cmd_line; 
-static int* _show;
+HINSTANCE *_inst;
+HINSTANCE *_prev; 
+LPSTR *_cmd_line; 
+int *_show;
 
 HWND _window;
 
-using namespace J3;
-
-void Window::messageBox(const char *msg)
+static void fatal_error(const char *msg)
 {
 	MessageBoxA(NULL, msg, "Error", MB_OK | MB_ICONEXCLAMATION);
-}
-
-long Window::getMilliseconds()
-{
-	SYSTEMTIME time;
-	GetSystemTime(&time);
-	return (((time.wHour * 60 + time.wMinute) * 60 + time.wSecond) * 1000) + time.wMilliseconds;
-}
-
-Window::Window(char* title, unsigned int width, unsigned int height)
-{
-	HWND window = create_window(*_inst, title, width, height);
-	HDC gldc = GetDC(window);
-	HGLRC glrc = init_opengl(gldc);
-
-	ShowWindow(window, *_show);
-
-	UpdateWindow(window);
-
-	//Register error logger
-	glEnable(GL_DEBUG_OUTPUT);
-	glDebugMessageCallback(MessageCallback, 0);
-
-	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << "\n";
-	std::cout << "GL Version: " << glGetString(GL_VERSION) << "\n";
-	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
-
-	/*if(!init())
-		return 1;*/
-
-	double prevTime = getMilliseconds();
-	double currentTime = getMilliseconds();
-	double deltaTime = 0.0;
-
-	bool running = true;
-	while (running)
-	{
-		MSG msg;
-		while (PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
-		{
-			if (msg.message == WM_QUIT)
-			{
-				running = false;
-			}
-			else
-			{
-				TranslateMessage(&msg);
-				DispatchMessageA(&msg);
-			}
-		}
-
-		currentTime = getMilliseconds();
-		deltaTime = double(currentTime - prevTime) * 0.001;
-		prevTime = currentTime;
-
-		//GLWindow::update(deltaTime);
-		SwapBuffers(gldc);
-	}
-
-	//quit();
-
-	//return 0;
-}
-
-void Window::setTitle(const char* title)
-{
-
-}
-
-void Window::resize(unsigned int width, unsigned int height)
-{
-
-}
-
-void Window::resize(Vec2D dimension)
-{
-	
-}
-
-void Window::showCursor(bool show)
-{
-	
-}
-void Window::fullscreen(bool fullscreen)
-{
-
-}
-
-Window::~Window()
-{
-
+	exit(EXIT_FAILURE);
 }
 
 static void init_opengl_extensions()
@@ -163,8 +84,7 @@ static void init_opengl_extensions()
 
 	if (!RegisterClassA(&window_class))
 	{
-		Window::messageBox("Failed to register dummy OpenGL window.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to register dummy OpenGL window.");
 	}
 
 	HWND dummy_window = CreateWindowExA(
@@ -183,48 +103,42 @@ static void init_opengl_extensions()
 
 	if (!dummy_window)
 	{
-		Window::messageBox("Failed to create dummy OpenGL window.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to create dummy OpenGL window.");
 	}
 
 	HDC dummy_dc = GetDC(dummy_window);
 
 	PIXELFORMATDESCRIPTOR pfd = {
 		.nSize = sizeof(pfd),
-		.nVersion = 1,
+        .nVersion = 1,
 		.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER,
-		.iPixelType = PFD_TYPE_RGBA,
-		.cColorBits = 32,
-		.cAlphaBits = 8,
-		.cDepthBits = 24,
-		.cStencilBits = 8,
+        .iPixelType = PFD_TYPE_RGBA,
+        .cColorBits = 32,
+        .cAlphaBits = 8,
+        .cDepthBits = 24,
+        .cStencilBits = 8,
 		.iLayerType = PFD_MAIN_PLANE
 	};
 
 	int pixel_format = ChoosePixelFormat(dummy_dc, &pfd);
 	if (!pixel_format)
 	{
-		Window::messageBox("Failed to find a suitable pixel format.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to find a suitable pixel format.");
 	}
 	if (!SetPixelFormat(dummy_dc, pixel_format, &pfd))
 	{
-		Window::messageBox("Failed to set the pixel format.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to set the pixel format.");
 	}
 
 	HGLRC dummy_context = wglCreateContext(dummy_dc);
 	if (!dummy_context)
 	{
-		Window::messageBox("Failed to create a dummy OpenGL rendering context.");
-		exit(EXIT_FAILURE);
-
+		fatal_error("Failed to create a dummy OpenGL rendering context.");
 	}
 
 	if (!wglMakeCurrent(dummy_dc, dummy_context))
 	{
-		Window::messageBox("Failed to activate dummy OpenGL rendering context.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to activate dummy OpenGL rendering context.");
 	}
 
 	wglCreateContextAttribsARB = (wglCreateContextAttribsARB_type *)wglGetProcAddress(
@@ -259,16 +173,14 @@ static HGLRC init_opengl(HDC real_dc)
 	wglChoosePixelFormatARB(real_dc, pixel_format_attribs, 0, 1, &pixel_format, &num_formats);
 	if (!num_formats)
 	{
-		Window::messageBox("Failed to set the OpenGL " STR(J3_GL_MAJOR) "." STR(J3_GL_MINOR) " pixel format.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to set the OpenGL 3.3 pixel format.");
 	}
 
 	PIXELFORMATDESCRIPTOR pfd;
 	DescribePixelFormat(real_dc, pixel_format, sizeof(pfd), &pfd);
 	if (!SetPixelFormat(real_dc, pixel_format, &pfd))
 	{
-		Window::messageBox("Failed to set the OpenGL " STR(J3_GL_MAJOR) "." STR(J3_GL_MINOR) " pixel format.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to set the OpenGL 3.3 pixel format.");
 	}
 
 	// Specify that we want to create an OpenGL 3.3 core profile context
@@ -285,14 +197,12 @@ static HGLRC init_opengl(HDC real_dc)
 	HGLRC gl33_context = wglCreateContextAttribsARB(real_dc, 0, gl33_attribs);
 	if (!gl33_context)
 	{
-		Window::messageBox("Failed to create OpenGL 3.3 context.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to create OpenGL 3.3 context.");
 	}
 
 	if (!wglMakeCurrent(real_dc, gl33_context))
 	{
-		Window::messageBox("Failed to activate OpenGL 3.3 rendering context.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to activate OpenGL 3.3 rendering context.");
 	}
 
 	return gl33_context;
@@ -318,18 +228,18 @@ static LRESULT CALLBACK window_callback(HWND window, UINT msg, WPARAM wparam, LP
 				int xPosRelative = raw->data.mouse.lLastX;
 				int yPosRelative = raw->data.mouse.lLastY;
 
-				//TODO GLWindow::cursorListener(xPosRelative, yPosRelative);
+				J3Window::cursorListener(xPosRelative, yPosRelative);
 			}
 
 			break;
 		}
 
 		case WM_SIZE:
-			//TODO GLWindow::resize(LOWORD(lparam), HIWORD(lparam));
+			J3Window::resize(LOWORD(lparam), HIWORD(lparam));
 			break;
 
 		case WM_KEYDOWN:
-			//TODO GLWindow::keyboardListener(wparam);
+			J3Window::keyboardListener(wparam);
 			break;
 
 		case WM_KEYUP:
@@ -360,8 +270,7 @@ static HWND create_window(HINSTANCE inst, const char* title, int width, int heig
 
 	if (!RegisterClassA(&window_class))
 	{
-		Window::messageBox("Failed to register window.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to register window.");
 	}
 
 	// Specify a desired width and height, then adjust the rect so the window's client area will be
@@ -389,11 +298,127 @@ static HWND create_window(HINSTANCE inst, const char* title, int width, int heig
 
 	if (!_window)
 	{
-		Window::messageBox("Failed to create window.");
-		exit(EXIT_FAILURE);
+		fatal_error("Failed to create window.");
 	}
 
 	return _window;
+}
+
+bool J3Window::show(const char *title, int width, int height)
+{
+	HWND window = create_window(*_inst, title, width, height);
+	HDC gldc = GetDC(window);
+	HGLRC glrc = init_opengl(gldc);
+
+	ShowWindow(window, *_show);
+
+	//Raw Cursor
+    Rid[0].usUsagePage = HID_USAGE_PAGE_GENERIC; 
+    Rid[0].usUsage = HID_USAGE_GENERIC_MOUSE; 
+    Rid[0].dwFlags = RIDEV_INPUTSINK;   
+    Rid[0].hwndTarget = _window;
+    RegisterRawInputDevices(Rid, 1, sizeof(Rid[0]));
+
+	UpdateWindow(window);
+
+	//Register error logger
+	glEnable(GL_DEBUG_OUTPUT);
+	glDebugMessageCallback(MessageCallback, 0);
+
+	std::cout << "GL Renderer: " << glGetString(GL_RENDERER) << "\n";
+	std::cout << "GL Version: " << glGetString(GL_VERSION) << "\n";
+	std::cout << "GLSL Version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << "\n";
+
+	if(!init())
+		return 1;
+
+	double prevTime = getMilliseconds();
+	double currentTime = getMilliseconds();
+	double deltaTime = 0.0;
+
+	bool running = true;
+	while (running)
+	{
+		MSG msg;
+		while (PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
+		{
+			if (msg.message == WM_QUIT)
+			{
+				running = false;
+			}
+			else
+			{
+				TranslateMessage(&msg);
+				DispatchMessageA(&msg);
+			}
+		}
+
+		currentTime = getMilliseconds();
+		deltaTime = double(currentTime - prevTime) * 0.001;
+		prevTime = currentTime;
+
+		J3Window::update((float) deltaTime);
+		SwapBuffers(gldc);
+	}
+
+	quit();
+
+	return 0;
+}
+
+J3Window::Point J3Window::getSize()
+{
+	Point p;
+	RECT rect;
+	GetWindowRect(_window, &rect);
+	p.x = rect.right - rect.left;
+	p.y = rect.bottom - rect.top;
+	return p;
+}
+
+J3Window::Point J3Window::getPosition()
+{
+	Point p;
+	RECT rect;
+	GetWindowRect(_window, &rect);
+	p.x = rect.left;
+	p.y = rect.top;
+	return p;
+}
+
+J3Window::Point J3Window::getCursorPos()
+{
+	POINT p;
+	Point point;
+	if(GetCursorPos(&p))
+	{
+		if(ScreenToClient(_window, &p))
+		{
+			point.x = p.x;
+			point.y = p.y;
+			return point;
+		}
+		else
+			fprintf(stderr, "Could not convert screen coordinates to window coordinates!\n");
+	}
+	else
+		fprintf(stderr, "Failed to get cursor position!\n");
+	
+	point.x = -1;
+	point.y = -1;
+	return point;
+}
+
+void J3Window::showCursor(bool visible)
+{
+	ShowCursor(visible);
+}
+
+long J3Window::getMilliseconds()
+{
+	SYSTEMTIME time;
+	GetSystemTime(&time);
+	return (((time.wHour * 60 + time.wMinute) * 60 + time.wSecond) * 1000) + time.wMilliseconds;
 }
 
 int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
@@ -403,19 +428,22 @@ int WINAPI WinMain(HINSTANCE inst, HINSTANCE prev, LPSTR cmd_line, int pshow)
 	_cmd_line = &cmd_line;
 	_show = &pshow;
 
+
 	//Convert to int argc, char** argv
 	int argc;
-	LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &argc);
-	char **argv = new char*[argc];
-	for (int i=0; i<argc; i++) {
-		size_t lgth = wcslen(szArglist[i]);
-		argv[i] = new char[lgth+1];
-		for (int j=0; j<=lgth; j++)
-			argv[i][j] = char(szArglist[i][j]);
-	}
-	LocalFree(szArglist);
+    LPWSTR *szArglist = CommandLineToArgvW(GetCommandLineW(), &argc);
+    char **argv = new char*[argc];
+    for (int i=0; i<argc; i++) {
+        size_t lgth = wcslen(szArglist[i]);
+        argv[i] = new char[lgth+1];
+        for (int j=0; j<=lgth; j++)
+            argv[i][j] = char(szArglist[i][j]);
+    }
+    LocalFree(szArglist);
 
-	mainJ3(argc, argv);
+	J3Window::pre(argc, argv);
 
 	return 0;
 }
+
+#endif // OS_Windows

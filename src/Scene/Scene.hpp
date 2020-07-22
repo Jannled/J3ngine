@@ -18,11 +18,13 @@ namespace J3
 			void update();
 			void render();
 
+			void setResolution(GLuint width, GLuint height);
+
 		private:
 			std::vector<StaticMesh> renderTargets;
 			Node* rootNode;
 			Camera& camera;
-			CubeMap* cubeMap;
+			CubeMap* cubeMap = NULL;
 	};
 }
 

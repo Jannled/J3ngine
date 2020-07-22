@@ -1,5 +1,13 @@
-#ifndef J3_WINDOW_H
-#define J3_WINDOW_H
+/**
+ * \file Window.h
+ * \author Jannled
+ * \brief Header for a minimal application-window that creates an OpenGL context for Windows and Linux.
+ */
+
+#ifndef J3_GLWINDOW_H
+#define J3_GLWINDOW_H
+
+#include "Window/Platform.h"
 
 #ifndef J3_GL_MAJOR
 #define J3_GL_MAJOR 3
@@ -9,37 +17,38 @@
 #define J3_GL_MINOR 3
 #endif
 
-#include "Window/Platform.h"
+#include "J3KeyCodes.h"
 
 #include "Galogen46.h"
 
-#include "J3KeyCodes.h"
-
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
-
-namespace J3
+namespace J3Window
 {
 	typedef struct {
-		unsigned int x, y;
-	} Vec2D;
+		int x, y;
+	} Point;
 
-	class Window
-	{
-		public:
-			Window(char* title, unsigned int width = 1280, unsigned int height = 720);
-			~Window();
+	void pre(int argc, char **argv);
+	bool init();
+	bool update(float delta);
+	void quit();
+	void resize(int width, int height);
 
-			void setTitle(const char* title);
-			void resize(unsigned int width, unsigned int height);
-			void resize(Vec2D dimension);
-			void showCursor(bool show);
-			void fullscreen(bool fullscreen);
+	bool show(const char *title, int width, int height);
+	Point getSize();
+	Point getPosition();
 
-			static long getMilliseconds();
-			static void messageBox(const char *msg);
+	void setSize(int width, int height);
+	void setTitle(const char *title);
+	
+	void cursorListener(int movex, int movey);
+	bool keyboardListener(KCode_t key);
 
-			static void MessageCallback(
+	long getMilliseconds();
+
+	Point getCursorPos();
+	void showCursor(bool visible);
+
+	void MessageCallback(
 				GLenum source,
 				GLenum type,
 				GLuint id,
@@ -47,15 +56,7 @@ namespace J3
 				GLsizei length,
 				const GLchar* message,
 				const void* userParam
-			);
-
-		private:
-			void show(const char* title, unsigned int width, unsigned int height);
-			char* title;
-			unsigned int width, height;
-	};
+	);
 }
 
-int mainJ3(int argc, char** argv);
-
-#endif // J3_WINDOW_H
+#endif

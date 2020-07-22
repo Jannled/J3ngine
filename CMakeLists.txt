@@ -26,7 +26,7 @@ file(GLOB_RECURSE J3Engine_SRC "src/*.h" "src/*.hpp" "src/*.cpp")
 file(GLOB_RECURSE J3Engine_LIB "lib/*.hpp" "lib/*.h" "lib/*.cpp" "lib/*.c")
 
 # add the executable
-add_executable(J3Engine ${J3Engine_SRC} ${J3Engine_LIB})
+add_executable(J3Engine WIN32 ${J3Engine_SRC} ${J3Engine_LIB})
 
 target_include_directories(J3Engine PUBLIC "${PROJECT_BINARY_DIR}")
 target_include_directories(J3Engine PUBLIC "src/")
