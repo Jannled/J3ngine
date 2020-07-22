@@ -9,6 +9,8 @@
 #define J3_GL_MINOR 3
 #endif
 
+#include "Window/Platform.h"
+
 #include "Galogen46.h"
 
 #include "J3KeyCodes.h"
@@ -25,7 +27,7 @@ namespace J3
 	class Window
 	{
 		public:
-			Window();
+			Window(char* title, unsigned int width = 1280, unsigned int height = 720);
 			~Window();
 
 			void setTitle(const char* title);
@@ -36,6 +38,16 @@ namespace J3
 
 			static long getMilliseconds();
 			static void messageBox(const char *msg);
+
+			static void MessageCallback(
+				GLenum source,
+				GLenum type,
+				GLuint id,
+				GLenum severity,
+				GLsizei length,
+				const GLchar* message,
+				const void* userParam
+			);
 
 		private:
 			void show(const char* title, unsigned int width, unsigned int height);
