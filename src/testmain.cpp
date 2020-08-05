@@ -9,8 +9,6 @@
 #include "Scene/Camera.hpp"
 #include "Scene/Scene.hpp"
 
-J3::PBRMaterial* material;
-
 J3::Camera* camera;
 J3::Scene* scene;
 
@@ -32,10 +30,8 @@ bool J3Window::init()
 	Point p = J3Window::getSize();
 	camera = new J3::Camera(p.x, p.y);
 	scene = new J3::Scene(*camera);
-
-	J3::ShaderProgram& program = J3::ShaderProgram("", "");
 	
-	J3::StaticMesh mesh = new J3::StaticMesh()
+	//J3::StaticMesh mesh = new J3::StaticMesh();
 
 	return true;
 }
