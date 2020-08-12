@@ -15,17 +15,20 @@ namespace J3
 	class ModelLoader 
 	{
 		public:
-
 			static StaticMesh* loadModel(File& file);
 
-			static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount);
-			static GLuint loadArrayBuffer(VertexBuffer &buffer);
-			static GLuint loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset);
+			static VertexBuffer& loadArrayBuffer(GLvoid* data, GLenum type, size_t count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride = 0, GLvoid* offset = (GLvoid*) 0);
 			static GLuint loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage);
-			static GLuint loadTexture(char const * path);
-			static GLuint loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps);
+			static GLuint loadTexture(const char* path);
+			static GLuint loadTexture(const char* path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps);
 
 			static ShaderProgram* pbrShader;
+	};
+
+	class Loader
+	{
+		public:
+			static StaticMesh* loadOBJ(File& file);
 	};
 } // namespace J3
 

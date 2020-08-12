@@ -6,45 +6,44 @@
 
 using namespace J3;
 
+ShaderProgram* ModelLoader::pbrShader;
+
 StaticMesh* ModelLoader::loadModel(File& file) //TODO Load Cameras, lights etc...
 {
 	if(!pbrShader)
 		pbrShader = new J3::ShaderProgram("./src/Shader/pbr_vertex.glsl", "./src/Shader/pbr_fragment.glsl");
+
+	//TODO
+	return Loader::loadOBJ(file);
 }
 
-GLuint ModelLoader::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount)
-{
-	return loadArrayBuffer(data, count, usage, attribIndex, componentCount, 0, (void*) 0);
-}
-
-GLuint ModelLoader::loadArrayBuffer(VertexBuffer &buffer)
+VertexBuffer& ModelLoader::loadArrayBuffer(GLvoid* data, GLenum type, size_t count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, GLvoid* offset)
 {
 	size_t elementSize = 
-		(buffer.type==GL_UNSIGNED_SHORT) ? sizeof(GLushort) : 
-		(buffer.type==GL_INT) ? sizeof(GLint) : 
-		(buffer.type==GL_UNSIGNED_INT) ? sizeof(GLuint) :
-		(buffer.type==GL_FLOAT) ? sizeof(GLfloat) : 
+		(type==GL_UNSIGNED_SHORT) ? sizeof(GLushort) : 
+		(type==GL_INT) ? sizeof(GLint) : 
+		(type==GL_UNSIGNED_INT) ? sizeof(GLuint) :
+		(type==GL_FLOAT) ? sizeof(GLfloat) : 
 		0;
 
-	glGenBuffers(1, &buffer.ID);
-	glBindBuffer(GL_ARRAY_BUFFER, buffer.ID);
-	glBufferData(GL_ARRAY_BUFFER, elementSize*buffer.dataLength, buffer.data, GL_STATIC_DRAW);
-	glVertexAttribPointer(buffer.attribIndex, buffer.vecDim, buffer.type, GL_FALSE, buffer.stride, buffer.offset);
-	glEnableVertexAttribArray(buffer.attribIndex);
-
-	return buffer.ID;
-}
-
-GLuint ModelLoader::loadArrayBuffer(float* data, unsigned int count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, const void* offset)
-{
 	GLuint bufferID;
 	glGenBuffers(1, &bufferID);
 	glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(data[0])*count, &data[0], GL_STATIC_DRAW);
-	glVertexAttribPointer(attribIndex, componentCount, GL_FLOAT, GL_FALSE, stride, offset);
+	glBufferData(GL_ARRAY_BUFFER, elementSize*count, data, GL_STATIC_DRAW);
+	glVertexAttribPointer(attribIndex, componentCount, type, GL_FALSE, stride, offset);
 	glEnableVertexAttribArray(attribIndex);
 
-	return bufferID;
+	VertexBuffer& buff = *(new VertexBuffer);
+	buff.ID = bufferID;
+	buff.data = data;
+	buff.dataLength = count;
+	buff.type = type;
+	buff.attribIndex = attribIndex;
+	buff.vecDim = (GLint) 3;
+	buff.stride = stride;
+	buff.offset = offset;
+
+	return buff;
 }
 
 GLuint ModelLoader::loadElementBuffer(unsigned int* data, unsigned int count, GLenum usage)
@@ -57,12 +56,12 @@ GLuint ModelLoader::loadElementBuffer(unsigned int* data, unsigned int count, GL
 	return bufferID;
 }
 
-GLuint ModelLoader::loadTexture(char const * path)
+GLuint ModelLoader::loadTexture(const char* path)
 {
 	return loadTexture(path, GL_REPEAT, GL_REPEAT, GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, true);
 }
 
-GLuint ModelLoader::loadTexture(char const * path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps)
+GLuint ModelLoader::loadTexture(const char* path, GLint wrapS, GLint wrapT, GLint minFilter, GLint magFilter, bool generateMipMaps)
 {
 	stbi_set_flip_vertically_on_load(true);
 

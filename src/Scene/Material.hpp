@@ -8,7 +8,7 @@ namespace J3
 {
 	typedef struct
 	{
-		ShaderProgram& program;
+		ShaderProgram* program;
 
 		GLuint DIFFUSE;
 	} Material;

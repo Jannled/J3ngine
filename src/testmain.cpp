@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <iostream>
 
 #include "Window/Platform.h"
 #include "Window/Window.hpp"
@@ -9,12 +10,19 @@
 #include "Scene/Camera.hpp"
 #include "Scene/Scene.hpp"
 
+#include "Scene/Loader/ModelLoader.hpp"
+
 J3::Camera* camera;
 J3::Scene* scene;
 
 void J3Window::pre(int argc, char** argv)
 {
 	printf("J3Engine Version %d.%d.%d #%s compiled on %s launched with %d params!\n", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, GIT_SHORT_HASH, OS_FULLNAME, argc);
+
+	std::cout << "Starting program with args: [";
+	for(int i=0; i<argc; i++)
+		std::cout << "\"" << argv[i] << "\"" << ((i<argc-1) ? ", " : "");
+	std::cout << "]" << std::endl;
 
 	printf("Fenster: %zd\n", J3::WindowManager::getWindowCount());
 
@@ -32,6 +40,14 @@ bool J3Window::init()
 	scene = new J3::Scene(*camera);
 	
 	//J3::StaticMesh mesh = new J3::StaticMesh();
+	
+	File* testModel = new File("Models/BoomBox.obj");
+
+	if(testModel)
+	{
+		printf("Loading model: \"%s\" \n", testModel->getCanonicalPath());
+		J3::ModelLoader::loadModel(*testModel);
+	}
 
 	return true;
 }

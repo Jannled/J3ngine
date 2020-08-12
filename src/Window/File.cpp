@@ -165,6 +165,7 @@ const char* File::getWorkingDirectory(char *buf, unsigned int size)
 
 File::~File()
 {
+	//TODO Unable to open 'delete_scalar.cpp'
 	//delete[] path;
 	//delete[] canonicalPath;
 }
