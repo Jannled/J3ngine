@@ -9,6 +9,7 @@
 
 #include "Scene/Camera.hpp"
 #include "Scene/Scene.hpp"
+#include "Scene/CubeMap.hpp"
 
 #include "Scene/Loader/ModelLoader.hpp"
 
@@ -38,16 +39,18 @@ bool J3Window::init()
 	Point p = J3Window::getSize();
 	camera = new J3::Camera(p.x, p.y);
 	scene = new J3::Scene(*camera);
-	
-	//J3::StaticMesh mesh = new J3::StaticMesh();
-	
-	File* testModel = new File("Models/BoomBox.obj");
 
-	if(testModel)
+	camera->lookAt(glm::vec3(5.0, 0.0, 0.0), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	
+	//File* testModel = new File("Models/BoomBox.obj");
+	File* testModel = new File("C:\\Users\\jannl\\Downloads\\Dark_Astronaut.obj");
+
+	if(testModel && scene)
 	{
-		printf("Loading model: \"%s\" \n", testModel->getCanonicalPath());
-		J3::ModelLoader::loadModel(*testModel);
+		J3::ModelLoader::loadModel(*testModel, *scene);
 	}
+
+	scene->cubeMap = new J3::CubeMap("C:\\Users\\jannl\\Downloads\\Newport_Loft_Ref.hdr");
 
 	return true;
 }
@@ -61,8 +64,8 @@ bool J3Window::update(float delta)
 
 	if(scene)
 	{
+		scene->camera.lookAt(glm::vec3(glm::sin(time) * 5, 0, glm::cos(time) * 5), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 		scene->render();
-		
 	}
 
 	glFlush();
@@ -90,5 +93,6 @@ void J3Window::cursorListener(int movex, int movey)
 
 bool J3Window::keyboardListener(KCode_t key)
 {
+	printf("Key pressed: 0x%04X\n", key);
 	return true;
 }

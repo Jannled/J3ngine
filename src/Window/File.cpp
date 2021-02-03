@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 
-#if defined(OS_WINDOWS)
+#if defined(_WIN32)
+#define OS_WINDOWS
 #include <windows.h> //Wont compile without it when using MSVC, worked fine on MingW
 #include <io.h>
 #include <direct.h> // _getcwd

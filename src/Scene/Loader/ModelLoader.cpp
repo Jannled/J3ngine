@@ -8,13 +8,12 @@ using namespace J3;
 
 ShaderProgram* ModelLoader::pbrShader;
 
-StaticMesh* ModelLoader::loadModel(File& file) //TODO Load Cameras, lights etc...
+void ModelLoader::loadModel(File& file, Scene& scene) //TODO Load Cameras, lights etc...
 {
 	if(!pbrShader)
-		pbrShader = new J3::ShaderProgram("./src/Shader/pbr_vertex.glsl", "./src/Shader/pbr_fragment.glsl");
+		pbrShader = new J3::ShaderProgram("./Shader/pbr_vertex.glsl", "./Shader/pbr_fragment.glsl");
 
-	//TODO
-	return Loader::loadOBJ(file);
+	Loader::loadOBJ(file, scene);
 }
 
 VertexBuffer& ModelLoader::loadArrayBuffer(GLvoid* data, GLenum type, size_t count, GLenum usage, GLuint attribIndex, GLuint componentCount, GLsizei stride, GLvoid* offset)

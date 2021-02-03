@@ -12,7 +12,7 @@ namespace J3
 	class SceneObject : public Node
 	{
 		public:
-			SceneObject();
+			SceneObject(glm::vec3 loc = glm::vec3(0.0, 0.0, 0.0), glm::quat rot = glm::quat(1.0, 0.0, 0.0, 0.0), glm::vec3 scale = glm::vec3(1.0, 1.0, 1.0));
 			~SceneObject();
 
 			void translate(glm::vec3 translation);
@@ -24,10 +24,13 @@ namespace J3
 
 			void update();
 
-		protected:
+			// TODO not sure if they should be public or protected
 			glm::vec3 position;
 			glm::quat rotation;
 			glm::vec3 scaling;
+
+		protected:
+			
 	};
 }
 

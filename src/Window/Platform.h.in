@@ -6,6 +6,10 @@
 
 #define OS_FULLNAME "@CMAKE_SYSTEM@"
 
+#define PROGRAM_MAJOR @J3Engine_VERSION_MAJOR@
+#define PROGRAM_MINOR @J3Engine_VERSION_MINOR@
+#define PROGRAM_PATCH @J3Engine_VERSION_PATCH@
+
 // TODO Maybe use CMake to determine what platform where on
 #if defined(_WIN32)
 #ifndef OS_WINDOWS

@@ -76,15 +76,15 @@ ShaderProgram* CubeMap::brdfShader = NULL;
 CubeMap::CubeMap(const char* path)
 {
 	if(!equirectangularToCubemapShader)
-		equirectangularToCubemapShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/equiToCube_fragment.glsl");
+		equirectangularToCubemapShader = new ShaderProgram("Shader/cubemap_vertex.glsl", "Shader/equiToCube_fragment.glsl");
 	if(!irradianceShader)
-		irradianceShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/irradiance_convolution_fragment.glsl");
+		irradianceShader = new ShaderProgram("Shader/cubemap_vertex.glsl", "Shader/irradiance_convolution_fragment.glsl");
 	if(!backgroundShader)
-		backgroundShader = new ShaderProgram("src/Shader/background_vertex.glsl", "src/Shader/background_fragment.glsl");
+		backgroundShader = new ShaderProgram("Shader/background_vertex.glsl", "Shader/background_fragment.glsl");
 	if(!prefilterShader)
-		prefilterShader = new ShaderProgram("src/Shader/cubemap_vertex.glsl", "src/Shader/prefilter_fragment.glsl");
+		prefilterShader = new ShaderProgram("Shader/cubemap_vertex.glsl", "Shader/prefilter_fragment.glsl");
 	if(!brdfShader)
-		brdfShader = new ShaderProgram("src/Shader/brdf_vertex.glsl", "src/Shader/brdf_fragment.glsl");
+		brdfShader = new ShaderProgram("Shader/brdf_vertex.glsl", "Shader/brdf_fragment.glsl");
 
 	prepareCube();
 	prepareQuad();
@@ -121,11 +121,13 @@ CubeMap::CubeMap(const char* path)
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+        std::cout << "Loaded HDR Skybox from  \"" << path << "\"." << std::endl;
+
         stbi_image_free(data);
 	}
 	else
 	{
-		std::cerr << "Failed to load HDR image." << std::endl;
+		std::cerr << "Failed to load HDR image from \"" << path << "\"." << std::endl;
 		return;
 	}
 

@@ -18,7 +18,7 @@ class File
 
 		const char* getName();
 		const char* getPath();
-		const char* getCanonicalPath();
+		const char* getCanonicalPath(); // Canonical means ../ etc get resolved. Otherwise an absoulte path
 		const char* getParent();
 		File& getParentFile();
 		bool exists();

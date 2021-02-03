@@ -18,6 +18,7 @@ ShaderProgram::ShaderProgram(const char* vertexShader, const char* fragmentShade
 	Shader *sfrag = new Shader(fragmentShader, GL_FRAGMENT_SHADER);
 	sfrag->compile();
 	init(*svert, *sfrag);
+	link();
 }
 
 void ShaderProgram::init(Shader &vertexShader, Shader &fragmentShader)

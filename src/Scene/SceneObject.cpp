@@ -2,9 +2,11 @@
 
 using namespace J3;
 
-SceneObject::SceneObject()
+SceneObject::SceneObject(glm::vec3 loc, glm::quat rot, glm::vec3 scale)
 {
-
+	this->position = loc;
+	this->rotation = rot;
+	this->scaling = scale;
 }
 
 void SceneObject::translate(glm::vec3 translation)
@@ -20,7 +22,7 @@ void SceneObject::rotate(glm::vec3 rotation)
 void SceneObject::rotate(glm::quat rotation)
 {
 	this->rotation += rotation;
-	glm::toMat4(rotation);
+	//glm::toMat4(rotation); ???
 }
 
 void SceneObject::scale(glm::vec3 scale)

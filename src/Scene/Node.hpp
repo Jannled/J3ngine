@@ -15,18 +15,19 @@ namespace J3
 	{
 		public:
 			Node();
-			Node(char* name);
+			Node(const char* name);
 			virtual ~Node();
 
 			virtual void update();
-			void parent(Node& node);
-			void appendChild(Node& node);
+			//void parent(Node& node);
+			//void appendChild(Node& node);
 
 			Node* getParent();
 
-			// CLUDGE
-			char* name;
+			// CLUDGE Shouldn't be public
+			const char* name;
 			std::vector<Node> children;
+			
 		protected:
 			Node* parentNode;
 			

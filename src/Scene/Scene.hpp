@@ -20,11 +20,18 @@ namespace J3
 
 			void setResolution(GLuint width, GLuint height);
 
+			void appendChild(Node& node, Node& appendTo);
+			void appendChild(Node& node);
+			void appendChild(StaticMesh& node, Node& appendTo);
+			void appendChild(StaticMesh& node);
+
+			CubeMap* cubeMap = NULL;
+			Camera& camera;
+
 		private:
 			std::vector<StaticMesh> renderTargets;
 			Node* rootNode;
-			Camera& camera;
-			CubeMap* cubeMap = NULL;
+			
 	};
 }
 

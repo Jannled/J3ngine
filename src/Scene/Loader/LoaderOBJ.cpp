@@ -6,9 +6,11 @@
 
 using namespace J3;
 
-StaticMesh* Loader::loadOBJ(File& file)
+// TODO Add OBJ to scene
+
+void Loader::loadOBJ(File& file, Scene& scene)
 {
-	    tinyobj::attrib_t attrib;
+	tinyobj::attrib_t attrib;
 	std::vector<tinyobj::shape_t> shapes;
 	std::vector<tinyobj::material_t> materials;
 
@@ -19,6 +21,8 @@ StaticMesh* Loader::loadOBJ(File& file)
 
 	std::string warn;
 	std::string err;
+
+	std::cout << "[TinyOBJ] Loading Model \"" << file.getCanonicalPath() << "\"" << std::endl;
 
 	const char* baseDir = file.getParent();
 	bool ret = tinyobj::LoadObj(&attrib, &shapes, &materials, &warn, &err, file.getCanonicalPath(), baseDir, true, false);
@@ -129,7 +133,12 @@ StaticMesh* Loader::loadOBJ(File& file)
 			glBindBuffer(GL_ARRAY_BUFFER, 0); 
 			glBindVertexArray(0); 
 			printf("Loaded Model %s with %d vertices and %d faces.\n", shapes[s].name.c_str(), (int) vertices.size(), (int) indices.size());
-			//models.push_back(Model(*mesh, textures[materialID]));
+			
+			// TODO
+			mesh->materials = &textures[materialID];
+			StaticMesh* staticMesh = new StaticMesh(*mesh);
+			
+			scene.appendChild(*staticMesh);
 		}
 	}
 	else
@@ -139,7 +148,4 @@ StaticMesh* Loader::loadOBJ(File& file)
 
 		throw std::runtime_error(message);
 	}
-
-	//TODO
-	return NULL;
 }
